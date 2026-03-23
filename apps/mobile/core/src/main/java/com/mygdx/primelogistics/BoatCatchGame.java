@@ -14,6 +14,8 @@ public class BoatCatchGame extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
         image = new Texture("libgdx.png");
+
+
     }
 
     @Override
