@@ -8,6 +8,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.INTERNET" />
 
 =======
@@ -16,6 +17,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
 >>>>>>> c118762 (feat: add dependencies necessary for api)
+=======
+>>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
@@ -25,12 +28,15 @@
         android:label="@string/app_name"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         android:usesCleartextTraffic="true"
 =======
 >>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
 =======
         android:usesCleartextTraffic="true"
 >>>>>>> 6fb87c1 (chore: update manifest)
+=======
+>>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
         android:theme="@style/Theme.PrimeLogistics"
         tools:ignore="UnusedAttribute">
 

@@ -449,6 +449,7 @@
           <option name="screenY" value="3088" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
+<<<<<<< HEAD
           <option name="api" value="36" />
           <option name="brand" value="samsung" />
           <option name="codename" value="b5qsqw" />
@@ -461,6 +462,8 @@
           <option name="screenY" value="720" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
+=======
+>>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
           <option name="api" value="34" />
           <option name="brand" value="samsung" />
           <option name="codename" value="b6q" />
@@ -1547,6 +1550,7 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
 </project><?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DeviceStreaming">
@@ -3097,3 +3101,6 @@
     </option>
   </component>
 </project>
+=======
+</project>
+>>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
