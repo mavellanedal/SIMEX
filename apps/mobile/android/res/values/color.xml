@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_background_color">#F5A623FF</color>
-    <color name="background">#FFFFFFFF</color>
+    <color name="background">#F9FAFB</color>
+    <color name="principal">#145699</color>
+    <color name="secundario">#20ABF0</color>
+    <color name="destacado">#FD8036</color>
+    <color name="texto">#090C08</color>
+    <color name="texto_claro">#AFC5D7</color>
 </resources>
