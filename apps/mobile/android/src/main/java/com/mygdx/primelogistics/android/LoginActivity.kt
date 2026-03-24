@@ -43,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
 <<<<<<< HEAD
+<<<<<<< HEAD
         defineComponent()
 
         btnVisible.setOnClickListener {
@@ -132,10 +133,16 @@ class LoginActivity : AppCompatActivity() {
 }
 =======
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+=======
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_login)) { v, insets ->
+>>>>>>> f2191cf (feat: create activity login)
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
     }
 }
+<<<<<<< HEAD
 >>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
+=======
+>>>>>>> f2191cf (feat: create activity login)

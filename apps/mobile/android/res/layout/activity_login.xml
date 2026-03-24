@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
 <<<<<<< HEAD
+<<<<<<< HEAD
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -125,11 +126,90 @@
 </androidx.constraintlayout.widget.ConstraintLayout>
 =======
     xmlns:tools="http://schemas.android.com/tools"
+=======
+>>>>>>> f2191cf (feat: create activity login)
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".android.LoginActivity">
+    android:background="@color/texto_claro"
+    android:id="@+id/activity_login">
 
+<<<<<<< HEAD
   </androidx.constraintlayout.widget.ConstraintLayout>
 >>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
+=======
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="220dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logotipo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/water"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/water1"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/boat"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="24dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/boat"
+        app:layout_constraintTop_toTopOf="@id/water"
+        app:layout_constraintEnd_toEndOf="@id/water" />
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/txtbox_white"
+        android:fontFamily="@font/montserrat_medium"
+        android:inputType="textEmailAddress"
+        android:padding="5dp"
+        app:layout_constraintTop_toTopOf="@id/water"
+        app:layout_constraintStart_toStartOf="@id/water"
+        app:layout_constraintEnd_toEndOf="@id/water" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/txtbox_white"
+        android:fontFamily="@font/montserrat_medium"
+        android:inputType="textPassword"
+        android:padding="5dp"
+        app:layout_constraintTop_toBottomOf="@id/etUsername"
+        app:layout_constraintStart_toStartOf="@id/etUsername"
+        app:layout_constraintEnd_toEndOf="@id/etUsername" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="200dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/btn_login"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Login"
+        android:textColor="@color/principal"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/etPassword"
+        app:layout_constraintStart_toStartOf="@id/etPassword"
+        app:layout_constraintEnd_toEndOf="@id/etPassword" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+>>>>>>> f2191cf (feat: create activity login)
