@@ -7,10 +7,15 @@
         android:required="true" />
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.INTERNET" />
 
 =======
 >>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
+=======
+    <uses-permission android:name="android.permission.INTERNET" />
+
+>>>>>>> c118762 (feat: add dependencies necessary for api)
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
