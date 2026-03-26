@@ -3,16 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
 
+    protected $table = 'USERS';
     public $timestamps = false;
     protected $primaryKey = 'ID';
 
@@ -54,5 +54,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'ROLE_ID', 'ID');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'COMPANY_ID', 'ID');
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->PASSWORD;
     }
 }
