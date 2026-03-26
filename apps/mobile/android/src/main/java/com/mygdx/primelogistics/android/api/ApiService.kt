@@ -1,4 +1,5 @@
 package com.mygdx.primelogistics.android.api
+<<<<<<< HEAD
 
 import com.mygdx.primelogistics.android.models.LoginRequest
 import com.mygdx.primelogistics.android.models.User
@@ -15,4 +16,12 @@ interface ApiService {
 
     @GET("users")
     suspend fun getUsers(@Header("Authorization") authorization: String): Response<List<User>>
+=======
+import com.mygdx.primelogistics.android.models.User
+import retrofit2.http.GET
+
+interface ApiService {
+    @GET("users")
+    suspend fun getUsers(): List<User>
+>>>>>>> f20535f (feat: Create ApiService.kt and RetrofitClient.kt)
 }
