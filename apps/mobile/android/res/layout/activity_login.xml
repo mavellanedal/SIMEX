@@ -306,31 +306,41 @@
         app:layout_constraintTop_toTopOf="@id/water"
         app:layout_constraintEnd_toEndOf="@id/water" />
 
-    <EditText
-        android:id="@+id/etUsername"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
+    <LinearLayout
+        android:id="@+id/layoutUser"
         android:layout_marginTop="200dp"
-        android:background="@drawable/txtbox_white"
-        android:fontFamily="@font/montserrat_medium"
-        android:inputType="textEmailAddress"
-        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/water"
         app:layout_constraintStart_toStartOf="@id/water"
-        app:layout_constraintEnd_toEndOf="@id/water" />
+        app:layout_constraintEnd_toEndOf="@id/water" >
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:background="@drawable/txtbox_white"
+            android:fontFamily="@font/montserrat_medium"
+            android:inputType="textEmailAddress"
+            android:padding="5dp" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/txtbox_white"
-        android:fontFamily="@font/montserrat_medium"
-        android:inputType="textPassword"
-        android:padding="5dp"
-        app:layout_constraintTop_toBottomOf="@id/etUsername"
-        app:layout_constraintStart_toStartOf="@id/etUsername"
-        app:layout_constraintEnd_toEndOf="@id/etUsername" />
+    <LinearLayout
+        android:id="@+id/layoutPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/layoutUser"
+        app:layout_constraintStart_toStartOf="@+id/layoutUser"
+        app:layout_constraintEnd_toEndOf="@+id/layoutUser">
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/txtbox_white"
+            android:fontFamily="@font/montserrat_medium"
+            android:inputType="textPassword"
+            android:padding="5dp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnLogin"
@@ -342,9 +352,8 @@
         android:text="Login"
         android:textColor="@color/principal"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/etPassword"
-        app:layout_constraintStart_toStartOf="@id/etPassword"
-        app:layout_constraintEnd_toEndOf="@id/etPassword" />
-
+        app:layout_constraintTop_toBottomOf="@+id/layoutPassword"
+        app:layout_constraintStart_toStartOf="@+id/layoutPassword"
+        app:layout_constraintEnd_toEndOf="@+id/layoutPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 >>>>>>> f2191cf (feat: create activity login)

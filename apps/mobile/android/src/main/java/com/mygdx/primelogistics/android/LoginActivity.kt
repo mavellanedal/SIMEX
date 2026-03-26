@@ -72,6 +72,8 @@ class LoginActivity : AppCompatActivity() {
 >>>>>>> 6d1497b (feat: update login activity)
 =======
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -79,11 +81,19 @@ import androidx.core.view.WindowInsetsCompat
 import com.mygdx.primelogistics.R
 
 class LoginActivity : AppCompatActivity() {
+<<<<<<< HEAD
 >>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
+=======
+    lateinit var etUsername: EditText
+    lateinit var etPassword: EditText
+    lateinit var btnLogin: Button
+
+>>>>>>> 6d1497b (feat: update login activity)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -288,8 +298,21 @@ class LoginActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+=======
+        definirComponente()
+        btnLogin.setOnClickListener {
+>>>>>>> 6d1497b (feat: update login activity)
         }
+
     }
+
+    fun definirComponente(){
+        etUsername = findViewById<EditText>(R.id.etUsername)
+        etPassword = findViewById<EditText>(R.id.etPassword)
+        btnLogin = findViewById<Button>(R.id.btnLogin)
+    }
+
+
 }
 <<<<<<< HEAD
 >>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
