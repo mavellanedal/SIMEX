@@ -15,6 +15,7 @@
         android:isGame="false"
         android:appCategory="productivity"
         android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.PrimeLogistics"
         tools:ignore="UnusedAttribute">
 
