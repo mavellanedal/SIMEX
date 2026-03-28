@@ -8,9 +8,9 @@
     android:id="@+id/activity_login">
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/logoLogin"
         android:layout_width="220dp"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/logotipo"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,38 +18,44 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
-        android:id="@+id/water"
+        android:id="@+id/waterLogin"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/water1"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintTop_toBottomOf="@id/logoLogin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
-        android:id="@+id/boat"
+        android:id="@+id/boatLogin"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="24dp"
         android:background="@android:color/transparent"
         android:scaleType="centerInside"
         android:src="@drawable/boat"
-        app:layout_constraintTop_toTopOf="@id/water"
-        app:layout_constraintEnd_toEndOf="@id/water" />
+        app:layout_constraintTop_toTopOf="@id/waterLogin"
+        app:layout_constraintEnd_toEndOf="@id/waterLogin" />
 
     <LinearLayout
-        android:id="@+id/layoutUser"
+        android:id="@+id/layoutUserLogin"
         android:layout_marginTop="200dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/water"
-        app:layout_constraintStart_toStartOf="@id/water"
-        app:layout_constraintEnd_toEndOf="@id/water" >
+        app:layout_constraintTop_toTopOf="@id/waterLogin"
+        app:layout_constraintStart_toStartOf="@id/waterLogin"
+        app:layout_constraintEnd_toEndOf="@id/waterLogin"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_usuario"
+            android:layout_marginRight="10dp"/>
         <EditText
-            android:id="@+id/etUsername"
+            android:id="@+id/etUsernameLogin"
             android:layout_width="250dp"
             android:layout_height="40dp"
             android:background="@drawable/txtbox_white"
@@ -59,34 +65,46 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layoutPassword"
+        android:id="@+id/layoutPasswordLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/layoutUser"
-        app:layout_constraintStart_toStartOf="@+id/layoutUser"
-        app:layout_constraintEnd_toEndOf="@+id/layoutUser">
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="250dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/layoutUserLogin"
+        app:layout_constraintStart_toStartOf="@+id/layoutUserLogin"
+        app:layout_constraintEnd_toEndOf="@+id/layoutUserLogin">
+        <ImageView
+            android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/txtbox_white"
+            android:src="@drawable/clave"
+            android:layout_marginRight="10dp"/>
+        <EditText
+            android:id="@+id/etPasswordLogin"
+            android:layout_width="210dp"
+            android:layout_height="40dp"
+            android:background="@drawable/textbox_password_left"
             android:fontFamily="@font/montserrat_medium"
             android:inputType="textPassword"
             android:padding="5dp" />
+        <ImageButton
+            android:id="@+id/btnVisible"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/textbox_password_right"
+            android:src="@drawable/visible"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="200dp"
         android:layout_height="45dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/btn_login"
         android:fontFamily="@font/montserrat_bold"
         android:text="Login"
         android:textColor="@color/principal"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/layoutPassword"
-        app:layout_constraintStart_toStartOf="@+id/layoutPassword"
-        app:layout_constraintEnd_toEndOf="@+id/layoutPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutPasswordLogin"
+        app:layout_constraintStart_toStartOf="@+id/layoutPasswordLogin"
+        app:layout_constraintEnd_toEndOf="@+id/layoutPasswordLogin" />
 </androidx.constraintlayout.widget.ConstraintLayout>
