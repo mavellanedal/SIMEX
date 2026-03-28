@@ -1,16 +1,15 @@
 package com.mygdx.primelogistics.android.models
 
-import android.R
+import com.google.gson.annotations.SerializedName
 
 data class User(
-    val id : Int,
+    val id: Int,
     val email: String,
-    val password: String,
-    val firstname: String,
-    val lastname : String,
-    val rolId: Int,
-    val companyId: Int,
+    val nombre: String,
+    val rol: Role,
+    val company: Company?,
     val username: String,
-    val active : R.bool,
-    val identificationCardPaths: String
+    val active: Boolean,
+    @SerializedName("identification_card_path")
+    val identificationCardPath: String?
 )
