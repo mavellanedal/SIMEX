@@ -81,7 +81,9 @@ dependencies {
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
-
+  implementation "com.squareup.retrofit2:retrofit:2.11.0"
+  implementation "com.squareup.retrofit2:converter-gson:2.11.0"
+  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
 }
 
 // Called every time gradle gets executed, takes the native dependencies of
