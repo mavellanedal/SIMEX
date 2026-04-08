@@ -1,0 +1,24 @@
+@Simex_HostAddress = https://localhost:7073
+
+GET {{Simex_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{Simex_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "Admin1234"
+}
+
+
+###
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBwcmltZWxvZ2lzdGljcy5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBRE1JTklTVFJBRE9SIiwiZXhwIjoxNzc1NjY3MTcxLCJpc3MiOiJTaW1leC5BcGkiLCJhdWQiOiJTaW1leC5Nb2JpbGUifQ.pQkRLzAErN5NaPNkPIS2-1Gi7uuLNSysRCc9g8rGy4k
+
+GET {{Simex_HostAddress}}/api/auth/me
+Authorization: Bearer {{token}}
+Accept: application/json
+###
