@@ -29,6 +29,10 @@
         </activity>
 
         <activity
+            android:name="com.mygdx.primelogistics.android.UsuarioActivity"
+            android:exported="false" />
+
+        <activity
             android:name="com.mygdx.primelogistics.android.AndroidLauncher"
             android:label="@string/app_name"
             android:screenOrientation="landscape"

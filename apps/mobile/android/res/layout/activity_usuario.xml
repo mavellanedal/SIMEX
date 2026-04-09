@@ -61,20 +61,22 @@
         android:src="@drawable/usuario_blue"/>
 
     <TextView
+        android:id="@+id/tvUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre Usuario"
+        android:text="Cargando usuario..."
         android:layout_gravity="center"
-        android:textSize="30sp"
+        android:textSize="23sp"
         android:layout_marginTop="10dp"
         android:textColor="@color/principal"
         android:fontFamily="@font/montserrat_bold"
         />
 
     <TextView
+        android:id="@+id/tvCompanyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre Empresa"
+        android:text="Empresa"
         android:layout_gravity="center"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
@@ -97,46 +99,19 @@
 
 
         <TextView
+            android:id="@+id/tvEmail"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:text="Correo@empresa.com"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/principal"
             android:fontFamily="@font/montserrat_bold"
             android:background="@drawable/txtbox_white"
             android:padding="10dp"
             />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:src="@drawable/phone"/>
-
-
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="+34 654949165"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:textSize="20sp"
-            android:textColor="@color/principal"
-            android:fontFamily="@font/montserrat_bold"
-            android:background="@drawable/txtbox_white"
-            android:padding="10dp"
-            />
     </LinearLayout>
 
     <LinearLayout
@@ -160,21 +135,22 @@
 
             <TextView
                 android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:text="Documento de identidad"
-                android:layout_gravity="center"
+                android:gravity="end|bottom|left"
                 android:textSize="20sp"
                 android:textColor="@color/principal"
                 android:fontFamily="@font/montserrat_bold"
                 />
 
             <Button
+                android:id="@+id/btnIdentificationCard"
                 android:layout_width="150dp"
                 android:layout_height="48dp"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="Subir archivo"
-                android:textAlignment="textStart"/>
+                android:text="Subir documento"
+                android:textColor="@color/secundario"/>
         </LinearLayout>
     </LinearLayout>
 
