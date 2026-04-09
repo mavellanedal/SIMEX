@@ -51,11 +51,9 @@ const usernameError = ref('')
 const passwordError = ref('')
 
 async function onSubmit() {
-  // Limpiamos errores previos
   usernameError.value = ''
   passwordError.value = ''
 
-  // Validación
   if (!username.value) {
     usernameError.value = 'El nombre de usuario es requerido.'
   }
@@ -64,7 +62,6 @@ async function onSubmit() {
     passwordError.value = 'La contraseña es requerida.'
   }
 
-  // Si hay errores cortamos la ejecución aquí
   if (usernameError.value || passwordError.value) {
     return
   }
@@ -75,11 +72,9 @@ async function onSubmit() {
       password: password.value
     })
 
-    // Guardamos los datos de sesión en localStorage
     localStorage.setItem('access_token', response.data.access_token)
     localStorage.setItem('user', JSON.stringify(response.data.user))
 
-    // Redirigimos al usuario
     router.push('/dashboard')
 
   } catch (error: any) {
