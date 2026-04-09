@@ -26,12 +26,14 @@
           :error="passwordError"
         />
 
+        <!-- 
         <div class="pt-2">
           <BaseCheckbox
             v-model="rememberMe"
             label="Recuérdame"
           />
         </div>
+        -->
 
         <div class="pt-2">
           <BaseButton type="submit">
@@ -56,7 +58,7 @@ import BaseButton from '../../components/base/BaseButton.vue'
 
 const username = ref('')
 const password = ref('')
-const rememberMe = ref(false)
+// const rememberMe = ref(false)
 
 const usernameError = ref('')
 const passwordError = ref('')
