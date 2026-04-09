@@ -1,20 +1,24 @@
 <template>
   <div class="flex h-screen w-full bg-gray-50 font-sans">
     <aside class="w-16 bg-[#145699] flex flex-col items-center py-16">
-      <nav class="flex flex-col w-full">
-        <button
-          v-for="item in menuItems"
-          :key="item.id"
-          @click="activeMenu = item.id"
+     <nav class="flex flex-col w-full">
+      <router-link
+        v-for="item in menuItems"
+        :key="item.id"
+        :to="item.path"  
+        v-slot="{ isActive }" 
+        :title="item.label"
+      >
+        <div
           :class="[
             'w-full h-16 flex items-center justify-center transition-colors duration-200',
-            activeMenu === item.id ? 'bg-[#FD8036] text-white' : 'text-white hover:bg-white/10'
+            isActive ? 'bg-[#FD8036] text-white' : 'text-white hover:bg-white/10'
           ]"
-          :title="item.label"
         >
           <span class="material-symbols-outlined text-3xl">{{ item.icon }}</span>
-        </button>
-      </nav>
+        </div>
+      </router-link>
+</nav>
     </aside>
 
     <div class="flex-1 flex flex-col min-w-0">
@@ -229,11 +233,11 @@ async function logout() {
 }
 
 const menuItems = [
-  { id: 'home', icon: 'home', label: 'Inicio' },
-  { id: 'documents', icon: 'upload_file', label: 'Subir Documentos' },
-  { id: 'ships', icon: 'directions_boat', label: 'Operaciones Marítimas' },
-  { id: 'buildings', icon: 'domain', label: 'Empresas / Almacenes' },
-  { id: 'settings', icon: 'manage_accounts', label: 'Ajustes de Usuario' },
-  { id: 'support', icon: 'support_agent', label: 'Soporte / Agente' },
+  { id: 'home', icon: 'home', label: 'Inicio', path: '/home' },
+  { id: 'documents', icon: 'upload_file', label: 'Subir Documentos', path: '/documents' },
+  { id: 'ships', icon: 'directions_boat', label: 'Operaciones Marítimas', path: '/ships' },
+  { id: 'companies', icon: 'domain', label: 'Empresas / Almacenes', path: '/companies' },
+  { id: 'settings', icon: 'manage_accounts', label: 'Ajustes de Usuario', path: '/settings' },
+  { id: 'support', icon: 'support_agent', label: 'Soporte / Agente', path: '/support' },
 ];
 </script>
