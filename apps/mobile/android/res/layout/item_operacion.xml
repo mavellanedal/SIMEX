@@ -59,16 +59,6 @@
                 android:text="España"
                 android:textColor="@color/principal"
                 android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/op_cost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="2.123,83€"
-                android:textColor="@color/secundario"
-                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
