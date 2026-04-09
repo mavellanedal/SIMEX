@@ -36,15 +36,15 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/currency-types', [CatalogController::class, 'getCurrecyTypes']);
   Route::get('/send-types', [CatalogController::class, 'getSendTypes']);
 
-  Route::get('/companies', [CompanyController::class, 'index']);
+  Route::get('/companies', [CompanyController::class, 'index']); 
 
   Route::get('/company/getImportersExportersCompanies', [CompanyController::class, 'getImportersExportersCompanies']);
   Route::get('/company/getNavieraCompanies', [CompanyController::class, 'getNavieraCompanies']);
 
   Route::get('/company/{company}', [CompanyController::class, 'show']);
-  Route::post('/company', [CompanyController::class, 'store']);
-  Route::put('/company/{company}', [CompanyController::class, 'update']);
-  Route::delete('/company/{company}', [CompanyController::class, 'destroy']);
+  Route::post('/company', [CompanyController::class, 'store']); 
+  Route::put('/company/{company}', [CompanyController::class, 'update']); 
+  Route::delete('/company/{company}', [CompanyController::class, 'destroy']); 
 
   Route::get('/notifications', [NotificationController::class, 'index']);
   Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
