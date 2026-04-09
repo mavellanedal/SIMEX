@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\NotificationController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -16,4 +17,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
   Route::get('/roles', [CatalogController::class, 'getRoles']);
   Route::get('/companies', [CatalogController::class, 'getCompanies']);
+
+  Route::get('/notifications', [NotificationController::class, 'index']);
+  Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+  Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
 });
