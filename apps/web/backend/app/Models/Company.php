@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-  protected $table = 'COMPANIES';
+  protected $table = 'COMPANY';
   protected $primaryKey = 'ID';
   public $timestamps = false;
 
@@ -18,13 +18,23 @@ class Company extends Model
     'ICON_PATH',
     'COMPANY_TYPE_ID',
     'REGION_ID',
-    'CITIY_ID',
+    'CITY_ID',
     'ADDRESS',
     'ACTIVE',
   ];
 
   public function companyType()
   {
-    return $this->belongsTo(CompanyType::class, 'COMPANY_TYPE_ID');
+    return $this->belongsTo(CompanyType::class, 'COMPANY_TYPE_ID', 'ID');
+  }
+
+  public function region()
+  {
+    return $this->belongsTo(Region::class, 'REGION_ID', 'ID');
+  }
+
+  public function city()
+  {
+    return $this->belongsTo(City::class, 'CITY_ID', 'ID');
   }
 }
