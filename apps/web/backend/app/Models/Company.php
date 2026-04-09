@@ -28,13 +28,13 @@ class Company extends Model
       'ACTIVE' => 'boolean',
   ];
 
-  
+
   public function companyType()
   {
     return $this->belongsTo(CompanyType::class, 'COMPANY_TYPE_ID', 'ID');
   }
 
-  
+
 
   public function region()
   {
