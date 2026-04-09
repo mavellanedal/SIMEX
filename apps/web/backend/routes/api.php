@@ -8,7 +8,6 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\NotificationController;
 
-
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {

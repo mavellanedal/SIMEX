@@ -8,6 +8,8 @@
           alt="Logo Prime"
           class="mx-auto mb-8 w-80 h-auto object-contain"
         />
+
+
         <BaseInput
           v-model="username"
           id="username"
@@ -64,8 +66,8 @@ const username = ref('')
 const password = ref('')
 const showPassword = ref(false)
 
-const usernameError = ref('')
-const passwordError = ref('')
+  const usernameError = ref('')
+  const passwordError = ref('')
 
 async function onSubmit() {
   usernameError.value = ''
@@ -79,9 +81,9 @@ async function onSubmit() {
     passwordError.value = 'La contraseña es requerida.'
   }
 
-  if (usernameError.value || passwordError.value) {
-    return
-  }
+    if (usernameError.value || passwordError.value) {
+      return
+    }
 
   try {
     const response = await api.post('/login', {

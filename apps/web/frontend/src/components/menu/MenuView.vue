@@ -129,10 +129,18 @@ const notifications = ref<any[]>([]);
 
 const showNotifications = ref(false);
 
+<<<<<<< HEAD
+=======
+// Filtramos las notificaciones para mostrar SOLO las que no tienen logic_remove = 1
+>>>>>>> d5a3c4a (Menu with notifications done back and front)
 const activeNotifications = computed(() => {
   return notifications.value.filter(notif => Number(notif.LOGIC_REMOVE) !== 1);
 });
 
+<<<<<<< HEAD
+=======
+// El contador de "Nuevas" ahora se basa solo en las notificaciones visibles
+>>>>>>> d5a3c4a (Menu with notifications done back and front)
 const hasUnreadNotifications = computed(() => {
   return activeNotifications.value.some(notif => Number(notif.STATE_ID) === 1);
 });
@@ -169,7 +177,11 @@ async function fetchNotifications() {
     console.error('Error fetching notifications:', error);
   }
 }
+<<<<<<< HEAD
 xwx
+=======
+
+>>>>>>> d5a3c4a (Menu with notifications done back and front)
 async function markAsRead(notif: any) {
   if (Number(notif.STATE_ID) === 2) return;
 
@@ -183,7 +195,11 @@ async function markAsRead(notif: any) {
     });
   } catch (error) {
     console.error('Error marking notification as read:', error);
+<<<<<<< HEAD
     notif.STATE_ID = 1;xw
+=======
+    notif.STATE_ID = 1; // Typo corregido aquí
+>>>>>>> d5a3c4a (Menu with notifications done back and front)
   }
 }
 
@@ -208,6 +224,10 @@ async function logout() {
   try {
     const token = localStorage.getItem('access_token');
 
+<<<<<<< HEAD
+=======
+    // Solo intentamos llamar al backend si realmente hay un token
+>>>>>>> d5a3c4a (Menu with notifications done back and front)
     if (token) {
       await api.post('/logout', {}, {
         headers: {

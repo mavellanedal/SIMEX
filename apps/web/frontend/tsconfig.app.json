@@ -4,15 +4,18 @@
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "noUncheckedIndexedAccess": true,
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
-      "@views/*": ["./src/views/*"], // Typo corregido aquí
+      "@viwes/*": ["./src/views/*"],
       "@services/*": ["./src/services/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@interfaces/*": ["./src/interfaces/*"] // Alias actualizado
+      "@assets/*": ["./src/assets/*"]
     },
+
+    // `vue-tsc --build` produces a .tsbuildinfo file for incremental type-checking.
+    // Specified here to keep it out of the root directory.
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo"
   }
 }
