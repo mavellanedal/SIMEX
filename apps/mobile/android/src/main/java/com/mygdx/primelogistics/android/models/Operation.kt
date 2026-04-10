@@ -1,13 +1,16 @@
+
 package com.mygdx.primelogistics.android.models
 
-data class Operation {
+import java.util.Date
+
+data class Operation (
     val id: Int,
-    val originPortId: String,
-    val destinationPortId: String,
+    val originPort: String,
+    val destinationPort: String,
     val totalCost: Double,
     val etd: Date,
     val eta: Date,
-    val IncortermId: Int,
-    val pkgNumber: Int,
+    val IncotermId: Int,
+    val pkgQuantity: Int,
     val totalWeight: Double
-}
+)
