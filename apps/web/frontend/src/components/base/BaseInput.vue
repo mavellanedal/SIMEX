@@ -1,108 +1,43 @@
 <template>
-  <div>
-    <!-- Esta etiqueta solo se muestra si se le pasa la prop "label" -->
-    <label v-if="label" class="mb-1 block text-sm font-medium text-gray-700">
-      {{ label }}
+  <div class="flex flex-col gap-1.5">
+    <label :for="id" class="text-sm font-semibold text-gray-700 flex justify-between items-center">
+      <span>{{ label }} <span v-if="required" class="text-red-500">*</span></span>
+      <slot name="label-suffix"></slot>
     </label>
 
-    <div class="relative">
-      
+    <input
+      :id="id"
+      :type="type"
+      :value="modelValue"
+      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      :placeholder="placeholder"
+      :class="[
+        'w-full px-4 py-2.5 border rounded-lg text-base text-gray-900 shadow-sm focus:outline-none focus:ring-1 transition-colors bg-white',
+        error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-[#FD8036] focus:ring-[#FD8036]'
+      ]"
+    >
 
-      <input
-        :type="inputType"
-        :placeholder="placeholder"
-        :value="modelValue"
-        :class="inputClasses"
-        @input="onInput"
-      />
-
-      <button
-        v-if="type === 'password'"
-        type="button"
-        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
-        @click="togglePassword"
-      >
-        <svg
-          v-if="!showPassword"
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
-          <circle cx="12" cy="12" r="3" />
-        </svg>
-
-        <svg
-          v-else
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-7-11-7a10.07 10.07 0 0 1 4.93-4.93" />
-          <path d="M9.9 4.24A9.98 9.98 0 0 1 12 4c7 0 11 7 11 7a9.98 9.98 0 0 1-2.26 3.34" />
-          <line x1="1" y1="1" x2="23" y2="23" />
-          <line x1="12" y1="12" x2="12" y2="12" />
-        </svg>
-      </button>
-    </div>
-
-    <p v-if="error" class="mt-1 text-sm text-red-600">{{ error }}</p>
+    <transition name="fade">
+      <span v-if="error" class="text-xs font-semibold text-red-500">{{ error }}</span>
+    </transition>
   </div>
 </template>
 
-<script setup>
-
-import { computed, ref } from 'vue'
-
-const props = defineProps({
+<script setup lang="ts">
+defineProps({
+  modelValue: { type: [String, Number], default: '' },
+  label: { type: String, required: true },
+  id: { type: String, required: true },
   type: { type: String, default: 'text' },
   placeholder: { type: String, default: '' },
-  modelValue: { type: String, default: '' },
-  label: { type: String, default: '' },
-  error: { type: String, default: '' }
-})
+  required: { type: Boolean, default: false },
+  error: { type: String, default: '' } // <-- Nueva propiedad
+});
 
-
-const emit = defineEmits(['update:modelValue'])
-
-const showPassword = ref(false)
-
-const inputType = computed(() => {
-
-  if (props.type === 'password') {
-    
-    if (showPassword.value) {
-      return 'text' 
-    } else {
-      return 'password'
-    }
-  }
-  return props.type
-})
-
-const inputClasses = computed(() => {
-  const baseClasses = 'h-12 w-full rounded-lg border bg-white px-4 pr-12 text-base font-semibold text-gray-700 outline-none transition-colors duration-150 placeholder:font-normal placeholder:text-gray-400 focus:ring-2'
-  
-  if (props.error) {
-    return `${baseClasses} border-red-500 focus:border-red-500 focus:ring-red-400`
-  } else {
-    return `${baseClasses} border-gray-300 focus:border-orange-500 focus:ring-orange-400`
-  }
-})
-
-
-function onInput(event) {
-  
-  emit('update:modelValue', event.target.value)
-}
-
-function togglePassword() {
-  showPassword.value = !showPassword.value
-}
+defineEmits(['update:modelValue']);
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease, transform 0.2s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(-5px); }
+</style>

@@ -208,7 +208,6 @@ async function logout() {
   try {
     const token = localStorage.getItem('access_token');
 
-    // Solo intentamos llamar al backend si realmente hay un token
     if (token) {
       await api.post('/logout', {}, {
         headers: {
