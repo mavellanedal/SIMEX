@@ -64,5 +64,5 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 # Exposar el port 80
 EXPOSE 80
 
-# 6. Arrencar PHP-FPM en segon pla i NGINX en primer pla
-CMD sh -c "php-fpm -D && nginx -g 'daemon off;'"
+# 6. Arrencar NGINX en segon pla i deixar PHP-FPM en primer pla
+CMD service nginx start && php-fpm
