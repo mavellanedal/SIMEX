@@ -20,5 +20,5 @@ class Region extends Model
     {
         return $this->belongsTo(Country::class, 'COUNTRY_ID', 'ID');
     }
-    
+
 }

@@ -5,7 +5,7 @@
         <button
           v-for="item in menuItems"
           :key="item.id"
-          @click="activeMenu = item.id"
+          @click="navigateTo(item)"
           :class="[
             'w-full h-16 flex items-center justify-center transition-colors duration-200',
             activeMenu === item.id ? 'bg-[#FD8036] text-white' : 'text-white hover:bg-white/10'
@@ -121,9 +121,11 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue';
 import api from '@services/api';
-import router from '@/router';
+import { useRouter } from 'vue-router';
 
-const activeMenu = ref('home');
+const router = useRouter();
+
+const activeMenu = ref('dashboard');
 const userName = ref('Usuario');
 const notifications = ref<any[]>([]);
 
@@ -169,7 +171,7 @@ async function fetchNotifications() {
     console.error('Error fetching notifications:', error);
   }
 }
-xwx
+
 async function markAsRead(notif: any) {
   if (Number(notif.STATE_ID) === 2) return;
 
@@ -183,7 +185,7 @@ async function markAsRead(notif: any) {
     });
   } catch (error) {
     console.error('Error marking notification as read:', error);
-    notif.STATE_ID = 1;xw
+    notif.STATE_ID = 1;
   }
 }
 
@@ -219,21 +221,25 @@ async function logout() {
     console.error('Logout failed:', error);
   } finally {
     localStorage.clear();
-
     sessionStorage.clear();
-
     router.replace('/login');
-
     window.location.reload();
   }
 }
 
+function navigateTo(item: any) {
+  activeMenu.value = item.id;
+  if (item.route) {
+    router.push({ name: item.route });
+  }
+}
+
 const menuItems = [
-  { id: 'home', icon: 'home', label: 'Inicio' },
+  { id: 'dashboard', icon: 'home', label: 'Inicio', route: 'dashboard' },
+  { id: 'users', icon: 'manage_accounts', label: 'Usuarios', route: 'users' },
   { id: 'documents', icon: 'upload_file', label: 'Subir Documentos' },
   { id: 'ships', icon: 'directions_boat', label: 'Operaciones Marítimas' },
   { id: 'buildings', icon: 'domain', label: 'Empresas / Almacenes' },
-  { id: 'settings', icon: 'manage_accounts', label: 'Ajustes de Usuario' },
   { id: 'support', icon: 'support_agent', label: 'Soporte / Agente' },
 ];
 </script>
