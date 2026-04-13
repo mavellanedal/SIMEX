@@ -1,0 +1,15 @@
+# .NET build outputs
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+
+# User-specific Visual Studio / Rider files
+.vs/
+**/.vs/
+*.user
+*.rsuser
+*.suo
+
+# Common .NET generated metadata
+*.sourcelink.json

@@ -14,7 +14,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Simex")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d7e1c0e2a927cbab9d98370067ee7f3b2dcbf5e3")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4e10471f5a47c993491438cb201ddece47f19522")]
+>>>>>>> develop-mobile
 [assembly: System.Reflection.AssemblyProductAttribute("Simex")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Simex")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
