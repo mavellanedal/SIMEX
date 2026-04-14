@@ -1,5 +1,6 @@
 package com.mygdx.primelogistics.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -13,6 +14,9 @@ public class AndroidLauncher extends AndroidApplication {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration configuration = new AndroidApplicationConfiguration();
         configuration.useImmersiveMode = true; // Recommended, but not required.
-        initialize(new BoatCatchGame(), configuration);
+        initialize(new BoatCatchGame(() -> runOnUiThread(() -> {
+            startActivity(new Intent(AndroidLauncher.this, LoginActivity.class));
+            finish();
+        })), configuration);
     }
 }

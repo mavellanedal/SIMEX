@@ -25,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var tvNotification: TextView
     private lateinit var btnLogin: Button
     private lateinit var btnVisible: ImageButton
+    private lateinit var btnBoatGame: ImageButton
     private lateinit var sessionManager: SessionManager
     private var isPasswordVisible = false
 
@@ -39,6 +40,9 @@ class LoginActivity : AppCompatActivity() {
         btnVisible.setOnClickListener {
             updatePasswordVisibility()
         }
+        btnBoatGame.setOnClickListener {
+            startActivity(Intent(this, AndroidLauncher::class.java))
+        }
         btnLogin.setOnClickListener {
             if (checkFieldsNotEmpty()) {
                 login()
@@ -51,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
         etPassword = findViewById(R.id.etPasswordLogin)
         btnLogin = findViewById(R.id.btnLogin)
         btnVisible = findViewById(R.id.btnVisible)
+        btnBoatGame = findViewById(R.id.boatLogin)
         tvNotification = findViewById(R.id.tvNotification)
     }
 
