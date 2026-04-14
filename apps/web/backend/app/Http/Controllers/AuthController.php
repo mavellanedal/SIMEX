@@ -17,7 +17,7 @@ class AuthController extends Controller
       'password' => 'required',
     ]);
 
-    $dto = new LoginDto($request->username, $request->password);
+    $dto = new LoginDTO($request->username, $request->password);
 
     $user = User::with('role', 'company')->where('USERNAME', $dto->username)->first();
 

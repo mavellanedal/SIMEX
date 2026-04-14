@@ -14,7 +14,7 @@ class UserController extends Controller
   public function index()
   {
     $user = User::with(['role', 'company'])->get();
-    return response()->json($user);
+    return UserResource::collection($user);
   }
 
   public function store(Request $request)
@@ -103,5 +103,26 @@ class UserController extends Controller
       'message' => 'Usuario actualizado correctamente',
       'user' => new UserResource($user)
     ]);
+  }
+
+  public function bulkDelete(Request $request)
+  {
+    $request->validate([
+      'ids'   => 'required|array|min:1',
+      'ids.*' => 'required|integer|exists:USERS,ID',
+    ]);
+
+    User::whereIn('ID', $request->ids)->update(['ACTIVE' => 0]);
+
+    return response()->json([
+      'message' => count($request->ids) . ' usuario(s) desactivado(s) correctamente.',
+      'processed_ids' => $request->ids
+    ]);
+  }
+
+  public function show($id)
+  {
+    $user = User::with(['role', 'company'])->findOrFail($id);
+    return new UserResource($user);
   }
 }

@@ -129,11 +129,9 @@ const notifications = ref<any[]>([]);
 
 const showNotifications = ref(false);
 
-// Filtramos las notificaciones para mostrar SOLO las que no tienen logic_remove = 1
 const activeNotifications = computed(() => {
   return notifications.value.filter(notif => Number(notif.LOGIC_REMOVE) !== 1);
 });
-
 
 const hasUnreadNotifications = computed(() => {
   return activeNotifications.value.some(notif => Number(notif.STATE_ID) === 1);
@@ -210,7 +208,6 @@ async function logout() {
   try {
     const token = localStorage.getItem('access_token');
 
-    // Solo intentamos llamar al backend si realmente hay un token
     if (token) {
       await api.post('/logout', {}, {
         headers: {

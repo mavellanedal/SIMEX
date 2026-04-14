@@ -9,10 +9,13 @@
           class="mx-auto mb-8 w-80 h-auto object-contain"
         />
 
+
         <BaseInput
           v-model="username"
-          type="username"
-          placeholder="Nombre de usuario *"
+          id="username"
+          label="Nombre de usuario"
+          type="text"
+          placeholder="Escribe tu usuario"
           :error="usernameError"
         />
 
@@ -23,8 +26,29 @@
           :error="passwordError"
         />
 
+        <!--
         <div class="pt-2">
-          <BaseButton type="submit">
+          <BaseCheckbox
+            v-model="rememberMe"
+            label="Recuérdame"
+          />
+        </div>
+        -->
+
+          <button
+            type="button"
+            @click="showPassword = !showPassword"
+            class="absolute right-4 top-[38px] text-gray-400 hover:text-[#FD8036] transition-colors flex items-center justify-center"
+            title="Mostrar/Ocultar contraseña"
+          >
+            <span class="material-symbols-outlined text-[22px]">
+              {{ showPassword ? 'visibility_off' : 'visibility' }}
+            </span>
+          </button>
+        </div>
+
+        <div class="pt-4">
+          <BaseButton type="submit" class="w-full">
             Iniciar sesión
           </BaseButton>
         </div>
@@ -34,62 +58,62 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import api from '@services/api'
-import { useRouter } from 'vue-router'
+  import { ref } from 'vue'
+  import api from '@services/api'
+  import { useRouter } from 'vue-router'
 
-import BaseInput from '@components/base/BaseInput.vue'
-import BaseButton from '@components/base/BaseButton.vue'
-import logoPrime from '@/assets/images/logoPrime.webp'
+  import BaseInput from '@components/base/BaseInput.vue'
+  import BaseCheckbox from '@components/base/Basecheckbox.vue'
+  import logoPrime from '@/assets/images/logoPrime.webp'
+  import BaseButton from '@components/base/BaseButton.vue'
 
-const router = useRouter()
+  const router = useRouter()
 
 const username = ref('')
 const password = ref('')
+// const rememberMe = ref(false)
+const showPassword = ref(false) // <-- Estado para el ojo
 
 const usernameError = ref('')
 const passwordError = ref('')
 
-async function onSubmit() {
-  // Limpiamos errores previos
-  usernameError.value = ''
-  passwordError.value = ''
+  async function onSubmit() {
+    usernameError.value = ''
+    passwordError.value = ''
 
-  // Validación
-  if (!username.value) {
-    usernameError.value = 'El nombre de usuario es requerido.'
-  }
+    if (!username.value) {
+      usernameError.value = 'El nombre de usuario es requerido.'
+    }
 
-  if (!password.value) {
-    passwordError.value = 'La contraseña es requerida.'
-  }
+    if (!password.value) {
+      passwordError.value = 'La contraseña es requerida.'
+    }
 
-  // Si hay errores cortamos la ejecución aquí
-  if (usernameError.value || passwordError.value) {
-    return
-  }
+    if (usernameError.value || passwordError.value) {
+      return
+    }
 
-  try {
-    const response = await api.post('/login', {
-      username: username.value,
-      password: password.value
-    })
+    try {
+      const response = await api.post('/login', {
+        username: username.value,
+        password: password.value
+      })
 
-    // Guardamos los datos de sesión en localStorage
-    localStorage.setItem('access_token', response.data.access_token)
-    localStorage.setItem('user', JSON.stringify(response.data.user))
 
-    // Redirigimos al usuario
-    router.push('/dashboard')
+      localStorage.setItem('access_token', response.data.access_token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
 
-  } catch (error: any) {
-    console.error('Login failed:', error)
+      router.push('/dashboard')
 
-    if (error.response && (error.response.status === 401 || error.response.status === 422)) {
-      passwordError.value = 'Las credenciales proporcionadas son incorrectas.'
-    } else {
-      passwordError.value = 'Ocurrió un error al intentar iniciar sesión. Por favor, inténtalo de nuevo más tarde.'
+    }
+    catch (error) {
+      console.error('Login failed:', error)
+
+      if (error.response && (error.response.status === 401 || error.response.status === 422)) {
+        passwordError.value = 'Las credenciales proporcionadas son incorrectas.'
+      } else {
+        passwordError.value = 'Ocurrió un error al intentar iniciar sesión. Por favor, inténtalo de nuevo más tarde.'
+      }
     }
   }
-}
 </script>

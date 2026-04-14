@@ -8,13 +8,17 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\NotificationController;
 
+
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
   Route::post('/logout', [AuthController::class, 'logout']);
+
   Route::get('/users', [UserController::class, 'index']);
   Route::post('/user', [UserController::class, 'store']);
   Route::put('/user/{id}', [UserController::class, 'update']);
+  Route::get('/user/{id}', [UserController::class, 'show']);
+  Route::post('/users/bulk-delete', [UserController::class, 'bulkDelete']);
 
   Route::get('/roles', [CatalogController::class, 'getRoles']);
 
@@ -23,7 +27,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/company', [CompanyController::class, 'store']);
   Route::put('/company/{company}', [CompanyController::class, 'update']);
   Route::delete('/company/{company}', [CompanyController::class, 'destroy']);
-  Route::get('/companies', [CatalogController::class, 'getCompanies']);
 
   Route::get('/notifications', [NotificationController::class, 'index']);
   Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
