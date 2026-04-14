@@ -17,6 +17,7 @@
           type="text"
           placeholder="Escribe tu usuario"
           :error="usernameError"
+          class="w-full"
         />
 
         <BaseInput
@@ -24,6 +25,7 @@
           type="password"
           placeholder="Contraseña *"
           :error="passwordError"
+          class="w-full"
         />
 
         <!--
