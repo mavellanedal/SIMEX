@@ -253,11 +253,11 @@ async function logout() {
 }
 
 const menuItems = [
-  { id: 'home', icon: 'home', label: 'Inicio', path: '/home' },
+  { id: 'dashboard', icon: 'home', label: 'Dashboard', path: '/dashboard' },
   { id: 'documents', icon: 'upload_file', label: 'Subir Documentos', path: '/documents' },
   { id: 'ships', icon: 'directions_boat', label: 'Operaciones Marítimas', path: '/ships' },
   { id: 'companies', icon: 'domain', label: 'Empresas / Almacenes', path: '/companies' },
-  { id: 'settings', icon: 'manage_accounts', label: 'Ajustes de Usuario', path: '/settings' },
+  { id: 'users', icon: 'manage_accounts', label: 'Ajustes de Usuario', path: '/users' },
   { id: 'support', icon: 'support_agent', label: 'Soporte / Agente', path: '/support' },
 ];
 </script>
