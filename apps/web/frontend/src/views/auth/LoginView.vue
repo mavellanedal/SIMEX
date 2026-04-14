@@ -15,6 +15,7 @@
           type="text"
           placeholder="Escribe tu usuario"
           :error="usernameError"
+          class="w-full"
         />
 
         <div class="relative">
@@ -23,9 +24,20 @@
             id="password"
             label="Contraseña"
             :type="showPassword ? 'text' : 'password'"
-            placeholder="Escribe tu contraseña"
+            placeholder="Contraseña *"
             :error="passwordError"
+            class="w-full"
           />
+
+
+        <!--
+        <div class="pt-2">
+          <BaseCheckbox
+            v-model="rememberMe"
+            label="Recuérdame"
+          />
+        </div>
+        -->
 
           <button
             type="button"
@@ -54,9 +66,9 @@ import { ref } from 'vue'
 import api from '@services/api'
 import { useRouter } from 'vue-router'
 
-import BaseInput from '@components/base/BaseInput.vue'
-import BaseButton from '@components/base/BaseButton.vue'
-import logoPrime from '@/assets/images/logoPrime.webp'
+  import BaseInput from '@components/base/BaseInput.vue'
+  import logoPrime from '@/assets/images/logoPrime.webp'
+  import BaseButton from '@components/base/BaseButton.vue'
 
 const router = useRouter()
 
@@ -94,8 +106,9 @@ async function onSubmit() {
 
     router.push('/dashboard')
 
-  } catch (error: any) {
-    console.error('Login failed:', error)
+    }
+    catch (error: any) {
+      console.error('Login failed:', error)
 
     if (error.response && (error.response.status === 401 || error.response.status === 422)) {
       passwordError.value = 'Las credenciales proporcionadas son incorrectas.'

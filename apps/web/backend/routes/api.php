@@ -20,7 +20,11 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/user/{id}', [UserController::class, 'show']);
   Route::post('/users/bulk-delete', [UserController::class, 'bulkDelete']);
 
-  Route::get('/roles', [CatalogController::class, 'getRoles']);
+    Route::get('/roles', [CatalogController::class, 'getRoles']);
+    Route::get('/company-types', [CatalogController::class, 'getCompanyTypes']);
+    Route::get('/regions', [CatalogController::class, 'getRegions']);
+    Route::get('/cities', [CatalogController::class, 'getCities']);
+    Route::get('/countries', [CatalogController::class, 'getCountries']);
 
   Route::get('/companies', [CompanyController::class, 'index']);
   Route::get('/company/{company}', [CompanyController::class, 'show']);

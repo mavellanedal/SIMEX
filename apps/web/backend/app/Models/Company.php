@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 class Company extends Model
 {
   protected $table = 'COMPANY';
@@ -23,10 +23,18 @@ class Company extends Model
     'ACTIVE',
   ];
 
+
+    protected $casts = [
+      'ACTIVE' => 'boolean',
+  ];
+
+  
   public function companyType()
   {
     return $this->belongsTo(CompanyType::class, 'COMPANY_TYPE_ID', 'ID');
   }
+
+  
 
   public function region()
   {
