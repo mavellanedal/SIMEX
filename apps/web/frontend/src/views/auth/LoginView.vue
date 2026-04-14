@@ -14,6 +14,7 @@
           type="username"
           placeholder="Nombre de usuario *"
           :error="usernameError"
+          class="w-full"
         />
 
         <BaseInput
@@ -21,10 +22,11 @@
           type="password"
           placeholder="Contraseña *"
           :error="passwordError"
+          class="w-full"
         />
 
         <div class="pt-2">
-          <BaseButton type="submit">
+          <BaseButton type="submit" class="w-full">
             Iniciar sesión
           </BaseButton>
         </div>

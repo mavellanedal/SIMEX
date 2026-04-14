@@ -1,128 +1,231 @@
 <template>
   <div class="h-full flex flex-col">
-    <!-- 1. Cabecera: Título y Botón de Añadir -->
-    <header class="flex justify-between items-center mb-6">
+
+    <header class="mb-4">
       <h1 class="text-3xl font-bold text-gray-800">Empresas</h1>
-      
-      <!-- Botón "Añadir Empresa" con el estilo naranja del Figma -->
-      <BaseButton class="bg-[#FD8036] hover:bg-orange-600 text-white">
-        <span class="material-symbols-outlined mr-2">add</span>
-        Añadir Empresa
-      </BaseButton>
     </header>
 
-    <!-- 2. Contenido principal: Lista y Mapa -->
-    <main class="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-8 min-h-0">
-      
-      <!-- Columna Izquierda: Búsqueda y Lista de Empresas -->
-      <section class="lg:col-span-1 flex flex-col bg-white rounded-xl p-6 shadow-lg">
-        
-        <!-- Barra de Búsqueda y Filtro -->
-        <div class="flex items-center gap-4 mb-6">
-          <div class="relative flex-grow">
-            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-            <input
-              type="text"
-              placeholder="Buscar empresa"
-              class="w-full h-12 pl-10 pr-4 rounded-lg border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-orange-400 focus:border-orange-500 outline-none"
-            />
-          </div>
-          <button class="h-12 w-12 flex-shrink-0 flex items-center justify-center rounded-lg border border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100">
-            <span class="material-symbols-outlined">filter_list</span>
-          </button>
-        </div>
+    <div class="mb-6 flex justify-between items-center">
+      <div class="w-64">
+        <BaseInput 
+          v-model="searchQuery" 
+          placeholder="Buscar por nombre, NIF..." 
+          :icon="'search'"
+        />
+      </div>
+      <BaseButton 
+        @click="openModalForCreate"
+        class="bg-[#FD8036] hover:bg-orange-600 text-white !py-2 !px-4 !text-sm flex items-center"
+      >
+        <span class="material-symbols-outlined mr-2 !text-base">add</span>
+        Añadir Empresa
+      </BaseButton>
+    </div>
 
-        <!-- Lista de Empresas con scroll -->
-        <div class="flex-1 overflow-y-auto -mr-2 pr-2 space-y-3">
-          <article
-            v-for="company in companies"
-            :key="company.id"
-            @click="selectedCompany = company"
-            :class="[
-              'p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 flex items-center gap-4',
-              selectedCompany?.id === company.id
-                ? 'bg-blue-50 border-blue-500 shadow-md'  // Estilo si está seleccionada
-                : 'bg-white border-transparent hover:shadow-md' // Estilo normal
-            ]"
-          >
-            <img :src="company.logo" :alt="company.name" class="h-10 w-10 object-contain flex-shrink-0">
-            <div class="flex-grow">
-              <p class="font-bold text-gray-800">{{ company.name }}</p>
-              <p class="text-sm text-gray-500">{{ company.location }}</p>
-            </div>
-            <button class="text-blue-600 hover:text-blue-800">
-              <span class="material-symbols-outlined">edit</span>
-            </button>
-          </article>
-        </div>
-      </section>
-
-      <!-- Columna Derecha: Mapa del Mundo -->
-      <section class="lg:col-span-2 bg-white rounded-xl p-6 shadow-lg flex items-center justify-center relative overflow-hidden">
-        
-        <!-- Mapa del Mundo SVG (incluido para que funcione directamente) -->
-        <div class="relative w-full max-w-2xl aspect-square">
-          <svg viewBox="0 0 1000 1000" class="absolute inset-0 animate-spin-slow">
-            <path d="M 500 50 A 450 450 0 1 1 499.9 50" fill="none" stroke="#D1D5DB" stroke-width="2" stroke-dasharray="15 30"/>
-            <path d="M 935 325 L 950 300 L 965 325" fill="none" stroke="#D1D5DB" stroke-width="2"/>
-          </svg>
-          <svg viewBox="0 0 1000 1000" class="absolute inset-0 animate-spin-slower transform scale-75">
-            <path d="M 500 125 A 375 375 0 1 0 500.1 125" fill="none" stroke="#E5E7EB" stroke-width="2" stroke-dasharray="15 30"/>
-            <path d="M 140 365 L 125 350 L 110 365" fill="none" stroke="#E5E7EB" stroke-width="2"/>
-          </svg>
-          <img src="https://raw.githubusercontent.com/djaiss/mapsicon/master/continents/png/world-mercator.png" alt="Mapa del mundo" class="w-full h-full object-contain opacity-60 p-24"/>
-        </div>
-        
-        <!-- Pin en el mapa -->
-        <div v-if="selectedCompany" class="absolute" style="top: 42%; left: 49%;">
-           <div class="relative">
-              <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-48 bg-white rounded-lg shadow-xl p-3 border text-sm text-left z-10">
-                <p class="font-bold text-blue-800">{{ selectedCompany.name }}</p>
-                <div class="flex items-center gap-2 mt-1 text-gray-600">
-                  <span class="material-symbols-outlined text-base">location_on</span>
-                  <span>{{ selectedCompany.sede }}</span>
-                </div>
-                <div class="flex items-center gap-2 mt-1 text-gray-600">
-                  <span class="material-symbols-outlined text-base">local_shipping</span>
-                  <span>Envíos activos: {{ selectedCompany.envios }}</span>
-                </div>
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+      <table class="w-full text-left">
+<thead class="bg-gray-50 border-b border-gray-200">
+  <tr>
+    <th class="p-4 font-semibold text-gray-600">Nombre</th>
+    <th class="p-4 font-semibold text-gray-600">NIF</th>
+    <th class="p-4 font-semibold text-gray-600">País</th>
+    <th class="p-4 font-semibold text-gray-600">Región</th>
+    <th class="p-4 font-semibold text-gray-600">Ciudad</th>
+    <th class="p-4 font-semibold text-gray-600">Dirección</th> <!-- <-- AÑADIR ESTA LÍNEA -->
+    <th class="p-4 font-semibold text-gray-600">Teléfono</th>
+    <th class="p-4 font-semibold text-gray-600">Tipo</th>
+    <th class="p-4 font-semibold text-gray-600">Estado</th>
+    <th class="p-4 font-semibold text-gray-600">Acciones</th>
+  </tr>
+</thead>
+        <tbody>
+<tr v-for="company in filteredCompanies" :key="company.ID" class="border-b border-gray-100 last:border-b-0">            <td class="p-4">
+              <div class="flex items-center gap-3">
+                <img :src="company.ICON_PATH || '/placeholder.svg'" class="h-8 w-8 rounded-full object-contain bg-gray-100 p-1">
+                <span class="font-semibold text-gray-800">{{ company.NAME }}</span>
               </div>
-              <div class="w-4 h-4 bg-orange-500 rounded-full mx-auto ring-4 ring-white/50 relative z-0"></div>
-           </div>
-        </div>
-      </section>
-    </main>
+            </td>
+            <td class="p-4 text-gray-600">{{ company.NIF }}</td>
+            <td class="p-4 text-gray-600">{{ getCountryName(company.COUNTRY_ID) }}</td>
+            <td class="p-4 text-gray-600">{{ company.region?.NAME || 'N/A' }}</td>
+            <td class="p-4 text-gray-600">{{ company.city?.NAME || 'N/A' }}</td>
+            <td class="p-4 text-gray-600">{{ company.ADDRESS }}</td>
+            <td class="p-4 text-gray-600">{{ company.PHONE_NUMBER }}</td>
+           <td class="p-4 text-gray-600">{{ company.company_type?.NAME || 'N/A' }}</td>
+
+<!-- Celda para la columna "Estado" -->
+<td class="p-4">
+  <span 
+    v-if="company.ACTIVE" 
+    class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full"
+  >
+    Activo
+  </span>
+  <span 
+    v-else 
+    class="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full"
+  >
+    Inactivo
+  </span>
+</td>
+
+<!-- Celda para la columna "Acciones" -->
+<td class="p-4">
+  <div class="flex gap-2">
+    <button @click="openModalForEdit(company)" class="text-blue-600 hover:text-blue-800">
+      <span class="material-symbols-outlined">edit</span>
+    </button>
+    <button @click="deleteCompany(company.ID)" class="text-red-600 hover:text-red-800">
+      <span class="material-symbols-outlined">delete</span>
+    </button>
+  </div>
+</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <CompanyModal
+  v-if="isModalOpen"
+  :key="companyToEdit ? companyToEdit.ID : 'new'"
+  :company="companyToEdit"
+  @close="closeModal"
+  @save="saveCompany"
+/>
+
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
-import BaseButton from '@components/base/BaseButton.vue'
+<script setup>
+import { ref, onMounted, computed } from 'vue';
+import api from '@services/api';
+import BaseButton from '@components/base/BaseButton.vue';
+import BaseInput from '@components/base/BaseInput.vue';
+import CompanyModal from '@components/modals/CompanyModal.vue';
 
-const companies = ref([
-  { id: 1, name: 'DHL Logistics', location: 'Barcelona, España', sede: 'Barcelona', envios: 158, logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/DHL_Express_logo.svg' },
-  { id: 2, name: 'UPS', location: 'Texas, Estados Unidos', sede: 'Texas', envios: 120, logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/United_Parcel_Service_logo_2014.svg' },
-  { id: 3, name: 'FedEx', location: 'California, Estados Unidos', sede: 'California', envios: 95, logo: 'https://upload.wikimedia.org/wikipedia/commons/9/9d/FedEx_Express.svg' },
-  { id: 4, name: 'XPO', location: 'Paris, Francia', sede: 'Paris', envios: 76, logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2a/XPO_Logistics_logo.svg' },
-]);
 
-const selectedCompany = ref(companies.value[0]);
+const companies = ref([]);     
+const countries = ref([]);      
+const searchQuery = ref('');    
+const isModalOpen = ref(false); 
+const companyToEdit = ref(null);
+
+
+
+// Busqueda
+
+const filteredCompanies = computed(() => {
+  
+  const query = searchQuery.value.toLowerCase().trim();
+
+  if (!query) {
+    return companies.value;
+  }
+
+
+  return companies.value.filter ( company => {
+
+    const nameMatch = company.NAME.toLowerCase().includes(query);
+    const nifMatch = company.NIF.toLowerCase().includes(query);
+
+    return nameMatch || nifMatch;
+  });
+  
+});
+
+
+const getAuthConfig = () => {
+  const token = localStorage.getItem('access_token');
+  return { headers: { 'Authorization': `Bearer ${token}` } };
+};
+
+
+async function loadData() {
+  try {
+   
+
+    const [companiesRes, countriesRes] = await Promise.all([
+      api.get('/companies', getAuthConfig()),
+      api.get('/countries', getAuthConfig())
+    ]);
+
+    companies.value = companiesRes.data;
+    countries.value = countriesRes.data;
+  } catch (error) {
+
+    console.error("Error al cargar datos iniciales:", error);
+
+  }
+}
+
+function getCountryName(countryId) {
+
+  if (!countryId || !countries.value.length) return 'N/A';
+
+  const country = countries.value.find(c => c.ID == countryId);
+
+  return country ? country.NAME : 'N/A';
+
+}
+
+// onMounted se ejecuta cuando el componente está listo.
+
+
+onMounted(() => {
+  loadData();
+});
+
+function openModalForCreate() {
+  companyToEdit.value = null; 
+
+  isModalOpen.value = true;
+};
+
+function openModalForEdit(company) {
+  companyToEdit.value = company; 
+
+  isModalOpen.value = true;
+};
+
+function closeModal() {
+  isModalOpen.value = false;
+};
+
+async function saveCompany(formData) {
+
+  const dataToSend = { ...formData };
+
+
+  dataToSend.ACTIVE = dataToSend.ACTIVE ? 1 : 0;
+
+  try {
+
+    if (dataToSend.ID) {
+      await api.put(`/company/${dataToSend.ID}`, dataToSend, getAuthConfig());
+    } else {
+      await api.post('/company', dataToSend, getAuthConfig());
+    }
+    closeModal();
+    await loadData(); 
+
+  } catch (error) {
+    console.error("Error al guardar la empresa:", error);
+  }
+};
+
+async function deleteCompany(id) {
+
+  if (confirm('¿Estás seguro de que quieres eliminar esta empresa?')) {
+
+    try {
+      await api.delete(`/company/${id}`, getAuthConfig());
+
+      await loadData(); 
+
+    } catch (error) {
+
+      console.error("Error al eliminar la empresa:", error);
+    }
+  }
+};
 </script>
-
-<style>
-/* Añadimos animaciones para las flechas del mapa */
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-@keyframes spin-slower {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
-}
-.animate-spin-slow {
-  animation: spin-slow 45s linear infinite;
-}
-.animate-spin-slower {
-  animation: spin-slower 60s linear infinite;
-}
-</style>
