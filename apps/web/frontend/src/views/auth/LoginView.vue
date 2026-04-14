@@ -8,8 +8,6 @@
           alt="Logo Prime"
           class="mx-auto mb-8 w-80 h-auto object-contain"
         />
-
-
         <BaseInput
           v-model="username"
           id="username"
@@ -20,13 +18,17 @@
           class="w-full"
         />
 
-        <BaseInput
-          v-model="password"
-          type="password"
-          placeholder="Contraseña *"
-          :error="passwordError"
-          class="w-full"
-        />
+        <div class="relative">
+          <BaseInput
+            v-model="password"
+            id="password"
+            label="Contraseña"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="Contraseña *"
+            :error="passwordError"
+            class="w-full"
+          />
+        
 
         <!--
         <div class="pt-2">
@@ -65,7 +67,6 @@
   import { useRouter } from 'vue-router'
 
   import BaseInput from '@components/base/BaseInput.vue'
-  import BaseCheckbox from '@components/base/Basecheckbox.vue'
   import logoPrime from '@/assets/images/logoPrime.webp'
   import BaseButton from '@components/base/BaseButton.vue'
 
@@ -108,7 +109,7 @@ const passwordError = ref('')
       router.push('/dashboard')
 
     }
-    catch (error) {
+    catch (error: any) {
       console.error('Login failed:', error)
 
       if (error.response && (error.response.status === 401 || error.response.status === 422)) {

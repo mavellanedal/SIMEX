@@ -31,7 +31,7 @@
     <th class="p-4 font-semibold text-gray-600">País</th>
     <th class="p-4 font-semibold text-gray-600">Región</th>
     <th class="p-4 font-semibold text-gray-600">Ciudad</th>
-    <th class="p-4 font-semibold text-gray-600">Dirección</th> <!-- <-- AÑADIR ESTA LÍNEA -->
+    <th class="p-4 font-semibold text-gray-600">Dirección</th> 
     <th class="p-4 font-semibold text-gray-600">Teléfono</th>
     <th class="p-4 font-semibold text-gray-600">Tipo</th>
     <th class="p-4 font-semibold text-gray-600">Estado</th>
