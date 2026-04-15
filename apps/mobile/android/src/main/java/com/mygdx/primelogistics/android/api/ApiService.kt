@@ -15,8 +15,11 @@ interface ApiService {
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
     @GET("api/auth/me")
-    suspend fun getMe(@Header("Authorization") authorization: String): Response<User>
+    suspend fun getMe(): Response<User>
 
     @GET("api/operations/user-operations")
     suspend fun getUserOperations(): Response<List<Operation>>
+
+    @GET("api/operations/recent")
+    suspend fun getRecentUserOperations(): Response<List<Operation>>
 }

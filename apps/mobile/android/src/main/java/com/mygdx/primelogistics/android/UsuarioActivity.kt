@@ -76,7 +76,7 @@ class UsuarioActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = RetrofitClient.api.getMe("Bearer $token")
+                val response = RetrofitClient.api.getMe()
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {

@@ -42,31 +42,31 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/op_id"
+                    android:id="@+id/op_ref"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_bold"
                     android:text="REF-1234567890"
                     android:textColor="@color/destacado"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/txt_origin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_bold"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="Rep. Dominicana"
                     android:textColor="@color/principal"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/txt_destination"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_bold"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="España"
                     android:textColor="@color/principal"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

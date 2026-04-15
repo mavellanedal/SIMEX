@@ -3,22 +3,24 @@ package com.mygdx.primelogistics.android.api
 import com.google.gson.annotations.SerializedName
 
 data class Operation(
-    @SerializedName("Id")
+    @SerializedName("id")
     val id: Int,
-    @SerializedName("OriginPortId")
+    @SerializedName("orderReference")
+    val orderReference: String,
+    @SerializedName("originPortId")
     val originPortId: Int,
-    @SerializedName("DestinationPortId")
+    @SerializedName("destinationPortId")
     val destinationPortId: Int,
-    @SerializedName("TotalCost")
+    @SerializedName("totalCost")
     val totalCost: Double,
-    @SerializedName("Etd")
+    @SerializedName("etd")
     val etd: String?,
-    @SerializedName("Eta")
+    @SerializedName("eta")
     val eta: String?,
-    @SerializedName("IncotermId")
+    @SerializedName("incotermId")
     val incotermId: Int?,
-    @SerializedName("PiecesNumber")
+    @SerializedName("piecesNumber")
     val piecesNumber: Int?,
-    @SerializedName("Kilograms")
+    @SerializedName("kilograms")
     val kilograms: Double
 )

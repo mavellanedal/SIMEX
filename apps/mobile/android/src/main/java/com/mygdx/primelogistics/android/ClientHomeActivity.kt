@@ -6,14 +6,12 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mygdx.primelogistics.R
 import com.mygdx.primelogistics.android.adapters.OpAdapter
 import com.mygdx.primelogistics.android.api.RetrofitClient
-import com.mygdx.primelogistics.android.models.OperationsViewModel
-import com.mygdx.primelogistics.android.models.User
+import com.mygdx.primelogistics.android.models.Operation
 import com.mygdx.primelogistics.android.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,11 +20,10 @@ import kotlinx.coroutines.withContext
 
 class ClientHomeActivity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
-
-    private lateinit var btnUser: ImageButton
     private lateinit var tvUserName: TextView
     private lateinit var recyclerRecent: RecyclerView
     private lateinit var adapterRecent: OpAdapter
+    private var operations: MutableList<Operation> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,65 +32,63 @@ class ClientHomeActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        btnUser = findViewById(R.id.btnUser)
-        btnUser.setOnClickListener {
-            startActivity(Intent(this@ClientHomeActivity, UsuarioActivity::class.java))
-        }
+        RetrofitClient.init { sessionManager.getAccessToken() }
 
-        tvUserName = findViewById(R.id.txtUserName)
-
+        tvUserName = findViewById(R.id.tvUserName)
         recyclerRecent = findViewById(R.id.rvRecent)
-
-        adapterRecent = OpAdapter(mutableListOf()) { _ ->
-            // card click
-        }
-
         recyclerRecent.layoutManager = LinearLayoutManager(this)
+
+        adapterRecent = OpAdapter(operations) { operation ->
+            // Click listener
+        }
         recyclerRecent.adapter = adapterRecent
 
-        val viewModel = ViewModelProvider(this).get(OperationsViewModel::class.java)
+        loadData()
 
-        viewModel.fetchOperations()
-
-        viewModel.operationsList.observe(this) { lista ->
-            adapterRecent.updateData(lista)
+        findViewById<ImageButton>(R.id.btnUser).setOnClickListener {
+            startActivity(Intent(this, UsuarioActivity::class.java))
         }
-
-        loadCurrentUser()
     }
 
-    private fun loadCurrentUser() {
-        val token = sessionManager.getAccessToken()
+    private fun loadData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val userResp = RetrofitClient.api.getMe()
+                val opsResp = RetrofitClient.api.getRecentUserOperations()
 
-        if (!token.isNullOrBlank()) {
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    val response = RetrofitClient.api.getMe("Bearer $token")
+                withContext(Dispatchers.Main) {
 
-                    withContext(Dispatchers.Main) {
-                        if (response.isSuccessful && response.body() != null) {
-                            bindUserName(response.body()!!)
-                        } else {
-                            sessionManager.clearSession()
-                            startActivity(
-                                Intent(
-                                    this@ClientHomeActivity,
-                                    LoginActivity::class.java
-                                )
-                            )
-                            finish()
-                        }
+                    if (userResp.isSuccessful && userResp.body() != null) {
+                        tvUserName.text = userResp.body()?.nombre
+                    } else {
+                        tvUserName.text = "Null"
                     }
-                } catch (e: Exception) {
-                    withContext(Dispatchers.Main) {
-                        tvUserName.text = "Error al cargar el usuario."
+
+                    if (opsResp.isSuccessful) {
+                        val lista = opsResp.body() ?: emptyList()
+                        adapterRecent.updateData(lista)
+                    } else if (opsResp.code() == 401) {
+                        logout()
                     }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    android.widget.Toast.makeText(
+                        this@ClientHomeActivity,
+                        "Sin conexión: Verificar internet o estado del servidor.",
+                        android.widget.Toast.LENGTH_LONG
+                    ).show()
+                    e.printStackTrace()
                 }
             }
         }
     }
 
-    private fun bindUserName(user: User) {
-        tvUserName.text = user.nombre
+    private fun logout() {
+        sessionManager.clearSession()
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }
