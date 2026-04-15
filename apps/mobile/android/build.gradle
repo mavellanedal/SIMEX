@@ -84,6 +84,12 @@ dependencies {
   implementation "com.squareup.retrofit2:retrofit:2.11.0"
   implementation "com.squareup.retrofit2:converter-gson:2.11.0"
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
+
+  // Esta es la librería que "activa" el viewModelScope
+  implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
+  // Si no tienes las corrutinas básicas, agrégalas también
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 }
 
 // Called every time gradle gets executed, takes the native dependencies of

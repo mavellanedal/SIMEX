@@ -29,6 +29,11 @@
         </activity>
 
         <activity
+            android:name="com.mygdx.primelogistics.android.ClientHomeActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
             android:name="com.mygdx.primelogistics.android.UsuarioActivity"
             android:exported="false" />
 

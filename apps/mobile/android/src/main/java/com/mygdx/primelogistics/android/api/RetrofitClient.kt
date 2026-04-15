@@ -8,16 +8,24 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     private const val BASE_URL = "http://10.0.2.2:5085/"
 
+    private var tokenProvider: (() -> String?)? = null
+
+    fun init(provider: () -> String?) {
+        this.tokenProvider = provider
+    }
+
     private val httpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
             .addInterceptor { chain ->
-                val request: Request = chain.request()
-                    .newBuilder()
-                    .header("Accept", "application/json")
-                    .header("Content-Type", "application/json")
-                    .build()
+                val requestBuilder = chain.request().newBuilder()
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Content-Type", "application/json")
 
-                chain.proceed(request)
+                tokenProvider?.invoke()?.let { token ->
+                    requestBuilder.addHeader("Authorization", "Bearer $token")
+                }
+
+                chain.proceed(requestBuilder.build())
             }
             .build()
     }

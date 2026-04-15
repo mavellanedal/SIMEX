@@ -89,7 +89,7 @@ class LoginActivity : AppCompatActivity() {
                         val auth = response.body()!!
                         sessionManager.saveAccessToken(auth.accessToken)
                         tvNotification.text = "Login correcto: ${auth.user.nombre}"
-                        startActivity(Intent(this@LoginActivity, UsuarioActivity::class.java))
+                        startActivity(Intent(this@LoginActivity, ClientHomeActivity::class.java))
                         finish()
                     } else {
                         tvNotification.text = "Error de usuario o contrasena."

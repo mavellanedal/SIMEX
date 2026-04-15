@@ -10,77 +10,92 @@
         android:layout_height="wrap_content"
         android:background="@color/principal"
         android:columnCount="3"
-        android:rowCount="1"
-        android:elevation="12dp">
+        android:elevation="12dp"
+        android:rowCount="1">
 
         <ImageButton
-            android:id="@+id/btn_home"
-            android:layout_column="0"
-            android:layout_row="0"
+            android:id="@+id/btnHome"
             android:layout_width="130dp"
             android:layout_height="85dp"
+            android:layout_row="0"
+            android:layout_column="0"
             android:layout_marginStart="20dp"
+            android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:src="@drawable/white_logo"
-            android:background="@android:color/transparent">
+            android:src="@drawable/white_logo">
         </ImageButton>
 
         <ImageButton
             android:id="@+id/btn_notifications"
-            android:layout_column="1"
-            android:layout_row="0"
-            android:layout_gravity="end|center"
             android:layout_width="30dp"
             android:layout_height="65dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_gravity="end|center"
             android:layout_marginStart="150dp"
+            android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:src="@drawable/notifications"
-            android:background="@android:color/transparent">
+            android:src="@drawable/notifications">
         </ImageButton>
 
         <ImageButton
-            android:id="@+id/btn_user"
-            android:layout_column="2"
-            android:layout_row="0"
-            android:layout_gravity="end|center"
+            android:id="@+id/btnUser"
             android:layout_width="50dp"
             android:layout_height="65dp"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_gravity="end|center"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:background="@android:color/transparent"
             android:padding="5dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/login_user"
-            android:background="@android:color/transparent">
+            android:src="@drawable/login_user">
         </ImageButton>
     </GridLayout>
 
-    <!-- Línea divisora  -->
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#000000"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_greeting"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Hola, Francisco"
-        android:fontFamily="@font/montserrat_bold"
-        android:textColor="@color/principal"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:textSize="25dp"
-        android:textStyle="bold">
-    </TextView>
+        android:background="#000000" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/txtGreeting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Hola, "
+            android:textColor="@color/principal"
+            android:textSize="25dp"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Cargando usuario..."
+            android:textColor="@color/principal"
+            android:textSize="25dp"
+            android:textStyle="bold">
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/et_search"
@@ -88,10 +103,10 @@
             android:layout_height="45dp"
             android:background="@drawable/txtbox_orange"
             android:fontFamily="@font/montserrat_medium"
-            android:inputType="text"
             android:hint="Buscar ID Operación"
-            android:textSize="20dp"
-            android:paddingStart="10dp">
+            android:inputType="text"
+            android:paddingStart="10dp"
+            android:textSize="20dp">
         </EditText>
 
         <ImageButton
@@ -99,78 +114,78 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:background="@drawable/btn_qr"
-            android:src="@drawable/qr"
+            android:padding="4dp"
             android:scaleType="fitCenter"
-            android:padding="4dp">
+            android:src="@drawable/qr">
         </ImageButton>
 
         <ImageButton
-            android:id="@+id/btn_search"
+            android:id="@+id/btnSearch"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginStart="20dp"
             android:background="@drawable/btn_search"
-            android:src="@drawable/search"
+            android:padding="5dp"
             android:scaleType="fitCenter"
-            android:padding="5dp">
+            android:src="@drawable/search">
         </ImageButton>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/txtRemaining"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txt_remaining"
         android:layout_margin="10dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="Propuestas pendientes:"
-        android:fontFamily="@font/montserrat_bold"
         android:textColor="@color/principal"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:textSize="25dp"
-        android:textStyle="bold">
-        </TextView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rv_proposals"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="20dp">
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_recent"
-        android:layout_margin="10dp"
-        android:text="Operaciones recientes:"
-        android:fontFamily="@font/montserrat_bold"
-        android:textColor="@color/principal"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
         android:textSize="25dp"
         android:textStyle="bold">
     </TextView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProposals"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rv_recent"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/txtRecent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="Operaciones recientes:"
+        android:textColor="@color/principal"
+        android:textSize="25dp"
+        android:textStyle="bold">
+    </TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRecent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="10dp">
     </androidx.recyclerview.widget.RecyclerView>
 
     <Button
-        android:id="@+id/btn_seeAll"
+        android:id="@+id/btnSeeAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginStart="20dp"
         android:background="@drawable/btn_blue"
         android:fontFamily="@font/montserrat_bold"
+        android:padding="10dp"
         android:text="Ver todas"
         android:textColor="@color/background"
-        android:textSize="15sp"
-        android:layout_gravity="center"
-        android:padding="10dp">
+        android:textSize="15sp">
     </Button>
 </LinearLayout>
