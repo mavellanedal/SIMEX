@@ -26,20 +26,20 @@ class Costs extends Model
     'SALE_AMOUNT',
   ];
 
-  public function Operation() {
-    return $this->belongsTo(Operations::class, 'OPERATION_ID');
+  public function operation() {
+    return $this->belongsTo(Operations::class, 'OPERATION_ID', 'ID');
   }
 
-  public function CostType() {
-    return $this->belongsTo(CostTypes::class, 'COST_TYPE_ID');
+  public function costType() {
+    return $this->belongsTo(CostTypes::class, 'COST_TYPE_ID', 'ID');
   }
 
-  public function CurrencyType() {
-    return $this->belongsTo(CurrencyTypes::class, 'CURRENCY_TYPE_ID');
+  public function currencyType() {
+    return $this->belongsTo(CurrencyTypes::class, 'CURRENCY_TYPE_ID', 'ID');
   }
 
-  public function SendType() {
-    return $this->belongsTo(SendTypes::class, 'SENED_TYPE_ID');
+  public function sendType() {
+    return $this->belongsTo(SendTypes::class, 'SENED_TYPE_ID', 'ID');
   }
 
 }

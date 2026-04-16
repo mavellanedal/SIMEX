@@ -39,14 +39,14 @@
           </td>
           <td class="px-4 py-3 font-medium text-gray-900 flex items-center gap-3">
             <div class="w-8 h-8 rounded-full bg-blue-100 text-[#145699] flex items-center justify-center font-bold text-xs">
-              {{ getInitials(user.nombre) }}
+              {{ getInitials((user.firstName || '') + ' ' + (user.lastName || '')) }}
             </div>
-            {{ user.nombre }}
+            {{ user.firstName }} {{ user.lastName }}
           </td>
           <td class="px-4 py-3">{{ user.email }}</td>
           <td class="px-4 py-3 text-center">
             <span class="bg-[#3FA9F5] text-white text-[11px] font-bold px-3 py-1 rounded-full">
-              {{ user.rol.name }}
+              {{ user.role?.name }}
             </span>
           </td>
           <td class="px-4 py-3 text-center">
@@ -89,7 +89,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import type { PropType } from 'vue';
-import type { User } from '@/interfaces/user/user';
+import type { User } from '@interfaces/user/user';
 
 const props = defineProps({
   users: {
@@ -125,7 +125,7 @@ watch(selectedUsers, (newSelection) => {
 function getInitials(name: string | undefined): string {
   if (!name) return 'U';
   const parts = name.trim().replace(/\s+/g, ' ').split(' ');
-  if (parts.length >= 2) {
+  if (parts.length >= 2 && parts[0] && parts[1]) {
     return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
   }
   return name.substring(0, 2).toUpperCase();

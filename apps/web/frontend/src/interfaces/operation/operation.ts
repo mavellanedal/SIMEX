@@ -1,0 +1,42 @@
+import type { User } from '@interfaces/user/user';
+import type { Company } from '@interfaces/companies/company';
+import type { Incoterm } from '@interfaces/incoterm/incoterm';
+import type { ContainerType } from '@interfaces/catalogs/containerType';
+import type { PackageType } from '@interfaces/catalogs/packageType';
+import type { Port } from '@interfaces/catalogs/port';
+
+export interface Operation {
+  id: number;
+  createUser: User | null;
+  orderReference: string;
+  importer: Company | null;
+  pickUpData: string | null;
+  incoterm: Incoterm | null;
+  etd: string | null;
+  eta: string | null;
+  exporter: Company | null;
+  operationUser: User | null;
+  salesUser: User | null;
+  documentUser: User | null;
+  containerNumber: string | null;
+  containerType: ContainerType | null;
+  hsCode: string | null;
+  packagesNumber: number | null;
+  packageType: PackageType | null;
+  packageSubtype: PackageType | null;
+  volume: number | null;
+  netWeight: number | null;
+  kilograms: number | null;
+  piecesNumber: number | null;
+  mblNumber: string | null;
+  buyer: Company | null;
+  seller: Company | null;
+  naviera: Company | null;
+  cargo: string | null;
+  originPort: Port | null;
+  destinationPort: Port | null;
+  cargoDescription: string | null;
+  totalCost: number | null;
+  totalSale: number | null;
+  profit: number | null;
+}

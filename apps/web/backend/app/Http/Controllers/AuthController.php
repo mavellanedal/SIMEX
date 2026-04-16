@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\loginDTO;
-use App\Http\Resources\UserResource;
+use App\DTOs\UserDTO;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +18,6 @@ class AuthController extends Controller
     ]);
 
     $dto = new LoginDTO($request->username, $request->password);
-
     $user = User::with('role', 'company')->where('USERNAME', $dto->username)->first();
 
     if (! $user || ! Hash::check($dto->password, $user->getAuthPassword())) {
@@ -38,7 +37,7 @@ class AuthController extends Controller
     return response()->json([
       'message' => 'Inicio de sesión exitoso',
       'access_token' => $token,
-      'user' => new UserResource($user)
+      'user' => UserDTO::fromModel($user)
     ]);
   }
 

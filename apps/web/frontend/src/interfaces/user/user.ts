@@ -3,12 +3,12 @@ import type { Company } from '@interfaces/companies/company';
 
 export interface User {
   id: number;
-  email: string;
-  nombre: string;
-  first_name: string;
-  last_name: string;
-  username: string;
-  active: boolean | number;
-  rol: Role;
+  email: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  username: string | null;
+  active: boolean | null;
+  identificationCardPath: string | null;
+  role: Role | null;
   company: Company | null;
 }

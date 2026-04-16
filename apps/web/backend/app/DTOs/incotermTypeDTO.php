@@ -5,22 +5,22 @@
   readonly class IncotermTypeDTO
   {
       public function __construct(
-          public readonly int $id,
-          public readonly string $code,
-          public readonly string $name,
+          public int $id,
+          public ?string $code,
+          public ?string $name,
       ) {
       }
 
-      public static function fromModel(IncotermTypes $incotermType): self
+      public static function fromModel(?IncotermTypes $incotermType): ?self
       {
         if (!$incotermType) {
           return null;
         }
 
         return new self(
-            id: $incotermType->ID,
-            code: $incotermType->CODE,
-            name: $incotermType->NAME,
+            id: $incotermType->ID ?? 0,
+            code: $incotermType->CODE ?? null,
+            name: $incotermType->NAME ?? null,
         );
       }
   }

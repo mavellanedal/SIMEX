@@ -16,9 +16,9 @@
         <form v-else @submit.prevent="onConfirm" class="space-y-6" novalidate>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
 
-            <BaseInput v-model="form.first_name" id="first_name" label="Nombre" placeholder="Nombre" required :error="errors.first_name" />
+            <BaseInput v-model="form.firstName" id="firstName" label="Nombre" placeholder="Nombre" required :error="errors.firstName" />
 
-            <BaseInput v-model="form.last_name" id="last_name" label="Apellido" placeholder="Apellido" required :error="errors.last_name" />
+            <BaseInput v-model="form.lastName" id="lastName" label="Apellido" placeholder="Apellido" required :error="errors.lastName" />
 
             <BaseInput v-model="form.username" id="username" label="Nombre de usuario" placeholder="Nombre de usuario" required :error="errors.username" />
 
@@ -30,31 +30,32 @@
               </template>
             </BaseInput>
 
-            <BaseInput v-model="form.password_confirmation" type="password" id="password_confirmation" label="Confirmar contraseña" placeholder="Confirmar contraseña" :required="!isEditMode" :error="errors.password_confirmation" />
+            <BaseInput v-model="form.passwordConfirmation" type="password" id="passwordConfirmation" label="Confirmar contraseña" placeholder="Confirmar contraseña" :required="!isEditMode" :error="errors.passwordConfirmation" />
 
             <BaseDropdown
-              v-model="form.role_id"
-              id="role_id"
+              v-model="form.roleId"
+              id="roleId"
               label="Rol"
               :options="roles"
-              value-key="ID"
-              label-key="NAME"
+              value-key="id"
+              label-key="name"
               placeholder="Selecciona un rol"
               required
-              :error="errors.role_id"
+
+              :error="errors.roleId"
             />
 
             <BaseDropdown
-              v-if="Number(form.role_id) === 2"
-              v-model="form.company_id"
-              id="company_id"
+              v-if="Number(form.roleId) === 2"
+              v-model="form.companyId"
+              id="companyId"
               label="Empresa"
               :options="companies"
               value-key="ID"
               label-key="NAME"
               placeholder="Selecciona una empresa"
               required
-              :error="errors.company_id"
+              :error="errors.companyId"
             />
 
           </div>
@@ -88,13 +89,15 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
 import type { PropType } from 'vue';
-import type { User } from '@/interfaces/user/user';
-import { CompanyService } from '@services/comapny.service';
-import { RoleService } from '@services/roles.services';
+import type { User } from '@interfaces/user/user';
+import { CompanyService } from '@services/company.service';
+import { RoleService } from '@services/roles.service';
 import { UserService } from '@services/user.service';
-import type { CreateUser } from '@/interfaces/user/createUser';
+import type { CreateUser } from '@interfaces/user/createUser';
 import BaseInput from '@components/base/BaseInput.vue';
 import BaseDropdown from '@components/base/BaseDropdown.vue';
+import type { Role } from '@interfaces/roles/role';
+import type { Company } from '@interfaces/companies/company';
 
 const props = defineProps({
   isOpen: { type: Boolean, required: true },
@@ -104,22 +107,22 @@ const props = defineProps({
 const emit = defineEmits(['confirm', 'cancel']);
 
 const form = ref({
-  first_name: '',
-  last_name: '',
+  firstName: '',
+  lastName: '',
   username: '',
   email: '',
   password: '',
-  password_confirmation: '',
-  company_id: '' as string | number | null,
-  role_id: '' as string | number,
+  passwordConfirmation: '',
+  companyId: '' as string | number | null,
+  roleId: '' as string | number,
   active: true,
 });
 
 // Estado para guardar los errores visuales
 const errors = ref<Record<string, string>>({});
 
-const companies = ref<any[]>([]);
-const roles = ref<any[]>([]);
+const companies = ref<Company[]>([]);
+const roles = ref<Role[]>([]);
 const isLoadingUser = ref(false);
 
 const isEditMode = computed(() => !!props.userForEdit);
@@ -140,24 +143,25 @@ onMounted(async () => {
 });
 
 watch(() => props.userForEdit, async (newVal) => {
-  errors.value = {}; // Limpiamos errores al abrir el modal
+  errors.value = {};
   if (newVal && newVal.length > 0) {
     isLoadingUser.value = true;
     try {
-      const userId = newVal[0].id;
-      const userDetails = await UserService.getUserById(userId);
-
-      form.value = {
-        first_name: userDetails.first_name || '',
-        last_name: userDetails.last_name || '',
-        username: userDetails.username || '',
-        email: userDetails.email || '',
-        password: '',
-        password_confirmation: '',
-        company_id: userDetails.company ? userDetails.company.id : '',
-        role_id: userDetails.rol ? userDetails.rol.id : '',
-        active: Number(userDetails.active) === 1,
-      };
+      const userId = newVal[0]?.id;
+      if (userId) {
+        const userDetails = await UserService.getUserById(userId);
+        form.value = {
+          firstName: userDetails.firstName || '',
+          lastName: userDetails.lastName || '',
+          username: userDetails.username || '',
+          email: userDetails.email || '',
+          password: '',
+          passwordConfirmation: '',
+          companyId: userDetails.company ? userDetails.company.id : '',
+          roleId: userDetails.role ? userDetails.role.id : '',
+          active: userDetails.active === true,
+        };
+      }
     } catch (error) {
       console.error("Error obteniendo detalles:", error);
     } finally {
@@ -165,30 +169,30 @@ watch(() => props.userForEdit, async (newVal) => {
     }
   } else {
     form.value = {
-      first_name: '', last_name: '', username: '', email: '',
-      password: '', password_confirmation: '',
-      company_id: '', role_id: '', active: true,
+      firstName: '', lastName: '', username: '', email: '',
+      password: '', passwordConfirmation: '',
+      companyId: '', roleId: '', active: true,
     };
   }
 }, { immediate: true });
 
 watch(form, (newForm) => {
-  if (newForm.first_name) delete errors.value.first_name;
-  if (newForm.last_name) delete errors.value.last_name;
+  if (newForm.firstName) delete errors.value.firstName;
+  if (newForm.lastName) delete errors.value.lastName;
   if (newForm.username) delete errors.value.username;
   if (newForm.email) delete errors.value.email;
   if (newForm.password) delete errors.value.password;
-  if (newForm.password_confirmation === newForm.password) delete errors.value.password_confirmation;
-  if (newForm.role_id) delete errors.value.role_id;
-  if (newForm.company_id) delete errors.value.company_id;
+  if (newForm.passwordConfirmation === newForm.password) delete errors.value.passwordConfirmation;
+  if (newForm.roleId) delete errors.value.roleId;
+  if (newForm.companyId) delete errors.value.companyId;
 }, { deep: true });
 
 function validateForm() {
   errors.value = {};
   let isValid = true;
 
-  if (!form.value.first_name) { errors.value.first_name = 'El nombre es obligatorio'; isValid = false; }
-  if (!form.value.last_name) { errors.value.last_name = 'El apellido es obligatorio'; isValid = false; }
+  if (!form.value.firstName) { errors.value.firstName = 'El nombre es obligatorio'; isValid = false; }
+  if (!form.value.lastName) { errors.value.lastName = 'El apellido es obligatorio'; isValid = false; }
   if (!form.value.username) { errors.value.username = 'El nombre de usuario es obligatorio'; isValid = false; }
 
   if (!form.value.email) {
@@ -204,18 +208,18 @@ function validateForm() {
     isValid = false;
   }
 
-  if (form.value.password !== form.value.password_confirmation) {
-    errors.value.password_confirmation = 'Las contraseñas no coinciden';
+  if (form.value.password !== form.value.passwordConfirmation) {
+    errors.value.passwordConfirmation = 'Las contraseñas no coinciden';
     isValid = false;
   }
 
-  if (!form.value.role_id) {
-    errors.value.role_id = 'Debes seleccionar un rol';
+  if (!form.value.roleId) {
+    errors.value.roleId = 'Debes seleccionar un rol';
     isValid = false;
   }
 
-  if (Number(form.value.role_id) === 2 && !form.value.company_id) {
-    errors.value.company_id = 'Debes asignar una empresa al cliente';
+  if (Number(form.value.roleId) === 2 && !form.value.companyId) {
+    errors.value.companyId = 'Debes asignar una empresa al cliente';
     isValid = false;
   }
 
@@ -226,12 +230,12 @@ function onConfirm() {
   if (!validateForm()) return;
 
   const payloadToEmit: CreateUser = {
-    first_name: form.value.first_name,
-    last_name: form.value.last_name,
+    firstName: form.value.firstName,
+    lastName: form.value.lastName,
     username: form.value.username,
     email: form.value.email,
-    role_id: Number(form.value.role_id),
-    company_id: form.value.company_id ? Number(form.value.company_id) : null,
+    roleId: Number(form.value.roleId),
+    companyId: form.value.companyId ? Number(form.value.companyId) : null,
     active: form.value.active ? 1 : 0
   };
 
@@ -246,9 +250,9 @@ function onCancel() {
   emit('cancel');
 }
 
-watch(() => form.value.role_id, (newRoleId) => {
+watch(() => form.value.roleId, (newRoleId) => {
   if (Number(newRoleId) !== 2) {
-    form.value.company_id = '';
+    form.value.companyId = '';
   }
 });
 </script>

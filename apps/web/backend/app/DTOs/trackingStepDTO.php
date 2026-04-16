@@ -5,23 +5,22 @@
   readonly class TrackingStepDTO
   {
       public function __construct(
-          public readonly int $id,
-          public readonly string $orderNum,
-          public readonly string $name,
+          public int $id,
+          public ?string $orderNum,
+          public ?string $name,
       ) {
       }
 
-      public static function fromModel(TrackingSteps $trackingStep): self
+      public static function fromModel(?TrackingSteps $trackingStep): ?self
       {
-
         if (!$trackingStep) {
           return null;
         }
 
         return new self(
-            id: $trackingStep->ID,
-            orderNum: $trackingStep->ORDER_NUM,
-            name: $trackingStep->NAME,
+            id: $trackingStep->ID ?? 0,
+            orderNum: $trackingStep->ORDER_NUM ?? null,
+            name: $trackingStep->NAME ?? null,
         );
       }
   }

@@ -1,24 +1,24 @@
 <?php
 
 namespace App\DTOs;
+use App\Models\OperationStates;
 
-readonly class CurrencyTypeDTO {
+readonly class OperationStateDTO {
   public function __construct(
     public int $id,
-    public string $name,
-    public string $description
-  )
-  {}
+    public ?string $name,
+    public ?string $description
+  ) {}
 
-  public static function forModel(?\App\Models\CurrencyType $currencyType): ?self {
-    if (!$currencyType) {
+  public static function fromModel(?OperationStates $state): ?self {
+    if (!$state) {
       return null;
     }
 
     return new self (
-      id: $currencyType->id,
-      name: $currencyType->name,
-      description: $currencyType->description
+      id: $state->ID ?? 0,
+      name: $state->NAME ?? null,
+      description: $state->DESCRIPTION ?? null
     );
   }
 }

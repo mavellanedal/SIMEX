@@ -28,13 +28,19 @@ const router = createRouter({
           name: 'users',
           component: () => import('../views/UsersView.vue'),
         },
-       
+
         {
           path: 'companies',
           name: 'companies',
           component: () => import('../views/CompaniesView.vue'),
+        },
+
+        {
+          path: 'operations',
+          name: 'operations',
+          component: () => import('../views/OperationsView.vue'),
         }
-     
+
       ]
     }
   ],

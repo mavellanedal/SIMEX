@@ -26,6 +26,7 @@
         </div>
 
         <button
+          v-if="canModify"
           @click="openCreateModal"
           class="bg-[#145699] hover:bg-[#FD8036] text-white font-semibold py-2 px-5 rounded flex items-center gap-2 transition-colors text-sm"
         >
@@ -34,7 +35,12 @@
         </button>
       </div>
 
+      <div v-if="isLoading" class="p-8 text-center text-gray-500">
+        Cargando usuarios...
+      </div>
+
       <UserTable
+        v-else
         :users="filteredUsers"
         @edit="openEditModal"
         @selection-changed="handleSelectionChange"
@@ -74,7 +80,7 @@ import BaseConfirmModal from '@components/base/BaseConfirmModal.vue';
 import BaseNotification from '@components/base/BaseNotification.vue';
 import UserModal from '@components/modals/UserModal.vue';
 
-// Interfaces y Servicios
+
 import type { User } from '@/interfaces/user/user';
 import type { CreateUser } from '@/interfaces/user/createUser';
 import { UserService } from '@/services/user.service';
@@ -84,6 +90,11 @@ const searchQuery = ref('');
 const isLoading = ref(false);
 const selectedIds = ref<number[]>([]);
 const showDeleteModal = ref(false);
+
+const userStr = localStorage.getItem('user');
+const userRoleId = userStr ? JSON.parse(userStr).role?.id : 0;
+
+const canModify = computed(() => userRoleId !== 5);
 
 const isUserModalOpen = ref(false);
 const selectedUserForEdit = ref<User[] | null>(null);
@@ -97,11 +108,13 @@ const notification = ref({
 const filteredUsers = computed(() => {
   if (!searchQuery.value) return users.value;
   const query = searchQuery.value.toLowerCase();
-  return users.value.filter(user =>
-    user.nombre.toLowerCase().includes(query) ||
-    user.email.toLowerCase().includes(query) ||
-    (user.company && user.company.name.toLowerCase().includes(query))
-  );
+
+  return users.value.filter(user => {
+    const fullName = `${user.firstName || ''} ${user.lastName || ''}`.toLowerCase();
+    return fullName.includes(query) ||
+      (user.email && user.email.toLowerCase().includes(query)) ||
+      (user.company && user.company.name?.toLowerCase().includes(query));
+  });
 });
 
 onMounted(async () => {

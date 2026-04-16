@@ -3,7 +3,7 @@
 namespace App\DTOs;
 use App\Models\CompanyType;
 
-readonly class companyTypeDTO {
+readonly class CompanyTypeDTO {
   public function __construct(
     public int $id,
     public string $name,
@@ -11,15 +11,15 @@ readonly class companyTypeDTO {
   )
   {}
 
-  public static function fromModel(?CompanyType $companyType): self
+  public static function fromModel(?CompanyType $companyType): ?self
   {
     if (!$companyType) {
       return null;
     }
     return new self(
-      id: $companyType->ID,
-      name: $companyType->NAME,
-      description: $companyType->DESCRIPTION
+      id: $companyType->ID ?? 0,
+      name: $companyType->NAME ?? null,
+      description: $companyType->DESCRIPTION ?? null
     );
   }
 }

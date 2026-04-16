@@ -1,28 +1,28 @@
 <?php
 
 namespace App\DTOs;
-use App\Models\PackageType;
+use App\Models\PackageTypes;
 
 readonly class PackageTypeDTO {
   public function __construct(
     public int $id,
-    public string $name,
+    public ?string $name,
     public ?string $description = null,
-    public ?string $parentId = null,
+    public ?int $parentId = null,
   )
   {}
 
-  public static function fromModel(PackageType $packageType): self
+  public static function fromModel(?PackageTypes $packageType): ?self
   {
     if (!$packageType) {
       return null;
     }
 
     return new self(
-      id: $packageType->ID,
-      name: $packageType->NAME,
-      description: $packageType->DESCRIPTION,
-      parentId: $packageType->PARENT_ID
+      id: $packageType->ID ?? 0,
+      name: $packageType->NAME ?? null,
+      description: $packageType->DESCRIPTION ?? null,
+      parentId: $packageType->PARENT_ID ?? null
     );
   }
 }

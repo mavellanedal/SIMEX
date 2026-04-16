@@ -66,20 +66,20 @@
                 <template v-if="activeNotifications.length > 0">
                   <div
                     v-for="notif in activeNotifications"
-                    :key="notif.ID"
+                    :key="notif.id"
                     @click="markAsRead(notif)"
                     :class="[
                       'p-4 border-b border-gray-50 transition cursor-pointer relative group',
-                      Number(notif.STATE_ID) === 1 ? 'bg-blue-50/50 hover:bg-blue-50' : 'bg-white hover:bg-gray-50'
+                      notif.state.id === 1 ? 'bg-blue-50/50 hover:bg-blue-50' : 'bg-white hover:bg-gray-50'
                     ]"
                   >
                     <div class="flex items-start justify-between pr-6">
-                      <p :class="['text-sm', Number(notif.STATE_ID) === 1 ? 'font-bold text-[#145699]' : 'font-semibold text-gray-700']">
-                        {{ notif.NAME }}
+                      <p :class="['text-sm', notif.state.id === 1 ? 'font-bold text-[#145699]' : 'font-semibold text-gray-700']">
+                        {{ notif.name }}
                       </p>
 
                       <div class="flex items-center gap-2 absolute right-4 top-4">
-                        <div v-if="Number(notif.STATE_ID) === 1" class="w-2 h-2 rounded-full bg-[#FD8036] flex-shrink-0"></div>
+                        <div v-if="notif.state.id === 1" class="w-2 h-2 rounded-full bg-[#FD8036] flex-shrink-0"></div>
 
                         <button
                           @click.stop="deleteNotification(notif)"
@@ -90,7 +90,7 @@
                         </button>
                       </div>
                     </div>
-                    <p class="text-xs text-gray-600 mt-1 line-clamp-2 pr-6">{{ notif.DESCRIPTION }}</p>
+                    <p class="text-xs text-gray-600 mt-1 line-clamp-2 pr-6">{{ notif.description }}</p>
                   </div>
                 </template>
 
@@ -126,21 +126,20 @@
 import { onMounted, ref, computed } from 'vue';
 import api from '@services/api';
 import { useRouter } from 'vue-router';
+import type { Notification } from '@interfaces/notification/notification';
 
 const router = useRouter();
-
-const activeMenu = ref('dashboard');
 const userName = ref('Usuario');
-const notifications = ref<any[]>([]);
+const notifications = ref<Notification[]>([]);
 
 const showNotifications = ref(false);
 
 const activeNotifications = computed(() => {
-  return notifications.value.filter(notif => Number(notif.LOGIC_REMOVE) !== 1);
+  return notifications.value.filter(notif => Number(notif.state.id) !== 1);
 });
 
 const hasUnreadNotifications = computed(() => {
-  return activeNotifications.value.some(notif => Number(notif.STATE_ID) === 1);
+  return activeNotifications.value.some(notif => Number(notif.state.id) === 1);
 });
 
 onMounted(async () => {
@@ -148,8 +147,11 @@ onMounted(async () => {
   if (storedUser) {
     try {
       const parsedUser = JSON.parse(storedUser);
-      if (parsedUser && parsedUser.nombre) {
-        userName.value = parsedUser.nombre;
+
+      const name = parsedUser.firstName || parsedUser.first_name || parsedUser.nombre;
+      const lastName = parsedUser.lastName || parsedUser.last_name || '';
+      if (name) {
+        userName.value = `${name} ${lastName}`.trim();
       }
     } catch (error) {
       console.error('Error parsing user from localStorage:', error);
@@ -176,37 +178,37 @@ async function fetchNotifications() {
   }
 }
 
-async function markAsRead(notif: any) {
-  if (Number(notif.STATE_ID) === 2) return;
+async function markAsRead(notif: Notification) {
+  if (Number(notif.state.id) === 2) return;
 
-  notif.STATE_ID = 2;
+  notif.state.id = 2;
   try {
     const token = localStorage.getItem('access_token');
-    await api.put('/notifications/' + notif.ID + '/read', {}, {
+    await api.put('/notifications/' + notif.id + '/read', {}, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
   } catch (error) {
     console.error('Error marking notification as read:', error);
-    notif.STATE_ID = 1;
+    notif.state.id = 1;
   }
 }
 
-async function deleteNotification(notif: any) {
-  if (Number(notif.LOGIC_REMOVE) === 1) return;
+async function deleteNotification(notif: Notification) {
+  if (notif.logicRemove) return;
 
-  notif.LOGIC_REMOVE = 1;
+  notif.logicRemove = true;
   try {
     const token = localStorage.getItem('access_token');
-    await api.delete('/notifications/' + notif.ID, {
+    await api.delete('/notifications/' + notif.id, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
   } catch (error) {
     console.error('Error deleting notification:', error);
-    notif.LOGIC_REMOVE = 0;
+    notif.logicRemove = false;
   }
 }
 
@@ -231,19 +233,28 @@ async function logout() {
   }
 }
 
-function navigateTo(item: any) {
-  activeMenu.value = item.id;
-  if (item.route) {
-    router.push({ name: item.route });
-  }
-}
-
-const menuItems = [
-  { id: 'dashboard', icon: 'home', label: 'Dashboard', path: '/dashboard' },
-  { id: 'documents', icon: 'upload_file', label: 'Subir Documentos', path: '/documents' },
-  { id: 'ships', icon: 'directions_boat', label: 'Operaciones Marítimas', path: '/ships' },
-  { id: 'companies', icon: 'domain', label: 'Empresas / Almacenes', path: '/companies' },
-  { id: 'users', icon: 'manage_accounts', label: 'Ajustes de Usuario', path: '/users' },
-  { id: 'support', icon: 'support_agent', label: 'Soporte / Agente', path: '/support' },
+const allMenuItems = [
+  { id: 'dashboard', icon: 'home', label: 'Dashboard', path: '/dashboard', routeName: 'dashboard' },
+  { id: 'documents', icon: 'upload_file', label: 'Subir Documentos', path: '/documents', routeName: 'documents' },
+  { id: 'ships', icon: 'directions_boat', label: 'Operaciones Marítimas', path: '/operations', routeName: 'operations' },
+  { id: 'companies', icon: 'domain', label: 'Empresas / Almacenes', path: '/companies', routeName: 'companies' },
+  { id: 'users', icon: 'manage_accounts', label: 'Ajustes de Usuario', path: '/users', routeName: 'users' },
+  { id: 'support', icon: 'support_agent', label: 'Soporte / Agente', path: '/support', routeName: 'support' },
 ];
+
+const menuItems = computed(() => {
+  const userStr = localStorage.getItem('user');
+  let roleId = 0;
+  if (userStr) roleId = JSON.parse(userStr).role?.id || 0;
+
+   return allMenuItems.filter(item => {
+    if (roleId === 1) return true;
+    if (roleId === 2) return item.id === 'dashboard' || item.id === 'ships';
+    if (roleId === 3) return item.id !== 'users' && item.id !== 'support';
+    if (roleId === 4) return item.id === 'dashboard' || item.id === 'companies';
+    if (roleId === 5) return true;
+    return false;
+  });
+
+})
 </script>

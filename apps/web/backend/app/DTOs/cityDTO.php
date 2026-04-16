@@ -1,36 +1,36 @@
 <?php
 
 namespace App\DTOs;
-use App\DTOs\countryDTO;
-use App\DTOs\regionDTO;
-use App\Models\Cities;
+use App\DTOs\CountryDTO;
+use App\DTOs\RegionDTO;
+use App\Models\City;
 
 readonly class CityDTO {
   public function __construct(
     public int $id,
-    public string $name,
-    public CountryDTO $country,
-    public RegionDTO $region,
-    public ?int $latitude,
-    public ?int $longitude,
+    public ?string $name,
+    public ?CountryDTO $country,
+    public ?RegionDTO $region,
+    public ?float $latitude,
+    public ?float $longitude,
     public ?int $altitude
   )
   {}
 
-  public static function fromModel($city): self
+  public static function fromModel(?City $city): ?self
   {
     if (!$city) {
       return null;
     }
 
     return new self(
-      id: $city->ID,
-      name: $city->NAME,
-      country: $city->COUNTRY,
-      region: $city->REGION,
-      latitude: $city->LATITUDE,
-      longitude: $city->LONGITUDE,
-      altitude: $city->ALTITUDE
+      id: $city->ID ?? 0,
+      name: $city->NAME ?? null,
+      country: CountryDTO::fromModel($city->country),
+      region: RegionDTO::fromModel($city->region),
+      latitude: $city->LATITUDE !== null ? (float)$city->LATITUDE : null,
+      longitude: $city->LONGITUDE !== null ? (float)$city->LONGITUDE : null,
+      altitude: $city->ALTITUDE !== null ? (int)$city->ALTITUDE : null
     );
   }
 }

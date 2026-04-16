@@ -2,24 +2,20 @@
 
 namespace App\DTOs;
 use App\Models\Company;
-use App\DTOs\companyTypeDTO;
-use App\DTOs\regionDTO;
-use App\DTOs\cityDTO;
-
 
 readonly class CompanyDTO {
   public function __construct(
     public int $id,
-    public string $name,
-    public CompanyTypeDTO $companyType,
-    public string $iconPath,
-    public string $email,
-    public string $phoneNumber,
-    public string $nif,
-    public RegionDTO $region,
-    public CityDTO $city,
-    public string $address,
-    public bool $active
+    public ?string $name,
+    public ?CompanyTypeDTO $companyType,
+    public ?string $iconPath,
+    public ?string $email,
+    public ?string $phoneNumber,
+    public ?string $nif,
+    public ?RegionDTO $region,
+    public ?CityDTO $city,
+    public ?string $address,
+    public ?bool $active
   )
   {}
 
@@ -29,17 +25,17 @@ readonly class CompanyDTO {
     }
 
     return new self (
-      id: $company->id,
-      name: $company->name,
+      id: $company->ID ?? 0,
+      name: $company->NAME ?? null,
       companyType: CompanyTypeDTO::fromModel($company->companyType),
-      iconPath: $company->icon_path,
-      email: $company->email,
-      phoneNumber: $company->phone_number,
-      nif: $company->nif,
+      iconPath: $company->ICON_PATH ?? null,
+      email: $company->EMAIL ?? null,
+      phoneNumber: $company->PHONE_NUMBER ?? null,
+      nif: $company->NIF ?? null,
       region: RegionDTO::fromModel($company->region),
       city: CityDTO::fromModel($company->city),
-      address: $company->address,
-      active: $company->active
+      address: $company->ADDRESS ?? null,
+      active: (bool)$company->ACTIVE
     );
   }
 }

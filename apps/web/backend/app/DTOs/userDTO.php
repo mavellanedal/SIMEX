@@ -2,20 +2,18 @@
 
 namespace App\DTOs;
 use App\Models\User;
-use App\DTOs\roleDTO;
-use App\DTOs\companyDTO;
 
 readonly class UserDTO {
   public function __construct(
     public int $id,
-    public string $email,
-    public string $firstName,
-    public string $lastName,
-    public string $username,
-    public bool $active,
-    public ?string $identificationCardPath = null,
-    public RoleDTO $role,
-    public CompanyDTO $company,
+    public ?string $email,
+    public ?string $firstName,
+    public ?string $lastName,
+    public ?string $username,
+    public ?bool $active,
+    public ?string $identificationCardPath,
+    public ?RoleDTO $role,
+    public ?CompanyDTO $company
   )
   {}
 
@@ -25,15 +23,15 @@ readonly class UserDTO {
     }
 
     return new self (
-      id: $user->id,
-      email: $user->email,
-      firstName: $user->first_name,
-      lastName: $user->last_name,
-      username: $user->username,
-      active: $user->active,
-      identificationCardPath: $user->identification_card_path,
-      role: RoleDTO::forModel($user->role),
-      company: CompanyDTO::forModel($user->company)
+      id: $user->ID ?? ($user->id ?? 0),
+      email: $user->EMAIL ?? ($user->email ?? null),
+      firstName: $user->FIRST_NAME ?? ($user->first_name ?? null),
+      lastName: $user->LAST_NAME ?? ($user->last_name ?? null),
+      username: $user->USERNAME ?? ($user->username ?? null),
+      active: (bool)($user->ACTIVE ?? ($user->active ?? false)),
+      identificationCardPath: $user->IDENTIFICATION_CARD_PATH ?? ($user->identification_card_path ?? null),
+      role: RoleDTO::fromModel($user->role),
+      company: CompanyDTO::fromModel($user->company)
     );
   }
 }

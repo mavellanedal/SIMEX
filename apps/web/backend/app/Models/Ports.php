@@ -15,4 +15,10 @@ class Ports extends Model
     'NAME',
     'CITY_ID'
   ];
+
+
+  public function city()
+  {
+    return $this->belongsTo(City::class, 'CITY_ID', 'ID');
+  }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\UserDTO;
 use App\DTOs\createUserDTO;
 use App\DTOs\updateUserDTO;
-use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -13,31 +13,33 @@ class UserController extends Controller
 {
   public function index()
   {
-    $user = User::with(['role', 'company'])->get();
-    return UserResource::collection($user);
+    $users = User::with(['role', 'company'])->get();
+    return response()->json(
+      $users->map(fn($item) => UserDTO::fromModel($item))
+    );
   }
 
   public function store(Request $request)
   {
     $request->validate([
-      'first_name' => 'required|string',
-      'last_name' => 'required|string',
+      'firstName' => 'required|string',
+      'lastName' => 'required|string',
       'email' => 'required|email|unique:USERS,EMAIL',
       'username' => 'required|string|unique:USERS,USERNAME',
       'password' => 'required|string|min:8',
-      'role_id' => 'required|integer|exists:ROLES,ID',
-      'company_id' => 'nullable|integer|exists:COMPANY,ID',
+      'roleId' => 'required|integer|exists:ROLES,ID',
+      'companyId' => 'nullable|integer|exists:COMPANY,ID',
       'active' => 'required|boolean',
     ]);
 
     $dto = new CreateUserDTO(
-      $request->first_name,
-      $request->last_name,
+      $request->firstName,
+      $request->lastName,
       $request->email,
       $request->username,
       $request->password,
-      $request->role_id,
-      $request->company_id,
+      $request->roleId,
+      $request->companyId,
       $request->active
     );
 
@@ -56,32 +58,32 @@ class UserController extends Controller
 
     return response()->json([
       'message' => 'Usuario creado correctamente',
-      'user' => new UserResource($user)
+      'user' => UserDTO::fromModel($user)
     ], 201);
   }
 
   public function update(Request $request, $id)
   {
-    $user = User::findOrFail($id); // si no lo encuentra, lanza un error 404
+    $user = User::findOrFail($id);
 
     $request->validate([
-      'first_name' => 'required|string',
-      'last_name' => 'required|string',
+      'firstName' => 'required|string',
+      'lastName' => 'required|string',
       'email' => 'required|email|unique:USERS,EMAIL,' . $id . ',ID',
       'username' => 'required|string|unique:USERS,USERNAME,' . $id . ',ID',
       'password' => 'nullable|string|min:8',
-      'role_id' => 'required|integer|exists:ROLES,ID',
-      'company_id' => 'nullable|integer|exists:COMPANY,ID',
+      'roleId' => 'required|integer|exists:ROLES,ID',
+      'companyId' => 'nullable|integer|exists:COMPANY,ID',
       'active' => 'required|boolean',
     ]);
 
     $dto = new updateUserDTO(
-      $request->first_name,
-      $request->last_name,
+      $request->firstName,
+      $request->lastName,
       $request->email,
       $request->username,
-      $request->role_id,
-      $request->company_id,
+      $request->roleId,
+      $request->companyId,
       $request->active,
       $request->password
     );
@@ -101,7 +103,7 @@ class UserController extends Controller
 
     return response()->json([
       'message' => 'Usuario actualizado correctamente',
-      'user' => new UserResource($user)
+      'user' => UserDTO::fromModel($user)
     ]);
   }
 
@@ -123,6 +125,18 @@ class UserController extends Controller
   public function show($id)
   {
     $user = User::with(['role', 'company'])->findOrFail($id);
-    return new UserResource($user);
+    return response()->json(UserDTO::fromModel($user));
+  }
+
+  public function getCustomsAgents()
+  {
+    $customsAgents = User::with(['role', 'company'])
+      ->whereHas('role', function ($query) {
+        $query->where('ID', '5');
+      })->get();
+
+    return response()->json(
+      $customsAgents->map(fn($item) => UserDTO::fromModel($item))
+    );
   }
 }

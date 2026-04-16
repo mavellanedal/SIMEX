@@ -133,4 +133,9 @@ class Operations extends Model
   {
     return $this->belongsTo(Company::class, 'SELLER_ID', 'ID');
   }
+
+  public function stateHistory()
+  {
+    return $this->hasMany(OperationStateHistory::class, 'OPERATION_ID', 'ID');
+  }
 }

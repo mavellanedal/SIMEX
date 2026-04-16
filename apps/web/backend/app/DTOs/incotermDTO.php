@@ -1,17 +1,16 @@
 <?php
   namespace App\DTOs;
-  use App\DTOs\incotermTypeDTO;
-  use App\DTOs\trackingStepDTO;
+  use App\Models\Incoterms;
 
   readonly class IncotermDTO
   {
       public function __construct(
-          public readonly incotermTypeDto $incotermType,
-          public readonly TrackingStepDto $trackingStep,
+          public ?IncotermTypeDTO $incotermType,
+          public ?TrackingStepDTO $trackingStep,
       ) {
       }
 
-      public static function fromModel(Incoterms $incoterm): self
+      public static function fromModel(?Incoterms $incoterm): ?self
       {
         if (!$incoterm) {
           return null;

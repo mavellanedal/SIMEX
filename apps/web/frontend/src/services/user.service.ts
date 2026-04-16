@@ -30,5 +30,10 @@ export const UserService = {
   async deleteUsers(ids: number[]) {
     const response = await api.post('/users/bulk-delete', { ids }, getAuthHeaders());
     return response.data.data || response.data;
+  },
+
+  async getCustomsAgents() {
+    const response = await api.get('/users/customs-agents', getAuthHeaders());
+    return response.data.data || response.data;
   }
 }

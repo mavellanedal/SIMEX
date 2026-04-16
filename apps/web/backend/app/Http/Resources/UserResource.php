@@ -20,7 +20,7 @@ class UserResource extends JsonResource
           'nombre' => $this->FIRST_NAME . ' ' . $this->LAST_NAME,
           'first_name' => $this->FIRST_NAME,
           'last_name' => $this->LAST_NAME,
-          'rol' => [
+          'role' => [
             'id' => $this->role->ID,
             'name' => $this->role->NAME,
           ],

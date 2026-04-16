@@ -1,37 +1,35 @@
 <?php
 
 namespace App\DTOs;
-use App\DTOs\OperationDTO;
-use App\DTOs\CostTypeDTO;
-use App\DTOs\CurrencyTypeDTO;
+use App\Models\Costs;
 
 readonly class CostDTO {
   public function __construct(
     public int $id,
-    public OperationDTO $operation,
-    public CostTypeDTO $costType,
-    public CurrencyTypeDTO $currencyType,
-    public float $cost,
-    public float $costAmount,
-    public string $sale,
-    public string $saleAmount
+    public ?CostTypeDTO $costType,
+    public ?CurrencyTypeDTO $currencyType,
+    public ?SendTypeDTO $sendType,
+    public ?float $cost,
+    public ?int $costAmount,
+    public ?float $sale,
+    public ?int $saleAmount
   )
   {}
 
-  public static function forModel(CostTypes $costType): ?self {
-    if (!$costType) {
+  public static function fromModel(?Costs $cost): ?self {
+    if (!$cost) {
       return null;
     }
 
     return new self (
-      id: $costType->id,
-      operation: OperationDTO::forModel($costType->operation),
-      costType: CostTypeDTO::forModel($costType->costType),
-      currencyType: CurrencyTypeDTO::forModel($costType->currencyType),
-      cost: $costType->cost,
-      costAmount: $costType->cost_amount,
-      sale: $costType->sale,
-      saleAmount: $costType->sale_amount
+      id: $cost->ID ?? 0,
+      costType: CostTypeDTO::fromModel($cost->costType),
+      currencyType: CurrencyTypeDTO::fromModel($cost->currencyType),
+      sendType: SendTypeDTO::fromModel($cost->sendType),
+      cost: $cost->COST !== null ? (float) $cost->COST : null,
+      costAmount: $cost->COST_AMOUNT !== null ? (int) $cost->COST_AMOUNT : null,
+      sale: $cost->SALE !== null ? (float) $cost->SALE : null,
+      saleAmount: $cost->SALE_AMOUNT !== null ? (int) $cost->SALE_AMOUNT : null
     );
   }
 }

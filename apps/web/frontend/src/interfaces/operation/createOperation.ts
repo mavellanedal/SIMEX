@@ -1,0 +1,36 @@
+export interface CreateOperation {
+  createUserId: number;
+  orderReference: string;
+  importerId: number;
+  pickupData: string;
+  incotermId: number;
+  etd: string;
+  customsAgentId: number;
+  eta: string;
+  exportatorId: number;
+  operationUserId: number;
+  salesUserId: number;
+  documentUserId: number;
+  containerNumber: string;
+  containerTypeId: number;
+  hsCode: string;
+  packagesNumber: number;
+  packageTypeId: number;
+  packageSubTypeId: number;
+  volume: number;
+  netWeight: number;
+  kilogram: number;
+  piecesNumber: number;
+  mblNumber: string;
+  buyerId: number;
+  sellerId: number;
+  navieraId: number;
+  cargo: string;
+  originPortId: number;
+  destinationPortId: number;
+  cargoDescription: string;
+  totalCost: number;
+  totalSale: number;
+  profit: number;
+  costs?: any[];
+}

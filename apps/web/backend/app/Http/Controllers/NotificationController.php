@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Notification;
+use App\DTOs\NotificationDTO;
 
 class NotificationController extends Controller
 {
@@ -11,15 +12,16 @@ class NotificationController extends Controller
   {
     $user = $request->user();
 
-    $notifications = Notification::with('state')
+
+    $notifications = Notification::with(['state', 'user', 'operation'])
       ->where('USER_ID', $user->ID)
-      // Agrupamos la condición para que sea: AND (LOGIC_REMOVE IS NULL OR LOGIC_REMOVE = 0)
       ->where(function ($query) {
           $query->whereNull('LOGIC_REMOVE')
                 ->orWhere('LOGIC_REMOVE', 0);
       })
       ->orderBy('ID', 'DESC')
-      ->get();
+      ->get()
+      ->map(fn($notification) => NotificationDTO::fromModel($notification)); // Usamos el DTO
 
     return response()->json($notifications);
   }
