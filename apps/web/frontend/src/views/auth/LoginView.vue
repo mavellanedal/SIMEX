@@ -29,13 +29,16 @@
             :error="passwordError"
             class="w-full"
           />
-        </div> <div class="pt-2">
-          <BaseCheckbox
-            v-model="rememberMe"
-            label="Recuérdame"
-          />
         </div>
-
+        <button
+          type="button"
+          @click="showPassword = !showPassword"
+          class="absolute right-3 top-9 text-gray-500 hover:text-gray-700 focus:outline-none"
+        >
+          <span class="material-symbols-outlined">
+            {{ showPassword ? 'visibility_off' : 'visibility' }}
+          </span>
+        </button>
         <div class="pt-4">
           <BaseButton type="submit" class="w-full">
             Iniciar sesión
@@ -53,7 +56,6 @@ import { useRouter } from 'vue-router'
 
 import BaseInput from '@components/base/BaseInput.vue'
 import BaseButton from '@components/base/BaseButton.vue'
-import BaseCheckbox from '@components/base/BaseCheckbox.vue' // ✅ SOLUCIÓN 3: Faltaba importar el componente
 import logoPrime from '@/assets/images/logoPrime.webp'
 
 const router = useRouter()
@@ -61,7 +63,6 @@ const router = useRouter()
 const username = ref('')
 const password = ref('')
 const showPassword = ref(false)
-const rememberMe = ref(false) // ✅ SOLUCIÓN 2: Descomentado para que funcione el v-model
 
 const usernameError = ref('')
 const passwordError = ref('')
