@@ -6,47 +6,17 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.INTERNET" />
 
-=======
->>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
-=======
-    <uses-permission android:name="android.permission.INTERNET" />
-
->>>>>>> c118762 (feat: add dependencies necessary for api)
-=======
->>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
-=======
-    <uses-permission android:name="android.permission.INTERNET" />
-
->>>>>>> c118762 (feat: add dependencies necessary for api)
     <application
         android:allowBackup="true"
-        android:fullBackupContent="true"
-        android:icon="@drawable/ic_launcher"
-        android:isGame="false"
         android:appCategory="productivity"
+        android:fullBackupContent="true"
+        android:icon="@drawable/logotipo"
+        android:isGame="false"
         android:label="@string/app_name"
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        android:usesCleartextTraffic="true"
-=======
->>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
-=======
-        android:usesCleartextTraffic="true"
->>>>>>> 6fb87c1 (chore: update manifest)
-=======
->>>>>>> 9001d2c (chore: fix activity theme configuration and modify AndoridManifest.xml)
-=======
-        android:usesCleartextTraffic="true"
->>>>>>> 6fb87c1 (chore: update manifest)
         android:theme="@style/Theme.PrimeLogistics"
+        android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
 
         <activity
@@ -59,11 +29,28 @@
         </activity>
 
         <activity
+            android:name="com.mygdx.primelogistics.android.ClientHomeActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name="com.mygdx.primelogistics.android.UsuarioActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.mygdx.primelogistics.android.SubirDniActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.mygdx.primelogistics.android.DescargarDniActivity"
+            android:exported="false" />
+
+        <activity
             android:name="com.mygdx.primelogistics.android.AndroidLauncher"
-            android:label="@string/app_name"
-            android:screenOrientation="landscape"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
             android:exported="false"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/GdxTheme" />
     </application>
 

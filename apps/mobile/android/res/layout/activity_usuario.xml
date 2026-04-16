@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainActivityUsuario"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/principal"
+        android:columnCount="3"
+        android:rowCount="1"
+        android:elevation="12dp">
+
+        <ImageButton
+            android:id="@+id/btnHomeUsuario"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:layout_width="130dp"
+            android:layout_height="85dp"
+            android:layout_marginStart="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/white_logo"
+            android:background="@android:color/transparent"
+            android:contentDescription="Volver a home"/>
+
+        <ImageButton
+            android:id="@+id/btnLogout"
+            android:layout_column="2"
+            android:layout_row="0"
+            android:layout_gravity="end|center"
+            android:layout_width="50dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/exit"
+            android:background="@android:color/transparent"
+            android:contentDescription="Logout"/>
+    </GridLayout>
+
+    <ImageButton
+        android:id="@+id/btnNotificationConfig"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/notifications"
+        android:background="@drawable/btn_orange"
+        android:contentDescription="Configurar notificaciones"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/usuario_blue"/>
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cargando usuario..."
+        android:layout_gravity="center"
+        android:textSize="23sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/principal"
+        android:fontFamily="@font/montserrat_bold"
+        />
+
+    <TextView
+        android:id="@+id/tvCompanyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Empresa"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/destacado"
+        android:fontFamily="@font/montserrat_bold"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/mail"/>
+
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Correo@empresa.com"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
+            android:textColor="@color/principal"
+            android:fontFamily="@font/montserrat_bold"
+            android:background="@drawable/txtbox_white"
+            android:padding="10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/id_card"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="48dp"
+                android:text="Documento de identidad"
+                android:gravity="end|bottom|left"
+                android:textSize="20sp"
+                android:textColor="@color/principal"
+                android:fontFamily="@font/montserrat_bold"
+                />
+
+            <Button
+                android:id="@+id/btnIdentificationCard"
+                android:layout_width="200dp"
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/montserrat_medium"
+                android:gravity="left"
+                android:text="Subir DNI"
+                android:textColor="@color/secundario"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
