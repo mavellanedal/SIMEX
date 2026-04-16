@@ -3,6 +3,12 @@
 **/obj/
 **/Debug/
 **/Release/
+**/[Dd]ebug*/
+**/[Rr]elease*/
+**/publish/
+**/AppPackages/
+**/TestResults/
+**/BenchmarkDotNet.Artifacts/
 
 # User-specific Visual Studio / Rider files
 .vs/
@@ -10,6 +16,12 @@
 *.user
 *.rsuser
 *.suo
+*.cache
+*.ide
+*.VC.db
+*.VC.opendb
 
 # Common .NET generated metadata
 *.sourcelink.json
+*.pdb
+*.mdb
