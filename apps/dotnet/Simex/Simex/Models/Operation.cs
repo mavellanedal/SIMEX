@@ -15,7 +15,7 @@ public partial class Operation
 
     public DateTime? PickupData { get; set; }
 
-    public int? IncortermId { get; set; }
+    public int? IncotermId { get; set; }
 
     public DateTime? Etd { get; set; }
 
@@ -93,7 +93,7 @@ public partial class Operation
 
     public virtual Company? Importer { get; set; }
 
-    public virtual Incoterm? Incorterm { get; set; }
+    public virtual Incoterm? Incoterm { get; set; }
 
     public virtual Company Naviera { get; set; } = null!;
 

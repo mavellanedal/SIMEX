@@ -811,7 +811,7 @@ public partial class Simex04Context : DbContext
                 .IsUnicode(false)
                 .HasColumnName("HS_CODE");
             entity.Property(e => e.ImporterId).HasColumnName("IMPORTER_ID");
-            entity.Property(e => e.IncortermId).HasColumnName("INCORTERM_ID");
+            entity.Property(e => e.IncotermId).HasColumnName("INCOTERM_ID");
             entity.Property(e => e.Kilograms)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("KILOGRAMS");
@@ -889,8 +889,8 @@ public partial class Simex04Context : DbContext
                 .HasForeignKey(d => d.ImporterId)
                 .HasConstraintName("FK__OPERATION__IMPOR__320C68B7");
 
-            entity.HasOne(d => d.Incorterm).WithMany(p => p.Operations)
-                .HasForeignKey(d => d.IncortermId)
+            entity.HasOne(d => d.Incoterm).WithMany(p => p.Operations)
+                .HasForeignKey(d => d.IncotermId)
                 .HasConstraintName("FK__OPERATION__INCOR__33008CF0");
 
             entity.HasOne(d => d.Naviera).WithMany(p => p.OperationNavieras)
