@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -14,6 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.mygdx.primelogistics.R
+import com.mygdx.primelogistics.android.utils.DataSecurity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -88,65 +90,57 @@ class DescargarDniActivity : AppCompatActivity() {
     private fun cargarDatosUsuario() {
         tvUserName.text = currentUserName
         tvCompanyName.text = currentCompanyName
-
-        if (identificationCardPath.isBlank()) {
-            tvArchivoDni.text = "No hay documento disponible"
-        } else {
-            tvArchivoDni.text = identificationCardPath
-        }
+        tvArchivoDni.text = identificationCardPath.ifBlank { "No hay documento" }
     }
 
     private fun configurarEventos() {
-        btnHomeUsuario.setOnClickListener {
-            volverAUsuario()
-        }
-
-        btnVolver.setOnClickListener {
-            volverAUsuario()
-        }
-
-        btnReuploadDNI.setOnClickListener {
-            volverASubirDni()
-        }
-
-        btnDescargarDNI.setOnClickListener {
-            descargarDni()
-        }
+        btnHomeUsuario.setOnClickListener { volverAUsuario() }
+        btnVolver.setOnClickListener { volverAUsuario() }
+        btnReuploadDNI.setOnClickListener { volverASubirDni() }
+        btnDescargarDNI.setOnClickListener { descargarDni() }
     }
 
     private fun volverAUsuario() {
-        val intent = Intent(this, UsuarioActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, UsuarioActivity::class.java))
         finish()
     }
 
     private fun volverASubirDni() {
-        val intent = Intent(this, SubirDniActivity::class.java)
-        intent.putExtra("user_id", currentUserId)
-        intent.putExtra("user_name", currentUserName)
-        intent.putExtra("company_name", currentCompanyName)
+        val intent = Intent(this, SubirDniActivity::class.java).apply {
+            putExtra("user_id", currentUserId)
+            putExtra("user_name", currentUserName)
+            putExtra("company_name", currentCompanyName)
+        }
         startActivity(intent)
         finish()
     }
 
     private fun cargarVistaPrevia() {
-        tvArchivoDni.text = "Cargando vista previa..."
+        tvArchivoDni.text = "Descifrando vista previa..."
 
         lifecycleScope.launch {
-            val fileBytes = descargarBytesServidor(identificationCardPath)
-            previewBytes = fileBytes
+            val encryptedData = descargarBytesServidor(identificationCardPath)
 
-            if (fileBytes == null) {
-                tvArchivoDni.text = "No se pudo cargar la vista previa"
+            if (encryptedData == null) {
+                tvArchivoDni.text = "Error de conexión con el servidor"
             } else {
-                val bitmap = BitmapFactory.decodeByteArray(fileBytes, 0, fileBytes.size)
+                try {
+                    val decryptedData = withContext(Dispatchers.Default) {
+                        DataSecurity.desencriptarDatos(encryptedData, currentUserId)
+                    }
+                    previewBytes = decryptedData
 
-                if (bitmap != null) {
-                    ivDniPreview.setImageBitmap(bitmap)
-                    ivDniPreview.visibility = ImageView.VISIBLE
-                    tvArchivoDni.text = identificationCardPath
-                } else {
-                    tvArchivoDni.text = "Vista previa no disponible"
+                    val bitmap = BitmapFactory.decodeByteArray(decryptedData, 0, decryptedData.size)
+                    if (bitmap != null) {
+                        ivDniPreview.setImageBitmap(bitmap)
+                        ivDniPreview.visibility = ImageView.VISIBLE
+                        tvArchivoDni.text = identificationCardPath.removeSuffix(".enc")
+                    } else {
+                        tvArchivoDni.text = "El archivo descifrado no es una imagen válida"
+                    }
+                } catch (e: Exception) {
+                    Log.e("CRYPTO", "Error decodificando AES", e)
+                    tvArchivoDni.text = "Error de seguridad: Clave inválida"
                 }
             }
         }
@@ -155,18 +149,23 @@ class DescargarDniActivity : AppCompatActivity() {
     private fun descargarDni() {
         if (identificationCardPath.isBlank()) {
             tvArchivoDni.text = "No hay documento disponible"
-        } else {
-            tvArchivoDni.text = "Descargando documento..."
+            return
+        }
 
-            lifecycleScope.launch {
-                val fileBytes = previewBytes ?: descargarBytesServidor(identificationCardPath)
-                val downloadedFile = guardarArchivoDescargado(identificationCardPath, fileBytes)
+        lifecycleScope.launch {
+            tvArchivoDni.text = "Guardando en el dispositivo..."
 
-                if (downloadedFile != null) {
-                    tvArchivoDni.text = "Documento descargado: ${downloadedFile.name}"
-                } else {
-                    tvArchivoDni.text = "Error al descargar el documento"
-                }
+            val bytesParaGuardar = previewBytes ?: descargarBytesServidor(identificationCardPath)?.let {
+                try {
+                    DataSecurity.desencriptarDatos(it, currentUserId) } catch (e: Exception) { null }
+            }
+
+            val downloadedFile = guardarArchivoDescargado(identificationCardPath, bytesParaGuardar)
+
+            if (downloadedFile != null) {
+                tvArchivoDni.text = "Guardado en: ${downloadedFile.name}"
+            } else {
+                tvArchivoDni.text = "Error al guardar el archivo"
             }
         }
     }
@@ -182,28 +181,19 @@ class DescargarDniActivity : AppCompatActivity() {
                     output.writeUTF(storedFileName)
                     output.flush()
 
-                    val exists = input.readBoolean()
+                    if (!input.readBoolean()) return@withContext null
 
-                    if (!exists) {
-                        null
-                    } else {
-                        val fileSize = input.readLong()
-                        val buffer = ByteArrayOutputStream()
-                        var remaining = fileSize
+                    val fileSize = input.readLong()
+                    val buffer = ByteArrayOutputStream()
+                    var remaining = fileSize
 
-                        while (remaining > 0) {
-                            val byteRead = input.read()
-
-                            if (byteRead == -1) {
-                                throw IllegalStateException("La descarga se ha interrumpido antes de tiempo")
-                            }
-
-                            buffer.write(byteRead)
-                            remaining--
-                        }
-
-                        buffer.toByteArray()
+                    while (remaining > 0) {
+                        val byteRead = input.read()
+                        if (byteRead == -1) break
+                        buffer.write(byteRead)
+                        remaining--
                     }
+                    buffer.toByteArray()
                 }
             } catch (e: Exception) {
                 null
@@ -212,23 +202,20 @@ class DescargarDniActivity : AppCompatActivity() {
     }
 
     private suspend fun guardarArchivoDescargado(storedFileName: String, fileBytes: ByteArray?): File? {
+        if (fileBytes == null) return null
         return withContext(Dispatchers.IO) {
-            if (fileBytes == null) {
-                null
-            } else {
-                try {
-                    val downloadsDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) ?: filesDir
-                    val targetFile = File(downloadsDir, storedFileName)
+            try {
+                val downloadsDir = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) ?: filesDir
+                val finalName = storedFileName.removeSuffix(".enc")
+                val targetFile = File(downloadsDir, finalName)
 
-                    FileOutputStream(targetFile).use { outputStream ->
-                        outputStream.write(fileBytes)
-                        outputStream.flush()
-                    }
-
-                    targetFile
-                } catch (e: Exception) {
-                    null
+                FileOutputStream(targetFile).use { outputStream ->
+                    outputStream.write(fileBytes)
+                    outputStream.flush()
                 }
+                targetFile
+            } catch (e: Exception) {
+                null
             }
         }
     }

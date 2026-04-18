@@ -17,6 +17,7 @@ import com.mygdx.primelogistics.R
 import com.mygdx.primelogistics.android.api.RetrofitClient
 import com.mygdx.primelogistics.android.models.UpdateIdentificationCardPathRequest
 import com.mygdx.primelogistics.android.utils.SessionManager
+import com.mygdx.primelogistics.android.utils.DataSecurity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -98,21 +99,6 @@ class SubirDniActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun obtenerNombreArchivo(uri: Uri): String? {
-        var fileName: String? = null
-
-        val cursor = contentResolver.query(uri, null, null, null, null)
-        cursor?.use {
-            val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-
-            if (it.moveToFirst() && nameIndex >= 0) {
-                fileName = it.getString(nameIndex)
-            }
-        }
-
-        return fileName
-    }
-
     private val pickDocument = registerForActivityResult(
         ActivityResultContracts.OpenDocument()
     ) { uri ->
@@ -150,36 +136,34 @@ class SubirDniActivity : AppCompatActivity() {
     }
 
     private suspend fun subirArchivoServidor(userId: Int, uri: Uri): String? {
-        val fileName = obtenerNombreArchivo(uri) ?: return null
-        val fileBytes = leerBytesArchivo(uri) ?: return null
+            val fileBytes = leerBytesArchivo(uri) ?: return null
+            val fileName = obtenerNombreArchivo(uri) ?: return null
+            val encryptedData = DataSecurity.encriptarDatos(fileBytes, currentUserId)
 
-        return withContext(Dispatchers.IO) {
-            try {
-                Socket("10.0.2.2", 5000).use { socket ->
-                    val input = DataInputStream(socket.getInputStream())
-                    val output = DataOutputStream(socket.getOutputStream())
+            return withContext(Dispatchers.IO) {
+                try {
+                    Socket("10.0.2.2", 5000).use { socket ->
+                        val input = DataInputStream(socket.getInputStream())
+                        val output = DataOutputStream(socket.getOutputStream())
 
-                    output.writeUTF("UPLOAD")
-                    output.writeInt(userId)
-                    output.writeUTF(fileName)
-                    output.writeLong(fileBytes.size.toLong())
-                    output.write(fileBytes)
-                    output.flush()
+                        output.writeUTF("UPLOAD")
+                        output.writeInt(userId)
+                        output.writeUTF("$fileName.enc")
+                        output.writeLong(encryptedData.size.toLong())
+                        output.write(encryptedData)
+                        output.flush()
 
-                    val response = input.readUTF()
-                    val savedFileName = input.readUTF()
+                        val response = input.readUTF()
+                        val savedFileName = input.readUTF()
 
-                    if (response == "OK") {
-                        savedFileName
-                    } else {
-                        null
+                        if (response == "OK") savedFileName else null
                     }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
                 }
-            } catch (e: Exception) {
-                null
             }
         }
-    }
 
     private fun leerBytesArchivo(uri: Uri): ByteArray? {
         return try {
@@ -204,5 +188,19 @@ class SubirDniActivity : AppCompatActivity() {
         } catch (e: Exception) {
             false
         }
+    }
+
+    fun obtenerNombreArchivo(uri: Uri): String? {
+        var fileName: String? = null
+
+        val cursor = contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+
+            if (it.moveToFirst() && nameIndex >= 0) {
+                fileName = it.getString(nameIndex)
+            }
+        }
+        return fileName
     }
 }
