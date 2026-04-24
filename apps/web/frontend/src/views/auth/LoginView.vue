@@ -32,26 +32,12 @@
           <button
             type="button"
             @click="showPassword = !showPassword"
-<<<<<<< HEAD
-            class="absolute right-3 top-9 text-gray-500 hover:text-gray-700 focus:outline-none"
-          >
-            <span class="material-symbols-outlined">
-              {{ showPassword ? 'visibility_off' : 'visibility' }}
-            </span>
-          </button>
-          <button
-            type="button"
-            @click="showPassword = !showPassword"
-=======
->>>>>>> 0fa9df01f1795c20bfb5e0bfb438bb9e36d6b7ec
             class="absolute right-3 top-[35px] text-gray-500 hover:text-gray-700 focus:outline-none"
             title="Mostrar/Ocultar contraseña"
           >
             <span class="material-symbols-outlined text-xl">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
           </button>
         </div>
-<<<<<<< HEAD
-=======
 
         <!-- <div class="pt-2">
           <BaseCheckbox
@@ -60,7 +46,6 @@
           />
         </div> -->
 
->>>>>>> 0fa9df01f1795c20bfb5e0bfb438bb9e36d6b7ec
         <div class="pt-4">
           <BaseButton type="submit" class="w-full">
             Iniciar sesión
@@ -75,6 +60,7 @@
 import { ref } from 'vue'
 import api from '@services/api'
 import { useRouter } from 'vue-router'
+import { AxiosError } from 'axios'
 
 import BaseInput from '@components/base/BaseInput.vue'
 import BaseButton from '@components/base/BaseButton.vue'
@@ -118,8 +104,8 @@ async function onSubmit() {
 
   } catch (error) {
     console.error('Login failed:', error)
-
-    if (error.response && (error.response.status === 401 || error.response.status === 422)) {
+    const axiosError = error as AxiosError
+    if (axiosError.response && (axiosError.response.status === 401 || axiosError.response.status === 422)) {
       passwordError.value = 'Las credenciales proporcionadas son incorrectas.'
     } else {
       passwordError.value = 'Ocurrió un error al intentar iniciar sesión. Verifica tu conexión.'

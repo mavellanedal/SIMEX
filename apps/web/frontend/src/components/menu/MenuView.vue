@@ -127,7 +127,7 @@
 import { onMounted, ref, computed } from 'vue';
 import api from '@services/api';
 import { useRouter } from 'vue-router';
-import type { Notification } from '@interfaces/notification/notification';
+import type { Notification } from '@/interfaces/notification/notification';
 
 const router = useRouter();
 const userName = ref('Usuario');
