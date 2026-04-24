@@ -117,7 +117,7 @@ class PropuestaActivity : AppCompatActivity() {
                 totalCost = intent.getDoubleExtra(EXTRA_TOTAL_COST, 0.0),
                 etd = intent.getStringExtra(EXTRA_ETD).orEmpty(),
                 eta = intent.getStringExtra(EXTRA_ETA).orEmpty(),
-                incotermId = intent.getIntExtra(EXTRA_INCOTERM_ID, -1).takeIf { it > 0 },
+                incotermCode = intent.getStringExtra(EXTRA_INCOTERM_CODE).orEmpty(),
                 piecesNumber = intent.getIntExtra(EXTRA_PIECES_NUMBER, -1).takeIf { it >= 0 },
                 kilograms = intent.getDoubleExtra(EXTRA_KILOGRAMS, 0.0),
                 statusName = intent.getStringExtra(EXTRA_STATUS_NAME)
@@ -196,7 +196,7 @@ class PropuestaActivity : AppCompatActivity() {
         tvOperationReference.text = operation.orderReference.ifBlank { "Sin referencia" }
         tvOrigen.text = operation.originPortName.ifBlank { "Sin origen" }
         tvDestination.text = operation.destinationPortName.ifBlank { "Sin destino" }
-        tvIncoterm.text = operation.incotermId?.toString() ?: "Sin incoterm"
+        tvIncoterm.text = operation.incotermCode.ifBlank { "Sin incoterm" }
         tvBultos.text = operation.piecesNumber?.toString() ?: "Sin dato"
         tvEtd.text = formatDate(operation.etd)
         tvEta.text = formatDate(operation.eta)
@@ -463,7 +463,7 @@ class PropuestaActivity : AppCompatActivity() {
         private const val EXTRA_TOTAL_COST = "extra_total_cost"
         private const val EXTRA_ETD = "extra_etd"
         private const val EXTRA_ETA = "extra_eta"
-        private const val EXTRA_INCOTERM_ID = "extra_incoterm_id"
+        private const val EXTRA_INCOTERM_CODE = "extra_incoterm_code"
         private const val EXTRA_PIECES_NUMBER = "extra_pieces_number"
         private const val EXTRA_KILOGRAMS = "extra_kilograms"
         private const val EXTRA_STATUS_NAME = "extra_status_name"
@@ -477,7 +477,7 @@ class PropuestaActivity : AppCompatActivity() {
                 putExtra(EXTRA_TOTAL_COST, operation.totalCost)
                 putExtra(EXTRA_ETD, operation.etd)
                 putExtra(EXTRA_ETA, operation.eta)
-                putExtra(EXTRA_INCOTERM_ID, operation.incotermId ?: -1)
+                putExtra(EXTRA_INCOTERM_CODE, operation.incotermCode)
                 putExtra(EXTRA_PIECES_NUMBER, operation.piecesNumber ?: -1)
                 putExtra(EXTRA_KILOGRAMS, operation.kilograms)
                 putExtra(EXTRA_STATUS_NAME, operation.statusName)

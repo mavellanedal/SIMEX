@@ -17,8 +17,8 @@ data class Operation(
     val etd: String?,
     @SerializedName("eta")
     val eta: String?,
-    @SerializedName("incotermId")
-    val incotermId: Int?,
+    @SerializedName("incotermCode")
+    val incotermCode: String,
     @SerializedName("piecesNumber")
     val piecesNumber: Int?,
     @SerializedName("kilograms")
