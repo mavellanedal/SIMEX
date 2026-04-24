@@ -32,6 +32,7 @@
           <button
             type="button"
             @click="showPassword = !showPassword"
+<<<<<<< HEAD
             class="absolute right-3 top-9 text-gray-500 hover:text-gray-700 focus:outline-none"
           >
             <span class="material-symbols-outlined">
@@ -41,12 +42,25 @@
           <button
             type="button"
             @click="showPassword = !showPassword"
+=======
+>>>>>>> 0fa9df01f1795c20bfb5e0bfb438bb9e36d6b7ec
             class="absolute right-3 top-[35px] text-gray-500 hover:text-gray-700 focus:outline-none"
             title="Mostrar/Ocultar contraseña"
           >
             <span class="material-symbols-outlined text-xl">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
           </button>
         </div>
+<<<<<<< HEAD
+=======
+
+        <!-- <div class="pt-2">
+          <BaseCheckbox
+            v-model="rememberMe"
+            label="Recuérdame"
+          />
+        </div> -->
+
+>>>>>>> 0fa9df01f1795c20bfb5e0bfb438bb9e36d6b7ec
         <div class="pt-4">
           <BaseButton type="submit" class="w-full">
             Iniciar sesión

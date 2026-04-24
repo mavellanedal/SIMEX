@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 
 class CompanyController extends Controller
 {
-    
+
 
     public function index()
     {

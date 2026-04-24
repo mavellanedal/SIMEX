@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\Company;
-use App\Models\Region;
-use App\Models\City;
-use App\Models\CompanyType;
 use App\Models\Country;
+use App\Models\Region;
 use App\Models\IncotermTypes;
 use App\Models\ContainerTypes;
 use App\Models\PackageTypes;
@@ -27,8 +25,9 @@ use App\DTOs\PackageTypeDTO;
 use App\DTOs\PortDTO;
 use App\Models\CurrencyTypes;
 use \App\DTOs\SendTypesDTO;
+use App\Models\City;
+use App\Models\CompanyType;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class CatalogController extends Controller
 {
@@ -45,26 +44,6 @@ class CatalogController extends Controller
         ->get()
         ->map(fn($item) => CompanyDTO::fromModel($item))
     );
-  }
-
-  public function getCompanyTypes()
-  {
-    return response()->json(CompanyType::all()->map(fn($item) => CompanyTypeDTO::fromModel($item)));
-  }
-
-  public function getRegions()
-  {
-    return response()->json(Region::with('country')->get()->map(fn($item) => RegionDTO::fromModel($item)));
-  }
-
-  public function getCities()
-  {
-    return response()->json(City::with('region.country')->get()->map(fn($item) => CityDTO::fromModel($item)));
-  }
-
-  public function getCountries()
-  {
-    return response()->json(Country::all()->map(fn($item) => CountryDTO::fromModel($item)));
   }
 
   public function getIncoterms()
@@ -101,4 +80,27 @@ class CatalogController extends Controller
   {
     return response()->json(SendTypes::all()->map(fn($item) => SendTypesDTO::fromModel($item)));
   }
+
+  public function getCompanyTypes()
+    {
+        return response()->json(CompanyType::all());
+    }
+
+  public function getRegions()
+  {
+    return response()->json(Region::all());
+  }
+
+  public function getCities()
+  {
+    return response()->json(City::all());
+  }
+
+  public function getCountries()
+  {
+    return response()->json(Country::all());
+  }
+
+
+
 }
