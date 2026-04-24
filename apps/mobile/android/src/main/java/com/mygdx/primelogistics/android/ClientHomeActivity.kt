@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mygdx.primelogistics.R
 import com.mygdx.primelogistics.android.adapters.OpAdapter
+import com.mygdx.primelogistics.android.adapters.PropAdapter
 import com.mygdx.primelogistics.android.api.RetrofitClient
 import com.mygdx.primelogistics.android.models.Operation
 import com.mygdx.primelogistics.android.utils.SessionManager
@@ -21,8 +22,13 @@ import kotlinx.coroutines.withContext
 class ClientHomeActivity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
     private lateinit var tvUserName: TextView
+
     private lateinit var recyclerRecent: RecyclerView
     private lateinit var adapterRecent: OpAdapter
+
+    private lateinit var recyclerProp: RecyclerView
+    private lateinit var adapterProp: PropAdapter
+
     private var operations: MutableList<Operation> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,19 +37,27 @@ class ClientHomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_client_home)
 
         sessionManager = SessionManager(this)
-
         RetrofitClient.init { sessionManager.getAccessToken() }
 
         tvUserName = findViewById(R.id.tvUserName)
+
         recyclerRecent = findViewById(R.id.rvRecent)
         recyclerRecent.layoutManager = LinearLayoutManager(this)
-
         adapterRecent = OpAdapter(operations) { operation ->
             val intent = Intent(this, PropuestaActivity::class.java)
             intent.putExtra("OPERATION_ID", operation.id)
             startActivity(intent)
         }
         recyclerRecent.adapter = adapterRecent
+
+        recyclerProp = findViewById(R.id.rvProp)
+        recyclerProp.layoutManager = LinearLayoutManager(this)
+        adapterProp = PropAdapter(operations) { operation ->
+            val intent = Intent(this, PropuestaActivity::class.java)
+            intent.putExtra("OPERATION_ID", operation.id)
+            startActivity(intent)
+        }
+        recyclerProp.adapter = adapterProp
 
         loadData()
 
@@ -59,7 +73,6 @@ class ClientHomeActivity : AppCompatActivity() {
                 val opsResp = RetrofitClient.api.getRecentUserOperations()
 
                 withContext(Dispatchers.Main) {
-
                     if (userResp.isSuccessful && userResp.body() != null) {
                         tvUserName.text = userResp.body()?.nombre
                     } else {
@@ -69,6 +82,7 @@ class ClientHomeActivity : AppCompatActivity() {
                     if (opsResp.isSuccessful) {
                         val lista = opsResp.body() ?: emptyList()
                         adapterRecent.updateData(lista)
+                        adapterProp.updateData(lista)
                     } else if (opsResp.code() == 401) {
                         logout()
                     }
