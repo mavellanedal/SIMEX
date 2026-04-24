@@ -53,11 +53,6 @@ android {
 
 }
 
-repositories {
-  // needed for AAPT2, may be needed for other tools
-  google()
-}
-
 configurations { natives }
 
 dependencies {
@@ -148,3 +143,7 @@ tasks.register('run', Exec) {
 }
 
 eclipse.project.name = appName + "-android"
+
+dependencies {
+  implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+}

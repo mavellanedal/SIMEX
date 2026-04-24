@@ -11,5 +11,6 @@ data class Operation (
     val eta: String,
     val incotermId: Int?,
     val piecesNumber: Int?,
-    val kilograms: Double
+    val kilograms: Double,
+    val statusName: String?
 )

@@ -12,5 +12,6 @@
         public int? IncotermId { get; set; }
         public int? PiecesNumber { get; set; }
         public decimal Kilograms { get; set; }
+        public string StatusName { get; internal set; }
     }
 }

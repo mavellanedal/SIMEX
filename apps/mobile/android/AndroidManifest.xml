@@ -36,7 +36,15 @@ xmlns:tools="http://schemas.android.com/tools">
         android:exported="true" />
 
     <activity
+        android:name="com.mygdx.primelogistics.android.AgentHomeActivity"
+        android:exported="false" />
+
+    <activity
         android:name="com.mygdx.primelogistics.android.UsuarioActivity"
+        android:exported="false" />
+
+    <activity
+        android:name="com.mygdx.primelogistics.android.AllOperationsActivity"
         android:exported="false" />
 
     <activity
@@ -69,6 +77,6 @@ xmlns:tools="http://schemas.android.com/tools">
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:theme="@style/GdxTheme" />
-</application>
+    </application>
 
 </manifest>

@@ -28,27 +28,27 @@ public class OperationsController : ControllerBase
         var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
         if (user == null || user.CompanyId == null) return Ok(new List<OperationDto>());
 
-        var operations = await _context.Operations
+        var operationsDto = await _context.Operations
             .AsNoTracking()
-            .Include(op => op.OriginPort)
-            .Include(op => op.DestinationPort)
             .Where(op => op.NavieraId == user.CompanyId)
-            .ToListAsync();
+            .Select(op => new OperationDto
+            {
+                Id = op.Id,
+                OrderReference = op.OrderReference,
+                OriginPortName = op.OriginPort.Name ?? "Puerto Desconocido",
+                DestinationPortName = op.DestinationPort.Name ?? "Puerto Desconocido",
+                TotalCost = op.TotalCost,
+                Etd = op.Etd,
+                Eta = op.Eta,
+                IncotermId = op.IncotermId,
+                PiecesNumber = op.PiecesNumber,
+                Kilograms = op.Kilograms,
+                StatusName = op.OperationStateHistories
+                    .OrderByDescending(osh => osh.Id)
+                    .Select(osh => osh.OperationState.Name)
+                    .FirstOrDefault() ?? "Sin estado"
 
-        var operationsDto = operations.Select(op => new OperationDto
-        {
-            Id = op.Id,
-            OrderReference = op.OrderReference,
-            OriginPortName = op.OriginPort?.Name ?? "Puerto Desconocido",
-            DestinationPortName = op.DestinationPort?.Name ?? "Puerto Desconocido",
-            TotalCost = op.TotalCost,
-            Etd = op.Etd,
-            Eta = op.Eta,
-            IncotermId = op.IncotermId,
-            PiecesNumber = op.PiecesNumber,
-            Kilograms = op.Kilograms
-        }).ToList();
-
+            }).ToListAsync();
         return Ok(operationsDto);
     }
 
@@ -61,30 +61,31 @@ public class OperationsController : ControllerBase
         var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
         if (user == null || user.CompanyId == null) return Ok(new List<OperationDto>());
 
-        DateTime haceSieteDias = DateTime.Now.AddDays(-7);
-        DateTime hoy = DateTime.Now;
+        DateTime haceSieteDias = DateTime.Today.AddDays(-7);
+        DateTime hoy = DateTime.Today.AddDays(1).AddTicks(-1); // Incluye todo el día de hoy
 
-        var operations = await _context.Operations
+        var operationsDto = await _context.Operations
             .AsNoTracking()
-            .Include(op => op.OriginPort)
-            .Include(op => op.DestinationPort)
             .Where(op => op.NavieraId == user.CompanyId && op.Etd >= haceSieteDias && op.Etd <= hoy)
             .OrderByDescending(op => op.Etd)
+            .Select(op => new OperationDto
+            {
+                Id = op.Id,
+                OrderReference = op.OrderReference,
+                OriginPortName = op.OriginPort.Name ?? "Puerto Desconocido",
+                DestinationPortName = op.DestinationPort.Name ?? "Puerto Desconocido",
+                TotalCost = op.TotalCost,
+                Etd = op.Etd,
+                Eta = op.Eta,
+                IncotermId = op.IncotermId,
+                PiecesNumber = op.PiecesNumber,
+                Kilograms = op.Kilograms,
+                StatusName = op.OperationStateHistories
+                    .OrderByDescending(osh => osh.Id)
+                    .Select(osh => osh.OperationState.Name)
+                    .FirstOrDefault() ?? "Sin Estado"
+            })
             .ToListAsync();
-
-        var operationsDto = operations.Select(op => new OperationDto
-        {
-            Id = op.Id,
-            OrderReference = op.OrderReference,
-            OriginPortName = op.OriginPort?.Name ?? "Puerto Desconocido",
-            DestinationPortName = op.DestinationPort?.Name ?? "Puerto Desconocido",
-            TotalCost = op.TotalCost,
-            Etd = op.Etd,
-            Eta = op.Eta,
-            IncotermId = op.IncotermId,
-            PiecesNumber = op.PiecesNumber,
-            Kilograms = op.Kilograms
-        }).ToList();
 
         return Ok(operationsDto);
     }
