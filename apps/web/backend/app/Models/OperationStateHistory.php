@@ -17,6 +17,7 @@ class OperationStateHistory extends Model
     'DATE',
     'OPERATION_STATE_ID',
     'OPERATION_ID',
+    'OBSERVATIONS',
   ];
 
   public function Operation() {

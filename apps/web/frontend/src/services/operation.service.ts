@@ -28,8 +28,8 @@ export const OperationService = {
     return response.data.data || response.data;
   },
 
-  async changeOperationState(id: number, newStateId: number) {
-    const response = await api.put(`/operations/${id}/state`, { newState: newStateId }, getAuthHeaders());
+  async changeOperationState(id: number, newStateId: number, observations: string) {
+    const response = await api.put(`/operations/${id}/state`, { newState: newStateId, observations: observations }, getAuthHeaders());
     return response.data.data || response.data;
   }
 }

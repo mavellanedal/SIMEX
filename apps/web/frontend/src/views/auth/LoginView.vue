@@ -28,13 +28,14 @@
             :error="passwordError"
             class="w-full"
           />
+        </div>
 
-        <div class="pt-2">
+        <!-- <div class="pt-2">
           <BaseCheckbox
             v-model="rememberMe"
             label="Recuérdame"
           />
-        </div>
+        </div> -->
 
         <div class="pt-4">
           <BaseButton type="submit" class="w-full">
@@ -92,7 +93,7 @@ async function onSubmit() {
 
     router.push('/dashboard')
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Login failed:', error)
 
     if (error.response && (error.response.status === 401 || error.response.status === 422)) {

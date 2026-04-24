@@ -134,18 +134,12 @@ const notifications = ref<Notification[]>([]);
 
 const showNotifications = ref(false);
 
-<<<<<<< HEAD
-=======
 // Filtramos las notificaciones para mostrar SOLO las que no tienen logic_remove = 1
->>>>>>> d5a3c4a (Menu with notifications done back and front)
 const activeNotifications = computed(() => {
   return notifications.value.filter(notif => Number(notif.state.id) !== 1);
 });
 
-<<<<<<< HEAD
-=======
 // El contador de "Nuevas" ahora se basa solo en las notificaciones visibles
->>>>>>> d5a3c4a (Menu with notifications done back and front)
 const hasUnreadNotifications = computed(() => {
   return activeNotifications.value.some(notif => Number(notif.state.id) === 1);
 });
@@ -224,10 +218,7 @@ async function logout() {
   try {
     const token = localStorage.getItem('access_token');
 
-<<<<<<< HEAD
-=======
     // Solo intentamos llamar al backend si realmente hay un token
->>>>>>> d5a3c4a (Menu with notifications done back and front)
     if (token) {
       await api.post('/logout', {}, {
         headers: {
