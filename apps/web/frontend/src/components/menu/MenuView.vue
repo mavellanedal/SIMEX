@@ -13,9 +13,13 @@
           :class="[
             'w-full h-16 flex items-center justify-center transition-colors duration-200',
             isActive ? 'bg-[#FD8036] text-white' : 'text-white hover:bg-white/10'
+            isActive ? 'bg-[#FD8036] text-white' : 'text-white hover:bg-white/10'
           ]"
         >
           <span class="material-symbols-outlined text-3xl">{{ item.icon }}</span>
+        </div>
+      </router-link>
+</nav>
         </div>
       </router-link>
 </nav>

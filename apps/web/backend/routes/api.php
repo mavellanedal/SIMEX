@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
   Route::get('/users/customs-agents', [UserController::class, 'getCustomsAgents']);
 
-  Route::get('/roles', [CatalogController::class, 'getRoles']);
+    Route::get('/roles', [CatalogController::class, 'getRoles']);
   Route::get('/company-types', [CatalogController::class, 'getCompanyTypes']);
   Route::get('/regions', [CatalogController::class, 'getRegions']);
   Route::get('/cities', [CatalogController::class, 'getCities']);

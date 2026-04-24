@@ -16,6 +16,7 @@
           placeholder="Escribe tu usuario"
           :error="usernameError"
           class="w-full"
+          class="w-full"
         />
 
         <div class="relative">

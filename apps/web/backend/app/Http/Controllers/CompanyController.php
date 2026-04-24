@@ -11,6 +11,8 @@ use Illuminate\Http\JsonResponse;
 
 class CompanyController extends Controller
 {
+
+
     public function index()
     {
         // Añadimos region.country para que el DTO pueda anidar el país correctamente
