@@ -1,0 +1,35 @@
+name: Auto-formateo de codigo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  pint:
+    name: Corregir estilo de codigo
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: write
+
+    steps: 
+      - name: Checkout del codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Instalar dependencias
+        working-directory: ./apps/web/backend 
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Ejecutar Laravel Pint
+        working-directory: ./apps/web/backend
+        run: ./vendor/bin/pint
+
+      - name: Guardar cambios corregidos
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Estilo de codigo corregido automaticamente"
