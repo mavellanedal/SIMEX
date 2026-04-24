@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainActivityOperacion"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/principal"
+        android:elevation="12dp"
+        android:paddingTop="35dp"
+        android:paddingBottom="10dp">
+
+        <ImageButton
+            android:id="@+id/btnHome"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="15dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/white_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_notifications"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="15dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/notifications"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnUser"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnUser"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="15dp"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/login_user"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvOperationReference"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/btn_orange"
+        android:fontFamily="@font/montserrat_bold"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        android:text="REF-1234567890"
+        android:textColor="@color/background"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tvOperationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Detalle del envio:"
+        android:textColor="@color/principal"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="30dp"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Origen:"
+            android:textColor="@color/principal"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvOrigen"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_border"
+            android:fontFamily="@font/montserrat_medium"
+            android:layout_marginLeft="50dp"
+            android:text=""
+            android:textColor="@color/principal"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="30dp"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Destino:"
+            android:textColor="@color/principal"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvOrigen"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_border"
+            android:fontFamily="@font/montserrat_medium"
+            android:layout_marginLeft="50dp"
+            android:text=""
+            android:textColor="@color/principal"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="30dp"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Incoterm:"
+            android:textColor="@color/principal"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvOrigen"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_border"
+            android:fontFamily="@font/montserrat_medium"
+            android:layout_marginLeft="50dp"
+            android:text=""
+            android:textColor="@color/principal"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnVolve"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_blue"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Volve"
+        android:textColor="@color/background"
+        android:textSize="20sp"/>
+</LinearLayout>
