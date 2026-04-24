@@ -16,7 +16,7 @@ class CompanyController extends Controller
         $companies = Company::with(['companyType', 'region', 'city'])->get();
 
         // Recorremos cada empresa que hemos obtenido para añadirle un dato que le falta.
-        //    Como la empresa solo tiene REGION_ID, pero el frontend necesita COUNTRY_ID para los desplegables,
+        //    Como la empresa solo tiene REGION_ID, pero el frontend necesita COUNTRY_ID para los desplegables
        
 
         $companies->each(function ($company) {

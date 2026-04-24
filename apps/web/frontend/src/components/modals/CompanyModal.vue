@@ -58,6 +58,13 @@
         </div>
       </form>
     </div>
+    
+    <CustomsDispatchModal 
+      v-if="isDuaModalOpen" 
+      @close="closeDuaModal" 
+      @save="saveDua" 
+    />
+
   </div>
 </template>
 

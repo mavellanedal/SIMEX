@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@views/auth/LoginView.vue'
 import MenuView from '@components/menu/MenuView.vue'
+import CustomsDispatchView from '@/views/CustomsDispatchView.vue'
 import { authGuard } from './guard'
 
 const router = createRouter({
@@ -39,6 +40,12 @@ const router = createRouter({
           path: 'operations',
           name: 'operations',
           component: () => import('../views/OperationsView.vue'),
+        },
+
+        {
+          path: 'dispatch',
+          name: 'dispatch',
+          component: () => import('../views/CustomsDispatchView.vue'),
         }
 
       ]

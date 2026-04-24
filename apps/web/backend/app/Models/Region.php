@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo; // <-- AÑADIR ESTA LÍNEA
+use Illuminate\Database\Eloquent\Relations\BelongsTo; 
 
 class Region extends Model
 {
