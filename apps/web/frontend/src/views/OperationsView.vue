@@ -54,6 +54,36 @@
       @cancel="handleOperationModalCancel"
     />
 
+    <div v-if="isRejectModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div class="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity" @click="cancelReject"></div>
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 relative z-10 transform transition-all font-sans flex flex-col">
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Rechazar Operación</h3>
+        <p class="text-sm text-gray-600 mb-4">
+          Por favor, proporcione el motivo por el que rechaza esta operación.
+        </p>
+
+        <textarea
+          v-model="rejectObservations"
+          rows="4"
+          class="w-full border border-gray-300 rounded-md p-3 text-sm focus:ring-[#145699] focus:border-[#145699]"
+          placeholder="Observaciones o motivos del rechazo..."
+        ></textarea>
+
+        <div class="mt-6 flex justify-end gap-3">
+          <button @click="cancelReject" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md transition-colors">
+            Cancelar
+          </button>
+          <button
+            @click="confirmReject"
+            :disabled="!rejectObservations.trim()"
+            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Confirmar Rechazo
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -79,6 +109,10 @@ const canModify = computed(() => userRoleId !== 5 && userRoleId !== 2);
 
 const isOperationModalOpen = ref(false);
 const selectedOperationForEdit = ref<Operation | null>(null);
+
+ const isRejectModalOpen = ref(false);
+const operationToReject = ref<OperationLight | null>(null);
+const rejectObservations = ref('');
 
 const notification = ref({
   show: false,
@@ -177,14 +211,34 @@ async function handleAcceptOperation(operation: OperationLight) {
   }
 }
 
-async function handleRejectOperation(operation: OperationLight) {
+function handleRejectOperation(operation: OperationLight) {
+  operationToReject.value = operation;
+  rejectObservations.value = '';
+  isRejectModalOpen.value = true;
+}
+
+async function confirmReject() {
+  if (!operationToReject.value) return;
+
   try {
-    await OperationService.changeOperationState(operation.id, 3);
+
+    await OperationService.changeOperationState(
+      operationToReject.value.id,
+      3,
+      rejectObservations.value
+    );
+
     notification.value = { show: true, type: 'success', message: 'Operación rechazada.' };
+    isRejectModalOpen.value = false;
     await fetchOperations();
   } catch (error) {
     console.error('Error al rechazar operación:', error);
     notification.value = { show: true, type: 'error', message: 'Error al rechazar la operación.' };
   }
+}
+
+function cancelReject() {
+  isRejectModalOpen.value = false;
+  operationToReject.value = null;
 }
 </script>

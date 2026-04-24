@@ -9,6 +9,7 @@
           <th scope="col" class="px-4 py-3 text-center">Origen</th>
           <th scope="col" class="px-4 py-3 text-center">Destino</th>
           <th scope="col" class="px-4 py-3 text-center">Incoterm</th>
+          <th scope="col" class="px-4 py-3 text-center">Estado</th>
           <th scope="col" class="px-4 py-3 text-center">Acciones</th>
         </tr>
       </thead>
@@ -35,17 +36,21 @@
           <td class="px-4 py-3 text-center">
             {{ operation.incoterm?.incotermType?.name || 'N/A' }}
           </td>
+          <td class="px-4 py-3 text-center">
+            <span v-if="operation.currentStateId === 1" class="text-blue-600 font-semibold">Pendiente</span>
+            <span v-else-if="operation.currentStateId === 2" class="text-green-600 font-semibold">Aceptada</span>
+            <span v-else-if="operation.currentStateId === 3" class="text-red-600 font-semibold">Rechazada</span>
+            <span v-else class="text-gray-600">{{ operation.currentStateId }}</span>
+          </td>
           <td class="px-4 py-3 text-center relative">
-            <!-- Botón de los 3 puntitos -->
             <button
+              v-if="![2, 3].includes(operation.currentStateId)"
               @click.stop="toggleMenu(operation.id)"
-              class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200 transition-colors focus:outline-none"
+              class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200"
               title="Acciones"
             >
               <span class="material-symbols-outlined text-[20px]">more_vert</span>
             </button>
-
-            <!-- Dropdown de acciones (Se abre si el openedMenuId coincide con esta fila) -->
             <div
               v-if="openedMenuId === operation.id"
               class="absolute right-10 top-10 w-48 bg-white border border-gray-100 rounded-lg shadow-xl z-50 py-1 flex flex-col text-left"
@@ -83,7 +88,7 @@
         </tr>
 
         <tr v-if="operations.length === 0">
-          <td colspan="7" class="px-4 py-8 text-center text-gray-500">
+          <td colspan="8" class="px-4 py-8 text-center text-gray-500">
             No se encontraron operaciones.
           </td>
         </tr>

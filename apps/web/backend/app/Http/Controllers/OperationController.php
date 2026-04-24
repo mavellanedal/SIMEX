@@ -415,7 +415,8 @@ class OperationController extends Controller
   {
 
     $request->validate([
-      'newState' => 'required|exists:operation_states,ID'
+      'newState' => 'required|exists:operation_states,ID',
+      'observations' => 'nullable|string'
     ]);
 
     try {
@@ -439,6 +440,7 @@ class OperationController extends Controller
         'OPERATION_ID' => $operation->ID,
         'OPERATION_STATE_ID' => $request->newState,
         'DATE' => Carbon::now(),
+        'OBSERVATIONS' => $request->input('observations')
       ]);
 
       $operation->load([

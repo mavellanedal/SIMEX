@@ -94,7 +94,7 @@ async function onSubmit() {
 
     router.push('/dashboard')
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Login failed:', error)
 
     if (error.response && (error.response.status === 401 || error.response.status === 422)) {
