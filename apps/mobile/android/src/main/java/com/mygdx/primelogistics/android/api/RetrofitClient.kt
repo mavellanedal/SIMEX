@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "http://10.0.2.2:5085/"
+    private const val BASE_URL = "http://simex-dotnet-fohrzp-5dced4-51-83-192-177.traefik.me/"
 
     private var tokenProvider: (() -> String?)? = null
 
