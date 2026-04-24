@@ -79,13 +79,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="30dp"
-        android:layout_marginVertical="10dp">
+        android:paddingHorizontal="20dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="@font/montserrat_medium"
             android:text="Origen:"
             android:textColor="@color/principal"
@@ -93,83 +95,166 @@
 
         <TextView
             android:id="@+id/tvOrigen"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/card_border"
-            android:fontFamily="@font/montserrat_medium"
-            android:layout_marginLeft="50dp"
-            android:text=""
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="end"
+            android:text="Origen"
+            android:textAlignment="viewEnd"
             android:textColor="@color/principal"
             android:textSize="20sp" />
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="30dp"
-        android:layout_marginVertical="10dp">
+        android:paddingHorizontal="20dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="@font/montserrat_medium"
             android:text="Destino:"
             android:textColor="@color/principal"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/tvOrigen"
-            android:layout_width="200dp"
+            android:id="@+id/tvDestination"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/card_border"
-            android:fontFamily="@font/montserrat_medium"
-            android:layout_marginLeft="50dp"
-            android:text=""
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="end"
+            android:text="Destino"
+            android:textAlignment="viewEnd"
             android:textColor="@color/principal"
             android:textSize="20sp" />
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="30dp"
-        android:layout_marginVertical="10dp">
+        android:paddingHorizontal="20dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="@font/montserrat_medium"
             android:text="Incoterm:"
             android:textColor="@color/principal"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/tvOrigen"
-            android:layout_width="200dp"
+            android:id="@+id/tvIncoterm"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/card_border"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="end"
+            android:text="Incoterm"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/principal"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:fontFamily="@font/montserrat_medium"
-            android:layout_marginLeft="50dp"
-            android:text=""
+            android:text="Estado:"
             android:textColor="@color/principal"
             android:textSize="20sp" />
 
+        <TextView
+            android:id="@+id/tvEstado"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="end"
+            android:text="Estado"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/principal"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnAvanzarEstado"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_orange"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="AVANZAR ESTADO"
+        android:textColor="@color/background"
+        android:textSize="18sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Descripción:"
+            android:textColor="@color/principal"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:id="@+id/tvDescripcionn"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/principal"
+            android:background="@drawable/card_border"
+            android:textSize="20sp" />
     </LinearLayout>
 
 
-    <Button
-        android:id="@+id/btnVolve"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/btn_blue"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="Volve"
-        android:textColor="@color/background"
-        android:textSize="20sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
+            <Button
+                android:id="@+id/btnVolve"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn_blue"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Volve"
+                android:textColor="@color/background"
+                android:textSize="20sp"/>
+    </LinearLayout>
 </LinearLayout>
