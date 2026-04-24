@@ -24,7 +24,7 @@ class PropAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val vista = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_operation, parent, false)
+            .inflate(R.layout.item_propuesta, parent, false)
         return ViewHolder(vista)
     }
 
