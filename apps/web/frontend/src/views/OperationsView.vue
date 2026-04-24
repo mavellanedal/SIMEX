@@ -137,15 +137,15 @@ onMounted(async () => {
   await fetchOperations();
 });
 
-async function fetchOperations() {
-  isLoading.value = true;
+async function fetchOperations(showLoading = true) {
+  if (showLoading) isLoading.value = true;
   try {
     operations.value = await OperationService.getOperations();
   } catch (error) {
     console.error('Error cargando operaciones:', error);
     notification.value = { show: true, type: 'error', message: 'Error al cargar las operaciones.' };
   } finally {
-    isLoading.value = false;
+    if (showLoading) isLoading.value = false;
   }
 }
 
@@ -188,7 +188,7 @@ async function handleOperationModalConfirm(formData: CreateOperation) {
     }
 
     selectedOperationForEdit.value = null;
-    await fetchOperations();
+    await fetchOperations(false);
 
 } catch (error) {
     console.error('Error al guardar operación:', error);
@@ -204,7 +204,7 @@ async function handleAcceptOperation(operation: OperationLight) {
   try {
     await OperationService.changeOperationState(operation.id, 2);
     notification.value = { show: true, type: 'success', message: 'Operación aceptada.' };
-    await fetchOperations();
+    await fetchOperations(false);
   } catch (error) {
     console.error('Error al aceptar operación:', error);
     notification.value = { show: true, type: 'error', message: 'Error al aceptar la operación.' };
@@ -230,7 +230,7 @@ async function confirmReject() {
 
     notification.value = { show: true, type: 'success', message: 'Operación rechazada.' };
     isRejectModalOpen.value = false;
-    await fetchOperations();
+    await fetchOperations(false);
   } catch (error) {
     console.error('Error al rechazar operación:', error);
     notification.value = { show: true, type: 'error', message: 'Error al rechazar la operación.' };
