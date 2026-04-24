@@ -54,19 +54,19 @@
                     android:id="@+id/txt_origin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_bold"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="Rep. Dominicana"
                     android:textColor="@color/principal"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/txt_destination"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_bold"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="España"
                     android:textColor="@color/principal"
-                    android:textSize="20sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/prop_cost"
@@ -76,7 +76,8 @@
                     android:fontFamily="@font/montserrat_bold"
                     android:text="2.123,83€"
                     android:textColor="@color/secundario"
-                    android:textSize="20sp" />
+                    android:textSize="18sp"
+                    android:layout_marginRight="10dp" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
