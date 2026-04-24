@@ -1,0 +1,11 @@
+.git
+.gitignore
+.idea/
+**/.idea/
+FileServer/out/
+**/out/
+**/*.iml
+**/*.class
+Dockerfile*
+.DS_Store
+Thumbs.db
