@@ -33,8 +33,12 @@ Accept: application/json
 POST {{Simex_HostAddress}}/api/operations/{{operationId}}/reject
 Authorization: Bearer {{token}}
 Content-Type: application/json
-
 {
   "reason": "Cliente no acepta la propuesta"
 }
+###
 
+GET {{Simex_HostAddress}}/api/operations/user-operations
+Authorization: Bearer {{token}}
+Accept: application/json
+###
