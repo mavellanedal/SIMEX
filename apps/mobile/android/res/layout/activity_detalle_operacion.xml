@@ -98,9 +98,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|start"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Puerto de Shanghai"
+            android:text="Origen"
             android:textColor="@color/principal"
-
             android:textSize="12sp" />
 
         <TextView
@@ -109,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             android:fontFamily="@font/montserrat_bold"
-            android:text="60%"
+            android:text="0%"
             android:textColor="@color/principal"
             android:textSize="12sp" />
 
@@ -119,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Puerto de Barcelona"
+            android:text="Destino"
             android:textColor="@color/principal"
             android:textSize="12sp" />
     </FrameLayout>
@@ -144,11 +143,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="20dp"
-        android:paddingHorizontal="50dp">
+        android:paddingHorizontal="50dp"
+        android:paddingBottom="20dp">
+
         <FrameLayout
             android:layout_width="20dp"
             android:layout_height="300dp">
+
             <ImageView
                 android:layout_width="3dp"
                 android:layout_height="300dp"
@@ -156,118 +157,141 @@
                 android:src="@drawable/linea_seguimiento" />
 
             <ImageView
+                android:id="@+id/ivStep1Dot"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@drawable/ellipse"
-                android:layout_gravity="center|top"/>
+                android:layout_gravity="center|top"
+                android:src="@drawable/ellipse" />
 
             <ImageView
+                android:id="@+id/ivStep2Dot"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@drawable/ellipse"
+                android:layout_gravity="center|top"
                 android:layout_marginTop="70dp"
-                android:layout_gravity="center|top"/>
+                android:src="@drawable/ellipse" />
 
             <ImageView
+                android:id="@+id/ivStep3Dot"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@drawable/ellipse"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:src="@drawable/ellipse" />
 
             <ImageView
+                android:id="@+id/ivStep4Dot"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@drawable/ellipse"
+                android:layout_gravity="center|bottom"
                 android:layout_marginBottom="70dp"
-                android:layout_gravity="center|bottom"/>
+                android:src="@drawable/ellipse" />
 
             <ImageView
+                android:id="@+id/ivStep5Dot"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:src="@drawable/ellipse"
-                android:layout_gravity="center|bottom"/>
+                android:layout_gravity="center|bottom"
+                android:src="@drawable/ellipse" />
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvStep1Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Almacén origen"
-                android:textColor="@color/principal"/>
+                android:textColor="@color/principal"
+                android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tvStep1Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="21/02  16:30  Salido de almacén"
-                android:textColor="@color/principal"/>
+                android:text="Pendiente"
+                android:textColor="@color/texto_claro"
+                android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tvStep2Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:textSize="15sp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Puerto origen"
+                android:textColor="@color/principal"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvStep2Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Pendiente"
+                android:textColor="@color/texto_claro"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvStep3Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="En tránsito"
+                android:textColor="@color/principal"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvStep3Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Pendiente"
+                android:textColor="@color/texto_claro"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvStep4Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Puerto destino"
-                android:textColor="@color/principal"/>
+                android:textColor="@color/principal"
+                android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tvStep4Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="24/02  13:20  En puerto de destino"
-                android:textColor="@color/principal"/>
+                android:text="Pendiente"
+                android:textColor="@color/texto_claro"
+                android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tvStep5Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:textSize="15sp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Aduana importación"
-                android:textColor="@color/principal"/>
+                android:text="Entrega final"
+                android:textColor="@color/principal"
+                android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tvStep5Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="..."
-                android:textColor="@color/principal"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:textSize="15sp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Transporte terrestre"
-                android:textColor="@color/principal"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="..."
-                android:textColor="@color/principal"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:textSize="15sp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Almacén destino"
-                android:textColor="@color/principal"/>
+                android:text="Pendiente"
+                android:textColor="@color/texto_claro"
+                android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -281,5 +305,5 @@
         android:fontFamily="@font/montserrat_bold"
         android:text="Volve"
         android:textColor="@color/background"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 </LinearLayout>

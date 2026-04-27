@@ -120,7 +120,14 @@ class PropuestaActivity : AppCompatActivity() {
                 incotermCode = intent.getStringExtra(EXTRA_INCOTERM_CODE).orEmpty(),
                 piecesNumber = intent.getIntExtra(EXTRA_PIECES_NUMBER, -1).takeIf { it >= 0 },
                 kilograms = intent.getDoubleExtra(EXTRA_KILOGRAMS, 0.0),
-                statusName = intent.getStringExtra(EXTRA_STATUS_NAME)
+                statusName = intent.getStringExtra(EXTRA_STATUS_NAME),
+                trackingFlowId = null,
+                trackingFlowName = null,
+                currentTrackingFlowStepId = null,
+                currentTrackingStepName = null,
+                currentTrackingStepOrder = null,
+                currentTrackingStepUiPercent = null,
+                currentTrackingStepArrivedAt = null
             )
             renderOperation(currentOperation)
         } else {

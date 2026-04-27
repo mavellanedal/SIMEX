@@ -47,6 +47,8 @@ public partial class User
 
     public virtual ICollection<Operation> OperationSalesUsers { get; set; } = new List<Operation>();
 
+    public virtual ICollection<OperationTrackingHistory> OperationTrackingHistories { get; set; } = new List<OperationTrackingHistory>();
+
     public virtual Role Role { get; set; } = null!;
 
     public virtual ICollection<TicketStateHistory> TicketStateHistories { get; set; } = new List<TicketStateHistory>();
