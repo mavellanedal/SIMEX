@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mygdx.primelogistics.R
+import com.mygdx.primelogistics.R.*
 import com.mygdx.primelogistics.android.adapters.OpAdapter
 import com.mygdx.primelogistics.android.api.RetrofitClient
 import com.mygdx.primelogistics.android.models.Operation
@@ -26,14 +27,15 @@ class AllOperationsActivity : AppCompatActivity() {
     private lateinit var graficosbtnvolver: ImageButton
     private lateinit var recyclerAllOps: RecyclerView
     private lateinit var adapterAllOps: OpAdapter
+    private lateinit var btnHomeAllOps: ImageButton
     private var operations: MutableList<Operation> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_all_operations)
+        setContentView(layout.activity_all_operations)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainAllOperations)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(id.mainAllOperations)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -41,10 +43,10 @@ class AllOperationsActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        graficosbtnvolver = findViewById(R.id.btnVolver)
+        graficosbtnvolver = findViewById(id.btnVolver)
 
         RetrofitClient.init { sessionManager.getAccessToken() }
-        recyclerAllOps = findViewById(R.id.rvAllOps)
+        recyclerAllOps = findViewById(id.rvAllOps)
         recyclerAllOps.layoutManager = LinearLayoutManager(this)
 
         adapterAllOps = OpAdapter(operations) { operation ->
@@ -54,7 +56,14 @@ class AllOperationsActivity : AppCompatActivity() {
 
         loadData()
 
+        btnHomeAllOps = findViewById(id.btnHomeAllOps)
+
         graficosbtnvolver.setOnClickListener {
+            startActivity(Intent(this, ClientHomeActivity::class.java))
+            finish()
+        }
+
+        btnHomeAllOps.setOnClickListener {
             startActivity(Intent(this, ClientHomeActivity::class.java))
             finish()
         }

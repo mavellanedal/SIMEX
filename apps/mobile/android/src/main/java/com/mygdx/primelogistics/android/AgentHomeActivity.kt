@@ -1,6 +1,8 @@
 package com.mygdx.primelogistics.android
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -34,5 +36,10 @@ class AgentHomeActivity : AppCompatActivity() {
         pieChart.centerText = "Uso de Plataformas"
         pieChart.animateY(1400)
         pieChart.invalidate()
+
+        findViewById<Button>(R.id.btnSeeAll).setOnClickListener {
+            startActivity(Intent(this, AllOperationsActivity::class.java))
+            finish()
+        }
     }
 }

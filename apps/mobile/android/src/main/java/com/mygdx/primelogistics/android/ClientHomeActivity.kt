@@ -2,6 +2,7 @@ package com.mygdx.primelogistics.android
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -65,6 +66,12 @@ class ClientHomeActivity : AppCompatActivity() {
 
         findViewById<ImageButton>(R.id.btnUser).setOnClickListener {
             startActivity(Intent(this, UsuarioActivity::class.java))
+            finish()
+        }
+
+        findViewById<Button>(R.id.btnSeeAll).setOnClickListener {
+            startActivity(Intent(this, AllOperationsActivity::class.java))
+            finish()
         }
     }
 
