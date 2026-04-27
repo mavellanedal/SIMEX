@@ -16,8 +16,9 @@ import androidx.lifecycle.lifecycleScope
 import com.mygdx.primelogistics.R
 import com.mygdx.primelogistics.android.api.RetrofitClient
 import com.mygdx.primelogistics.android.models.UpdateIdentificationCardPathRequest
-import com.mygdx.primelogistics.android.utils.SessionManager
 import com.mygdx.primelogistics.android.utils.DataSecurity
+import com.mygdx.primelogistics.android.utils.HomeNavigator
+import com.mygdx.primelogistics.android.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -85,7 +86,7 @@ class SubirDniActivity : AppCompatActivity() {
 
     private fun configurarEventos() {
         btnHomeUsuario.setOnClickListener {
-            volverAUsuario()
+            HomeNavigator.navigateToHome(this)
         }
 
         btnVolver.setOnClickListener {

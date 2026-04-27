@@ -79,6 +79,8 @@ public partial class Simex04Context : DbContext
 
     public virtual DbSet<OperationStateHistory> OperationStateHistories { get; set; }
 
+    public virtual DbSet<OperationTrackingHistory> OperationTrackingHistories { get; set; }
+
     public virtual DbSet<PackageType> PackageTypes { get; set; }
 
     public virtual DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
@@ -104,6 +106,10 @@ public partial class Simex04Context : DbContext
     public virtual DbSet<TicketStateHistory> TicketStateHistories { get; set; }
 
     public virtual DbSet<TicketType> TicketTypes { get; set; }
+
+    public virtual DbSet<TrackingFlow> TrackingFlows { get; set; }
+
+    public virtual DbSet<TrackingFlowStep> TrackingFlowSteps { get; set; }
 
     public virtual DbSet<TrackingStep> TrackingSteps { get; set; }
 
@@ -899,6 +905,10 @@ public partial class Simex04Context : DbContext
                 .HasColumnName("CONTAINER_NUMBER");
             entity.Property(e => e.ContainerTypeId).HasColumnName("CONTAINER_TYPE_ID");
             entity.Property(e => e.CreateUserId).HasColumnName("CREATE_USER_ID");
+            entity.Property(e => e.CurrentTrackingFlowStepId).HasColumnName("CURRENT_TRACKING_FLOW_STEP_ID");
+            entity.Property(e => e.CurrentTrackingStepArrivedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("CURRENT_TRACKING_STEP_ARRIVED_AT");
             entity.Property(e => e.CustomsAgentId).HasColumnName("CUSTOMS_AGENT_ID");
             entity.Property(e => e.DestinationPortId).HasColumnName("DESTINATION_PORT_ID");
             entity.Property(e => e.DocumentUserId).HasColumnName("DOCUMENT_USER_ID");
@@ -950,6 +960,7 @@ public partial class Simex04Context : DbContext
             entity.Property(e => e.TotalSale)
                 .HasColumnType("decimal(19, 2)")
                 .HasColumnName("TOTAL_SALE");
+            entity.Property(e => e.TrackingFlowId).HasColumnName("TRACKING_FLOW_ID");
             entity.Property(e => e.Volume)
                 .HasColumnType("decimal(10, 3)")
                 .HasColumnName("VOLUME");
@@ -967,6 +978,10 @@ public partial class Simex04Context : DbContext
                 .HasForeignKey(d => d.CreateUserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__OPERATION__CREAT__3118447E");
+
+            entity.HasOne(d => d.CurrentTrackingFlowStep).WithMany(p => p.Operations)
+                .HasForeignKey(d => d.CurrentTrackingFlowStepId)
+                .HasConstraintName("FK_OPERATIONS_CURRENT_TRACKING_STEP");
 
             entity.HasOne(d => d.CustomsAgent).WithMany(p => p.OperationCustomsAgents)
                 .HasForeignKey(d => d.CustomsAgentId)
@@ -1029,6 +1044,10 @@ public partial class Simex04Context : DbContext
                 .HasForeignKey(d => d.SellerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__OPERATION__SELLE__3C89F72A");
+
+            entity.HasOne(d => d.TrackingFlow).WithMany(p => p.Operations)
+                .HasForeignKey(d => d.TrackingFlowId)
+                .HasConstraintName("FK_OPERATIONS_TRACKING_FLOW");
         });
 
         modelBuilder.Entity<OperationState>(entity =>
@@ -1072,6 +1091,44 @@ public partial class Simex04Context : DbContext
             entity.HasOne(d => d.OperationState).WithMany(p => p.OperationStateHistories)
                 .HasForeignKey(d => d.OperationStateId)
                 .HasConstraintName("FK__OPERATION__OPERA__4BCC3ABA");
+        });
+
+        modelBuilder.Entity<OperationTrackingHistory>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__OPERATIO__3214EC273DA87CFF");
+
+            entity.ToTable("OPERATION_TRACKING_HISTORY");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.ArrivedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("ARRIVED_AT");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATED_AT");
+            entity.Property(e => e.Observations)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("OBSERVATIONS");
+            entity.Property(e => e.OperationId).HasColumnName("OPERATION_ID");
+            entity.Property(e => e.TrackingFlowStepId).HasColumnName("TRACKING_FLOW_STEP_ID");
+            entity.Property(e => e.UserId).HasColumnName("USER_ID");
+
+            entity.HasOne(d => d.Operation).WithMany(p => p.OperationTrackingHistories)
+                .HasForeignKey(d => d.OperationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OPERATION_TRACKING_HISTORY_OPERATIONS");
+
+            entity.HasOne(d => d.TrackingFlowStep).WithMany(p => p.OperationTrackingHistories)
+                .HasForeignKey(d => d.TrackingFlowStepId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OPERATION_TRACKING_HISTORY_STEP");
+
+            entity.HasOne(d => d.User).WithMany(p => p.OperationTrackingHistories)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_OPERATION_TRACKING_HISTORY_USER");
         });
 
         modelBuilder.Entity<PackageType>(entity =>
@@ -1350,6 +1407,81 @@ public partial class Simex04Context : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("NAME");
+        });
+
+        modelBuilder.Entity<TrackingFlow>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__TRACKING__3214EC27DFDAA367");
+
+            entity.ToTable("TRACKING_FLOWS");
+
+            entity.HasIndex(e => e.Code, "UQ_TRACKING_FLOWS_CODE").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Active)
+                .HasDefaultValue(true)
+                .HasColumnName("ACTIVE");
+            entity.Property(e => e.Code)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("CODE");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATED_AT");
+            entity.Property(e => e.Name)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("NAME");
+            entity.Property(e => e.TransportTypeId).HasColumnName("TRANSPORT_TYPE_ID");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATED_AT");
+
+            entity.HasOne(d => d.TransportType).WithMany(p => p.TrackingFlows)
+                .HasForeignKey(d => d.TransportTypeId)
+                .HasConstraintName("FK_TRACKING_FLOWS_TRANSPORT_TYPE");
+        });
+
+        modelBuilder.Entity<TrackingFlowStep>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__TRACKING__3214EC277C3C0E22");
+
+            entity.ToTable("TRACKING_FLOW_STEPS");
+
+            entity.HasIndex(e => new { e.TrackingFlowId, e.StepKey }, "UQ_TRACKING_FLOW_STEPS_FLOW_KEY").IsUnique();
+
+            entity.HasIndex(e => new { e.TrackingFlowId, e.OrderNum }, "UQ_TRACKING_FLOW_STEPS_FLOW_ORDER").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Active)
+                .HasDefaultValue(true)
+                .HasColumnName("ACTIVE");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("CREATED_AT");
+            entity.Property(e => e.Name)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("NAME");
+            entity.Property(e => e.OrderNum).HasColumnName("ORDER_NUM");
+            entity.Property(e => e.StepKey)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("STEP_KEY");
+            entity.Property(e => e.TrackingFlowId).HasColumnName("TRACKING_FLOW_ID");
+            entity.Property(e => e.UiPercent).HasColumnName("UI_PERCENT");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDATED_AT");
+
+            entity.HasOne(d => d.TrackingFlow).WithMany(p => p.TrackingFlowSteps)
+                .HasForeignKey(d => d.TrackingFlowId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TRACKING_FLOW_STEPS_FLOW");
         });
 
         modelBuilder.Entity<TrackingStep>(entity =>

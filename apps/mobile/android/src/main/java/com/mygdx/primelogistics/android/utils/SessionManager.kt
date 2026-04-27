@@ -11,8 +11,22 @@ class SessionManager(context: Context) {
             .apply()
     }
 
+    fun saveRoleId(roleId: Int) {
+        sharedPreferences.edit()
+            .putInt(KEY_ROLE_ID, roleId)
+            .apply()
+    }
+
     fun getAccessToken(): String? {
         return sharedPreferences.getString(KEY_ACCESS_TOKEN, null)
+    }
+
+    fun getRoleId(): Int? {
+        return if (sharedPreferences.contains(KEY_ROLE_ID)) {
+            sharedPreferences.getInt(KEY_ROLE_ID, -1).takeIf { it > 0 }
+        } else {
+            null
+        }
     }
 
     fun clearSession() {
@@ -22,5 +36,6 @@ class SessionManager(context: Context) {
     companion object {
         private const val PREF_NAME = "simex_auth"
         private const val KEY_ACCESS_TOKEN = "access_token"
+        private const val KEY_ROLE_ID = "role_id"
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Simex.Dtos;
 using Simex.Models;
+using Simex.Services;
 
 namespace Simex.Controllers;
 
@@ -13,10 +14,12 @@ namespace Simex.Controllers;
 public class OperationsController : ControllerBase
 {
     private readonly Simex04Context _context;
+    private readonly IOperationTrackingService _operationTrackingService;
 
-    public OperationsController(Simex04Context context)
+    public OperationsController(Simex04Context context, IOperationTrackingService operationTrackingService)
     {
         _context = context;
+        _operationTrackingService = operationTrackingService;
     }
 
     [HttpGet("user-operations")]
@@ -40,13 +43,20 @@ public class OperationsController : ControllerBase
             TotalCost = op.TotalCost,
             Etd = op.Etd,
             Eta = op.Eta,
-            IncotermCode = op.Incoterm.IncotermType.Code ?? "N/A",
+            IncotermCode = op.Incoterm != null ? (op.Incoterm.IncotermType.Code ?? "N/A") : "N/A",
             PiecesNumber = op.PiecesNumber,
             Kilograms = op.Kilograms,
             StatusName = op.OperationStateHistories
                 .OrderByDescending(osh => osh.Id)
-                .Select(osh => osh.OperationState.Name)
-                .FirstOrDefault() ?? "Sin estado"
+                .Select(osh => osh.OperationState != null ? osh.OperationState.Name : null)
+                .FirstOrDefault() ?? "Sin estado",
+            TrackingFlowId = op.TrackingFlowId,
+            TrackingFlowName = op.TrackingFlow != null ? op.TrackingFlow.Name : null,
+            CurrentTrackingFlowStepId = op.CurrentTrackingFlowStepId,
+            CurrentTrackingStepName = op.CurrentTrackingFlowStep != null ? op.CurrentTrackingFlowStep.Name : null,
+            CurrentTrackingStepOrder = op.CurrentTrackingFlowStep != null ? op.CurrentTrackingFlowStep.OrderNum : null,
+            CurrentTrackingStepUiPercent = op.CurrentTrackingFlowStep != null ? op.CurrentTrackingFlowStep.UiPercent : null,
+            CurrentTrackingStepArrivedAt = op.CurrentTrackingStepArrivedAt
         }).ToListAsync();
         return Ok(operationsDto);
     }
@@ -78,13 +88,20 @@ public class OperationsController : ControllerBase
                 TotalCost = op.TotalCost,
                 Etd = op.Etd,
                 Eta = op.Eta,
-                IncotermCode = op.Incoterm.IncotermType.Code ?? "N/A",
+                IncotermCode = op.Incoterm != null ? (op.Incoterm.IncotermType.Code ?? "N/A") : "N/A",
                 PiecesNumber = op.PiecesNumber,
                 Kilograms = op.Kilograms,
                 StatusName = op.OperationStateHistories
                     .OrderByDescending(osh => osh.Id)
-                    .Select(osh => osh.OperationState.Name)
-                    .FirstOrDefault() ?? "Sin Estado"
+                    .Select(osh => osh.OperationState != null ? osh.OperationState.Name : null)
+                    .FirstOrDefault() ?? "Sin Estado",
+                TrackingFlowId = op.TrackingFlowId,
+                TrackingFlowName = op.TrackingFlow != null ? op.TrackingFlow.Name : null,
+                CurrentTrackingFlowStepId = op.CurrentTrackingFlowStepId,
+                CurrentTrackingStepName = op.CurrentTrackingFlowStep != null ? op.CurrentTrackingFlowStep.Name : null,
+                CurrentTrackingStepOrder = op.CurrentTrackingFlowStep != null ? op.CurrentTrackingFlowStep.OrderNum : null,
+                CurrentTrackingStepUiPercent = op.CurrentTrackingFlowStep != null ? op.CurrentTrackingFlowStep.UiPercent : null,
+                CurrentTrackingStepArrivedAt = op.CurrentTrackingStepArrivedAt
             })
             .ToListAsync();
         return Ok(operationsDto);
@@ -229,4 +246,79 @@ public class OperationsController : ControllerBase
         return result;
     }
 
+    [HttpPut("{operationId:int}/tracking/current-step")]
+    public async Task<IActionResult> UpdateCurrentTrackingStep(int operationId, [FromBody] UpdateOperationTrackingStepRequestDto request)
+    {
+        IActionResult result;
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (!int.TryParse(userIdClaim, out var userId))
+        {
+            result = Unauthorized(new { message = "Token invalido." });
+        }
+        else
+        {
+            var user = await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null || user.CompanyId == null)
+            {
+                result = NotFound(new { message = "Usuario no encontrado o sin empresa asociada." });
+            }
+            else
+            {
+                var operation = await _context.Operations
+                    .FirstOrDefaultAsync(op => op.Id == operationId && op.NavieraId == user.CompanyId);
+
+                if (operation == null)
+                {
+                    result = NotFound(new { message = "Operacion no encontrada." });
+                }
+                else
+                {
+                    var updateResult = await _operationTrackingService.UpdateCurrentStepAsync(
+                        operation,
+                        request.TrackingFlowStepId,
+                        request.ArrivedAt,
+                        request.Observations,
+                        userId,
+                        HttpContext.RequestAborted
+                    );
+
+                    if (!updateResult.IsValid)
+                    {
+                        result = BadRequest(new { message = updateResult.ErrorMessage });
+                    }
+                    else
+                    {
+                        var currentStep = await _context.TrackingFlowSteps
+                            .AsNoTracking()
+                            .Where(step => step.Id == operation.CurrentTrackingFlowStepId)
+                            .Select(step => new
+                            {
+                                step.Id,
+                                step.Name,
+                                step.OrderNum,
+                                step.TrackingFlowId
+                            })
+                            .FirstOrDefaultAsync();
+
+                        result = Ok(new
+                        {
+                            message = "Tracking actualizado correctamente.",
+                            operationId = operation.Id,
+                            trackingFlowId = operation.TrackingFlowId,
+                            currentTrackingStepId = operation.CurrentTrackingFlowStepId,
+                            currentTrackingStepName = currentStep?.Name,
+                            currentTrackingStepOrder = currentStep?.OrderNum,
+                            currentTrackingStepArrivedAt = operation.CurrentTrackingStepArrivedAt
+                        });
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
 }

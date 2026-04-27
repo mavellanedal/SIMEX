@@ -88,7 +88,9 @@ class ClientHomeActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.Main) {
                     if (userResp.isSuccessful && userResp.body() != null) {
-                        tvUserName.text = userResp.body()?.nombre
+                        val user = userResp.body()!!
+                        sessionManager.saveRoleId(user.rol.id)
+                        tvUserName.text = user.nombre
                     } else {
                         tvUserName.text = "Null"
                     }

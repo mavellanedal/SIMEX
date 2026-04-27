@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mygdx.primelogistics.R
 import com.mygdx.primelogistics.android.api.RetrofitClient
 import com.mygdx.primelogistics.android.models.LoginRequest
+import com.mygdx.primelogistics.android.utils.HomeNavigator
 import com.mygdx.primelogistics.android.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -88,8 +89,9 @@ class LoginActivity : AppCompatActivity() {
                     if (response.isSuccessful && response.body() != null) {
                         val auth = response.body()!!
                         sessionManager.saveAccessToken(auth.accessToken)
+                        sessionManager.saveRoleId(auth.user.rol.id)
                         tvNotification.text = "Login correcto: ${auth.user.nombre}"
-                        startActivity(Intent(this@LoginActivity, ClientHomeActivity::class.java))
+                        startActivity(HomeNavigator.createHomeIntent(this@LoginActivity, auth.user.rol.id))
                         finish()
                     } else {
                         tvNotification.text = "Error de usuario o contrasena."

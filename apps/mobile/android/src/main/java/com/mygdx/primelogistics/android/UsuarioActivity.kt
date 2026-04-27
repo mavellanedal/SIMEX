@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.mygdx.primelogistics.R
 import com.mygdx.primelogistics.android.api.RetrofitClient
 import com.mygdx.primelogistics.android.models.User
+import com.mygdx.primelogistics.android.utils.HomeNavigator
 import com.mygdx.primelogistics.android.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -54,8 +55,7 @@ class UsuarioActivity : AppCompatActivity() {
         }
 
         btnHomeUsuario.setOnClickListener {
-            startActivity(Intent(this, ClientHomeActivity::class.java))
-            finish()
+            HomeNavigator.navigateToHome(this)
         }
 
         btnIdentificationCard.setOnClickListener {
@@ -119,6 +119,7 @@ class UsuarioActivity : AppCompatActivity() {
         currentUserName = user.nombre
         currentCompanyName = user.company?.name ?: "Sin empresa"
         currentIdentificationCardPath = user.identificationCardPath ?: ""
+        sessionManager.saveRoleId(user.rol.id)
         tvUserName.text = currentUserName
         tvCompanyName.text = currentCompanyName
         tvEmail.text = user.email

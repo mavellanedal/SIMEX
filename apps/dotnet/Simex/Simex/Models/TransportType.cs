@@ -10,4 +10,6 @@ public partial class TransportType
     public string Type { get; set; } = null!;
 
     public virtual ICollection<Offer> Offers { get; set; } = new List<Offer>();
+
+    public virtual ICollection<TrackingFlow> TrackingFlows { get; set; } = new List<TrackingFlow>();
 }

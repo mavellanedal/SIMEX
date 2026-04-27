@@ -73,6 +73,12 @@ public partial class Operation
 
     public decimal Profit { get; set; }
 
+    public int? TrackingFlowId { get; set; }
+
+    public int? CurrentTrackingFlowStepId { get; set; }
+
+    public DateTime? CurrentTrackingStepArrivedAt { get; set; }
+
     public virtual Company Buyer { get; set; } = null!;
 
     public virtual ContainerType? ContainerType { get; set; }
@@ -80,6 +86,8 @@ public partial class Operation
     public virtual ICollection<Cost> Costs { get; set; } = new List<Cost>();
 
     public virtual User CreateUser { get; set; } = null!;
+
+    public virtual TrackingFlowStep? CurrentTrackingFlowStep { get; set; }
 
     public virtual User CustomsAgent { get; set; } = null!;
 
@@ -103,6 +111,8 @@ public partial class Operation
 
     public virtual ICollection<OperationStateHistory> OperationStateHistories { get; set; } = new List<OperationStateHistory>();
 
+    public virtual ICollection<OperationTrackingHistory> OperationTrackingHistories { get; set; } = new List<OperationTrackingHistory>();
+
     public virtual User OperationUser { get; set; } = null!;
 
     public virtual Port OriginPort { get; set; } = null!;
@@ -116,4 +126,6 @@ public partial class Operation
     public virtual Company Seller { get; set; } = null!;
 
     public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
+
+    public virtual TrackingFlow? TrackingFlow { get; set; }
 }

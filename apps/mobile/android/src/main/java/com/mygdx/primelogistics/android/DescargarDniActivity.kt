@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.mygdx.primelogistics.R
 import com.mygdx.primelogistics.android.utils.DataSecurity
+import com.mygdx.primelogistics.android.utils.HomeNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -94,7 +95,7 @@ class DescargarDniActivity : AppCompatActivity() {
     }
 
     private fun configurarEventos() {
-        btnHomeUsuario.setOnClickListener { volverAUsuario() }
+        btnHomeUsuario.setOnClickListener { HomeNavigator.navigateToHome(this) }
         btnVolver.setOnClickListener { volverAUsuario() }
         btnReuploadDNI.setOnClickListener { volverASubirDni() }
         btnDescargarDNI.setOnClickListener { descargarDni() }
