@@ -18,14 +18,14 @@ RUN composer install --no-dev --ignore-platform-reqs --no-scripts --prefer-dist
 COPY backend/ ./
 RUN composer dump-autoload --optimize
 
-
 # ==========================================
-# ETAPA 3: Imagen del BACKEND (PHP-FPM + SQL Server)
-# TARGET: app
+# ETAPA 3: Imagen final (Nginx + PHP-FPM + Supervisor)
 # ==========================================
 FROM php:8.3-fpm AS app
 
+# Instala Nginx, supervisor y dependencias de PHP/SQL Server
 RUN apt-get update && apt-get install -y \
+    nginx supervisor \
     libpng-dev libjpeg-dev libfreetype6-dev zip unzip git libonig-dev libxml2-dev \
     gnupg2 apt-transport-https curl unixodbc-dev \
     && curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
@@ -40,29 +40,19 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /var/www/html
 
-# Copiamos solo el código de Laravel
+# Copia el código de Laravel
 COPY --from=backend-builder /app /var/www/html
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-EXPOSE 9000
-CMD ["php-fpm"]
-
-
-# ==========================================
-# ETAPA 4: Imagen del SERVIDOR WEB (NGINX + Frontend)
-# TARGET: web
-# ==========================================
-FROM nginx:alpine AS web
-
-# Copiamos la configuración de NGINX
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-WORKDIR /var/www/html
-
-# Copiamos los archivos públicos de Laravel (necesario para el index.php)
-COPY --from=backend-builder /app/public /var/www/html/public
-# Copiamos el frontend de Vue ya compilado
+# Copia los archivos públicos de Laravel y luego sobrescribe con el frontend Vue compilado
 COPY --from=frontend-builder /app/dist /var/www/html/public
 
+# Configuración de Nginx y Supervisor
+COPY nginx.conf /etc/nginx/sites-available/default
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Permisos
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

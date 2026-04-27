@@ -1,24 +1,12 @@
 version: '3.8'
 
 services:
-  # Servicio 1: PHP-FPM con Laravel
-  app:
-    build:
-      context: .
-      target: app # Apunta a "FROM php:8.3-fpm AS app"
-    container_name: simex-app
-    restart: unless-stopped
-    env_file:
-     - ./backend/.env
-
-  # Servicio 2: NGINX sirviendo Vue y proxy a Laravel
   web:
     build:
       context: .
-      target: web # Apunta a "FROM nginx:alpine AS web"
     container_name: simex-web
     restart: unless-stopped
     ports:
-      - "80:80" # Expone el puerto 80 al exterior
-    depends_on:
-      - app # NGINX espera a que PHP esté listo
+      - "80:80"
+    env_file:
+      - ./backend/.env
