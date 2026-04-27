@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\DTOs\CompanyDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -95,7 +96,27 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         $company->delete();
-       
+
         return response()->json(null, 204);
+    }
+
+    public function getImportersExportersCompanies()
+    {
+        $companies = Company::with(['companyType', 'region', 'city'])
+            ->whereIn('COMPANY_TYPE_ID', [1, 2, 3])
+            ->where('ACTIVE', 1)
+            ->get();
+
+        return response()->json($companies->map(fn($item) => CompanyDTO::fromModel($item)));
+    }
+
+    public function getNavieraCompanies()
+    {
+        $companies = Company::with(['companyType', 'region', 'city'])
+            ->where('COMPANY_TYPE_ID', 4)
+            ->where('ACTIVE', 1)
+            ->get();
+
+        return response()->json($companies->map(fn($item) => CompanyDTO::fromModel($item)));
     }
 }
