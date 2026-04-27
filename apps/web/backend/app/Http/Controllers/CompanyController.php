@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
 use App\DTOs\CompanyDTO;
+use App\Models\Company;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -85,7 +85,6 @@ class CompanyController extends Controller
     {
         $company->delete();
 
-
         return response()->json(null, 204);
     }
 
@@ -96,7 +95,7 @@ class CompanyController extends Controller
             ->where('ACTIVE', 1)
             ->get();
 
-        return response()->json($companies->map(fn($item) => CompanyDTO::fromModel($item)));
+        return response()->json($companies->map(fn ($item) => CompanyDTO::fromModel($item)));
     }
 
     public function getNavieraCompanies()
@@ -106,6 +105,6 @@ class CompanyController extends Controller
             ->where('ACTIVE', 1)
             ->get();
 
-        return response()->json($companies->map(fn($item) => CompanyDTO::fromModel($item)));
+        return response()->json($companies->map(fn ($item) => CompanyDTO::fromModel($item)));
     }
 }
