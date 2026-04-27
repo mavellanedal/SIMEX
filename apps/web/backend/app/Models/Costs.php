@@ -3,43 +3,44 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Operations;
-use App\Models\CostTypes;
-use App\Models\CurrencyTypes;
-use App\Models\SendTypes;
 
 class Costs extends Model
 {
-  protected $table = 'COSTS';
-  protected $primaryKey = 'ID';
-  public $timestamps = false;
+    protected $table = 'COSTS';
 
-  protected $fillable = [
-    'ID',
-    'OPERATION_ID',
-    'COST_TYPE_ID',
-    'CURRENCY_TYPE_ID',
-    'SENED_TYPE_ID',
-    'COST',
-    'COST_AMOUNT',
-    'SALE',
-    'SALE_AMOUNT',
-  ];
+    protected $primaryKey = 'ID';
 
-  public function operation() {
-    return $this->belongsTo(Operations::class, 'OPERATION_ID', 'ID');
-  }
+    public $timestamps = false;
 
-  public function costType() {
-    return $this->belongsTo(CostTypes::class, 'COST_TYPE_ID', 'ID');
-  }
+    protected $fillable = [
+        'ID',
+        'OPERATION_ID',
+        'COST_TYPE_ID',
+        'CURRENCY_TYPE_ID',
+        'SENED_TYPE_ID',
+        'COST',
+        'COST_AMOUNT',
+        'SALE',
+        'SALE_AMOUNT',
+    ];
 
-  public function currencyType() {
-    return $this->belongsTo(CurrencyTypes::class, 'CURRENCY_TYPE_ID', 'ID');
-  }
+    public function operation()
+    {
+        return $this->belongsTo(Operations::class, 'OPERATION_ID', 'ID');
+    }
 
-  public function sendType() {
-    return $this->belongsTo(SendTypes::class, 'SENED_TYPE_ID', 'ID');
-  }
+    public function costType()
+    {
+        return $this->belongsTo(CostTypes::class, 'COST_TYPE_ID', 'ID');
+    }
 
+    public function currencyType()
+    {
+        return $this->belongsTo(CurrencyTypes::class, 'CURRENCY_TYPE_ID', 'ID');
+    }
+
+    public function sendType()
+    {
+        return $this->belongsTo(SendTypes::class, 'SENED_TYPE_ID', 'ID');
+    }
 }

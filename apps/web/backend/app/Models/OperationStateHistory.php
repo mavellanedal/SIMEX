@@ -3,28 +3,30 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Operations;
-use App\Models\OperationStates;
 
 class OperationStateHistory extends Model
 {
-  protected $table = 'OPERATION_STATE_HISTORY';
-  protected $primaryKey = 'ID';
-  public $timestamps = false;
+    protected $table = 'OPERATION_STATE_HISTORY';
 
-  protected $fillable = [
-    'ID',
-    'DATE',
-    'OPERATION_STATE_ID',
-    'OPERATION_ID',
-    'OBSERVATIONS',
-  ];
+    protected $primaryKey = 'ID';
 
-  public function Operation() {
-    return $this->belongsTo(Operations::class, 'OPERATION_ID');
-  }
+    public $timestamps = false;
 
-  public function OperationState() {
-    return $this->belongsTo(OperationStates::class, 'OPERATION_STATE_ID');
-  }
+    protected $fillable = [
+        'ID',
+        'DATE',
+        'OPERATION_STATE_ID',
+        'OPERATION_ID',
+        'OBSERVATIONS',
+    ];
+
+    public function Operation()
+    {
+        return $this->belongsTo(Operations::class, 'OPERATION_ID');
+    }
+
+    public function OperationState()
+    {
+        return $this->belongsTo(OperationStates::class, 'OPERATION_STATE_ID');
+    }
 }

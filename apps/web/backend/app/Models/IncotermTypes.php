@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class IncotermTypes extends Model
 {
-  protected $table = 'INCOTERM_TYPES';
-  protected $primaryKey = 'ID';
-  public $timestamps = false;
+    protected $table = 'INCOTERM_TYPES';
 
-  protected $fillable = [
-    'ID',
-    'CODE',
-    'NAME'
-  ];
+    protected $primaryKey = 'ID';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'ID',
+        'CODE',
+        'NAME',
+    ];
 }

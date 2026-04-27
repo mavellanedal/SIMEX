@@ -1,4 +1,5 @@
 <?php
+
 namespace App\DTOs;
 
 use App\Models\Operations;

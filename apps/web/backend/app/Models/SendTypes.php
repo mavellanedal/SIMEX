@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class SendTypes extends Model
 {
-  protected $table = 'SEND_TYPES';
-  protected $primaryKey = 'ID';
-  public $timestamps = false;
+    protected $table = 'SEND_TYPES';
 
-  protected $fillable = [
-    'ID',
-    'NAME',
-    'DESCRIPTION'
-  ];
+    protected $primaryKey = 'ID';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'ID',
+        'NAME',
+        'DESCRIPTION',
+    ];
 }

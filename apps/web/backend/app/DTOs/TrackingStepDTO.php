@@ -1,20 +1,21 @@
 <?php
-  namespace App\DTOs;
-  use App\Models\TrackingSteps;
 
-  readonly class TrackingStepDTO
-  {
-      public function __construct(
-          public int $id,
-          public ?string $orderNum,
-          public ?string $name,
-      ) {
-      }
+namespace App\DTOs;
 
-      public static function fromModel(?TrackingSteps $trackingStep): ?self
-      {
-        if (!$trackingStep) {
-          return null;
+use App\Models\TrackingSteps;
+
+readonly class TrackingStepDTO
+{
+    public function __construct(
+        public int $id,
+        public ?string $orderNum,
+        public ?string $name,
+    ) {}
+
+    public static function fromModel(?TrackingSteps $trackingStep): ?self
+    {
+        if (! $trackingStep) {
+            return null;
         }
 
         return new self(
@@ -22,5 +23,5 @@
             orderNum: $trackingStep->ORDER_NUM ?? null,
             name: $trackingStep->NAME ?? null,
         );
-      }
-  }
+    }
+}

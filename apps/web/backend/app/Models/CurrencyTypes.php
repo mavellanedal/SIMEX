@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class CurrencyTypes extends Model
 {
-  protected $table = 'CURRENCY_TYPES';
-  protected $primaryKey = 'ID';
-  public $timestamps = false;
+    protected $table = 'CURRENCY_TYPES';
 
-  protected $fillable = [
-    'ID',
-    'NAME',
-    'SYMBOL'
-  ];
+    protected $primaryKey = 'ID';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'ID',
+        'NAME',
+        'SYMBOL',
+    ];
 }

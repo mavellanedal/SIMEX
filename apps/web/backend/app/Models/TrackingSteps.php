@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class TrackingSteps extends Model
 {
-  protected $table = 'TRACKING_STEPS';
-  protected $primaryKey = 'ID';
-  public $timestamps = false;
+    protected $table = 'TRACKING_STEPS';
 
-  protected $fillable = [
-    'ID',
-    'ORDER_NUM',
-    'NAME'
-  ];
+    protected $primaryKey = 'ID';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'ID',
+        'ORDER_NUM',
+        'NAME',
+    ];
 }

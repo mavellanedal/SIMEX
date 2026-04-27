@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompanyType extends Model
 {
-  protected $table = 'COMPANY_TYPES';
-  protected $primaryKey = 'ID';
-  public $timestamps = false;
+    protected $table = 'COMPANY_TYPES';
 
-  protected $fillable = [
-    'NAME',
-    'DESCRIPTION',
-  ];
+    protected $primaryKey = 'ID';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'NAME',
+        'DESCRIPTION',
+    ];
 }

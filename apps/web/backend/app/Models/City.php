@@ -4,16 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class City extends Model
 {
-
     protected $table = 'CITIES';
+
     protected $primaryKey = 'ID';
+
     public $timestamps = false;
-
-
 
     protected $fillable = [
         'NAME',
@@ -24,13 +22,10 @@ class City extends Model
         'ALTITUDE',
     ];
 
-
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'COUNTRY_ID', 'ID');
     }
-
-
 
     public function region(): BelongsTo
     {
